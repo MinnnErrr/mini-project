@@ -20,6 +20,7 @@ if (!isset($user_id)) {
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./main.css">
 </head>
 
 

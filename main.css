@@ -1,0 +1,12 @@
+.is-dark {
+    color: #2b2b2b;
+}
+
+.is-dark:hover{
+    color: black;
+}
+
+.is-dark.is-active{
+    color: black;
+    font-weight: 600;
+}
