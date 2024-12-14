@@ -17,7 +17,7 @@ if (!isset($user_id)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Koperasi Branches</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
@@ -33,50 +33,61 @@ if (!isset($user_id)) {
             <?php require 'sidebar.php' ?>
 
             <div class="col-sm-12 col-lg-10">
-                <div class="container min-vh-100">
-                    <div class="m-5">
-                        <div class="row pb-3 d-flex align-items-center">
-                            <div class="col">
-                                <h5 class="">Koperasi branches list</h5>
-                            </div>
-                            <div class="col d-flex justify-content-end">
-                                <button class="btn" type="button">
-                                    <span class="bi bi-filter fs-3"></span>
+                <div class="container min-vh-100 p-5">
+                    <div class="d-flex justify-content-between pb-3">
+                        <h4>Koperasi Branches</h4>
+                        <button class="btn btn-sm btn-outline-dark" onclick="location.href='./addBranch.php'">
+                            ADD BRANCH
+                        </button>
+                    </div>
+
+                    <!--search, filter, sort-->
+                    <div class="row d-flex align-items-center pb-2">
+                        <div class="col-sm-12 col-lg-6 mb-2">
+                            <form action="" class="d-flex col-sm-12">
+                                <input class="form-control rounded-0" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success rounded-0" type="submit">
+                                    <span class="bi bi-search"></span>
                                 </button>
-                                <form action="" class="d-flex p-2">
-                                    <input class="form-control rounded-0" type="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-outline-success rounded-0" type="submit">
-                                        <span class="bi bi-search"></span>
-                                    </button>
-                                </form>
-                            </div>
+                            </form>
                         </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Branch Name</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>
-                                        <div>
-                                            <button class="btn btn-info" type="submit">
-                                                UPDATE
-                                            </button>
-                                            <button class="btn btn-danger" type="submit">
-                                                DELETE
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>.
+                        <div class="col-sm-12 col-lg-3 mb-2">
+                            <select class="form-select">
+                                <option value="">Sort by Branch Name</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-12 col-lg-3 mb-2">
+                            <select class="form-select">
+                                <option value="">Filter by Location</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Branch Name</th>
+                                <th width="20%" scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>
+                                    <div class="d-flex">
+                                        <button class="btn btn-sm btn-info me-2" onclick="location.href='./updateBranch.php'">
+                                            UPDATE
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete">
+                                            DELETE
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <?php require 'footer.php' ?>
@@ -84,7 +95,29 @@ if (!isset($user_id)) {
         </div>
     </div>
 
+    <!--modal-->>
+    <div class="modal fade" id="delete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteLabel">Delete</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the data?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Back</button>
+                    <button type="button" class="btn btn-danger">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('branch').classList.add('is-active', 'text-decoration-underline');
+    </script>
 </body>
 
 </html>

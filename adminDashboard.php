@@ -29,45 +29,70 @@ if (!isset($user_id)) {
     <?php require 'navbar.php' ?>
 
     <div class="container-fluid">
-        <div class="row">
+        <div class="row vh-100">
+            <!--side bar-->
             <?php require 'sidebar.php' ?>
 
+            <!--right content-->
             <div class="col-sm-12 col-lg-10">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row m-4 rounded-3 p-4 bg-gradient shadow" style="color: #0f524f; background-color: #08c4b3;">
-                            <div class="col-md-6 col-sm-12">
-                                <h4>Admin Dashboard</h4>
-                                <p>Welcome back, <?php echo $username?> !</p>
-                            </div>
-                            <div class="col-md-6 col-sm-12 d-flex justify-content-end">
-                                <img style="max-width: 250px;" src="./undraw_hello_re_3evm.svg" alt="">
+                <div class="container min-vh-100 p-4">
+
+                    <!--first row-->
+                    <div class="row align-items-center">
+
+                        <!--admin dashboard-->
+                        <div class="col-lg-4 col-sm-12 mb-4">
+                            <div class="rounded-3 p-4 bg-gradient shadow d-flex justify-content-between" style="color: #0f524f; background-color: #08c4b3;">
+                                <div class="">
+                                    <h4>Admin Dashboard</h4>
+                                    <p>Welcome back, <?php echo $username ?> !</p>
+                                </div>
+                                <div class="d-flex">
+                                    <img style="max-width: 160px;" src="./undraw_admin.svg" alt="">
+                                </div>
                             </div>
                         </div>
-                        <div class="m-4 rounded-3 p-4 bg-white shadow-sm">
-                            graph
+
+                        <div class="col-lg-2 col-sm-12 mb-4">
+                            <div class="rounded-3 p-4 bg-white shadow-sm">
+                                <h6>Total Number of Staff</h6>
+                                <p>Number</p>
+                            </div>
                         </div>
-                        <div class="m-4 rounded-3 p-4 bg-white shadow-sm">
+
+                        <div class="col-lg-2 col-sm-12 mb-4">
+                            <div class="rounded-3 p-4 bg-white shadow-sm">
+                                <h6>Total Number of Customer</h6>
+                                <p>Number</p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-12 mb-4">
+                            <div class="rounded-3 p-4 bg-white shadow-sm">
+                                <h6>Total Number of Registered Customer</h6>
+                                <p>Number</p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-12 mb-4">
+                            <div class="rounded-3 p-4 bg-white shadow-sm">
+                                <h6>Total Number of Verified Customer</h6>
+                                <p>Number</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--graph 1-->
+                    <div class="row-lg-12 mb-4">
+                        <div class="rounded-3 p-4 bg-white shadow-sm">
                             graph
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-lg-5">
-                        <div class="m-4 rounded-3 p-4 bg-white shadow-sm">
-                            <h5>Total Number of Staff</h5>
-                            <p>Number</p>
-                        </div>
-                        <div class="m-4 rounded-3 p-4 bg-white shadow-sm">
-                            <h5>Total Number of Customer</h5>
-                            <p>Number</p>
-                        </div>
-                        <div class="m-4 rounded-3 p-4 bg-white shadow-sm">
-                            <h5>Total Number of Registered Customer</h5>
-                            <p>Number</p>
-                        </div>
-                        <div class="m-4 rounded-3 p-4 bg-white shadow-sm">
-                            <h5>Total Number of Verified Customer</h5>
-                            <p>Number</p>
+                    <!--graph 2-->
+                    <div class="row-lg-12">
+                        <div class="rounded-3 p-4 bg-white shadow-sm">
+                            graph
                         </div>
                     </div>
                 </div>
@@ -78,6 +103,9 @@ if (!isset($user_id)) {
     </div>
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('dashboard').classList.add('is-active', 'text-decoration-underline');
+    </script>
 </body>
 
 </html>

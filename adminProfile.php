@@ -43,6 +43,9 @@ if (!isset($user_id)) {
     </div>
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('profile').classList.add('is-active', 'text-decoration-underline');
+    </script>
 </body>
 
 </html>
