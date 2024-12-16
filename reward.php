@@ -21,11 +21,91 @@ if (!isset($user_id)) {
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
-     <!-- External CSS -->
-     <link rel="stylesheet" type="text/css" href="printing.css">
      
     <!-- Method 2:CDN Link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        .welcome,.header{
+            background-color: #0d6efd;
+            border: 1px solid #0d6efd;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px;
+            color: white;
+            line-height: 0.7;
+        }
+
+        .row{
+            display: flex;
+            margin: 10px;
+        }
+
+        .box{
+            border: 1px solid #ddd;
+            text-align: center;
+            flex: 50%;
+            margin: 10px;
+            padding: 10px;   
+        }
+
+        .box2{
+            border: 1px solid #ddd;
+            text-align: center;
+            flex: 50%;
+            margin: 30px;
+            padding: 10px;
+            padding-right: 3%;
+        }
+
+        .box3{
+            border: 1px solid #ddd;
+            text-align: center;
+            flex: 50%;
+            margin: 30px;
+            padding: 10px;
+            padding-right: 3%;
+            background-color:rgb(83, 134, 204);
+            color: white;
+            border-radius: 12px;
+        }
+
+        .tablestyle{
+            border: 1px solid #ddd;
+            border-collapse: collapse;
+            margin: 10px;
+            width: 100%;
+        }
+
+        .normal{
+            margin: 10px;
+            width: 100%;
+        }
+
+        .normal th{
+            padding-bottom: 10px;
+        }
+
+        .normal td{
+            padding: 0%;
+        }
+
+        .tablestyle th, .tablestyle td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .tablestyle th {
+            background-color: #f9f9f9;
+        }
+
+        .customimg{
+            float: right;
+            width: 10%;
+        }
+
+    </style>
 </head>
 
 
@@ -41,14 +121,14 @@ if (!isset($user_id)) {
                 <div class="container min-vh-100">
                     <!-- Your content here... -->
                      <div class="header">
-                        <h5>Staff Reward Dashboard</h5>
-                        <p>Track your sales performance and earned rewards</p>
+                        <h3 style="margin-left: 10px;">Staff Reward Dashboard</h3>
+                        <p style="margin-left: 10px;">Track your sales performance and earned rewards</p>
                      </div>
 
                      <div class="row">
                         <div class="col-6">
                             <div class="box">
-                                <h6>Staff Information</h6>
+                                <h5>Staff Information</h5>
                                 <p>Staff Name</p>
                                 <p>ID</p>
                                 <p>Department</p>
@@ -57,9 +137,10 @@ if (!isset($user_id)) {
                         </div>
                         <div class="col-6">
                             <div class="box">
-                                <p>Your QR Code</p>
-                                QR
-                                <p>Scan to view detailed performance</p>
+                                <h5 style="margin-bottom:15px;"><b>Your QR Code</b></h5>
+                                <!-- QR Code Container with fixed dimensions -->
+                                <div id="qrcode" style="margin-left:34%"></div>
+                                <p style="font-size:smaller">Scan to view detailed performance</p>
                             </div>   
                         </div>
                      </div>
@@ -67,19 +148,19 @@ if (!isset($user_id)) {
                 <div class="row">
                      <div class="col-4">
                         <div class="box3">
-                            <p>Monthly Printing Sales</p>
+                            <h6>Monthly Printing Sales</h6>
                             <p>RM</p>
                         </div>
                      </div>
                      <div class="col-4">
                         <div class="box3">
-                            <p>Points Earned</p>
+                            <h6>Points Earned</h6>
                             <p>RM</p>
                         </div>
                      </div>
                      <div class="col-4">
                         <div class="box3">
-                            <p>Current Bonus</p>
+                            <h6>Current Bonus</h6>
                             <p>RM</p>
                         </div>
                      </div>
@@ -87,7 +168,7 @@ if (!isset($user_id)) {
 
                 <div class="box2">
                      <h4>Bonus Structure</h4>
-                     <table>
+                     <table class="tablestyle">
                         <tr>
                             <th>Monthly Printing Sales</th>
                             <th>Bonus Obtained (RM)</th>
@@ -109,6 +190,21 @@ if (!isset($user_id)) {
     </div>
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
+
+  <!-- QRCode.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+    // Generate the QR Code
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: "http://localhost/WEBFILE/mini-project/reward.php",
+        width: 160,  // Fixed width
+        height: 160, // Fixed height
+        colorDark: "#000000", // QR code color
+        colorLight: "#ffffff" // Background color
+    });
+</script>

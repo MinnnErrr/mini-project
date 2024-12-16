@@ -23,12 +23,92 @@ if (!isset($user_id)) {
     <link rel="stylesheet" href="./main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
-    <!-- Method 2:CDN Link
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+    <!-- Method 2:CDN Link-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <!-- External CSS -->
-    <link rel="stylesheet" type="text/css" href="printing.css">
+    <style>
+        .welcome,.header{
+            background-color: #0d6efd;
+            border: 1px solid #0d6efd;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px;
+            color: white;
+            line-height: 0.7;
+        }
+
+        .row{
+            display: flex;
+            margin: 10px;
+        }
+
+        .box{
+            border: 1px solid #ddd;
+            text-align: center;
+            flex: 50%;
+            margin: 10px;
+            padding: 10px;   
+        }
+
+        .box2{
+            border: 1px solid #ddd;
+            text-align: center;
+            flex: 50%;
+            margin: 30px;
+            padding: 10px;
+            padding-right: 3%;
+        }
+
+        .box3{
+            border: 1px solid #ddd;
+            text-align: center;
+            flex: 50%;
+            margin: 30px;
+            padding: 10px;
+            padding-right: 3%;
+            background-color:rgb(36, 105, 201);
+            color: white;
+            border-radius: 12px;
+        }
+
+        .tablestyle{
+            border: 1px solid #ddd;
+            border-collapse: collapse;
+            margin: 10px;
+            width: 100%;
+        }
+
+        .normal{
+            margin: 10px;
+            width: 100%;
+        }
+
+        .normal th{
+            padding-bottom: 10px;
+        }
+
+        .normal td{
+            padding: 0%;
+        }
+
+        .tablestyle th, .tablestyle td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .tablestyle th {
+            background-color: #f9f9f9;
+        }
+
+        .customimg{
+            float: right;
+            width: 10%;
+        }
+
+    </style>
 </head>
+
 <body class="bg-body-secondary bg-opacity-50">
 <?php require 'navbar.php' ?>
 
@@ -40,8 +120,8 @@ if (!isset($user_id)) {
             <div class="container min-vh-100">
                 <!-- Your content here... -->
                 <div class="welcome">
-                        <h5>RapidPrint Staff Dashboard</h5>
-                        <p style="font-size: smaller;">Welcome back</p>
+                        <h3 style="margin-left: 10px;">RapidPrint Staff Dashboard</h3>
+                        <p style="margin-left:10px;">Welcome back</p>
                 </div>
 <!-- =========================================================================================== -->
 <!-- Bootstrap - 1 row have 12 col, so 6 6 col => 2 box in one row   -->
@@ -49,12 +129,12 @@ if (!isset($user_id)) {
 <div class="row">
     <div class="col-6">
         <div class="box">
-            <p>Monthly Sales Overview</p>
+            <h5><b>Monthly Sales Overview</b></h5>
             <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
 
                 <script>
-                const xValues = [50,60,70,80,90,100,110,120,130,140,150];
-                const yValues = [7,8,8,9,9,9,10,11,14,14,15];
+                const xValues = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                const yValues = [70,80,80,90,90,90,100,110,140,140,150,160];
 
                 new Chart("myChart", {
                 type: "line",
@@ -71,7 +151,7 @@ if (!isset($user_id)) {
                 options: {
                     legend: {display: false},
                     scales: {
-                    yAxes: [{ticks: {min: 6, max:16}}],
+                    yAxes: [{ticks: {min: 10, max:300}}],
                     }
                 }
                 });
@@ -81,17 +161,53 @@ if (!isset($user_id)) {
     </div>
     <div class="col-6">
         <div class="box">
-            <p>Your Rewards</p>
-            <p>Current Month Sales</p>
-            <p>Bonus Earned</p>
-            QR
+            <table class="normal">
+                <tr>
+                    <th><h5>Your Reward</h5></th>
+                </tr>
+                <tr>
+                    <td>Current Month Sales: RM</td>
+                </tr>
+                <tr>
+                    <td>Bonus Earned: RM</td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                    <div id="qrcode" style="margin-left:32%"></div>
+                    </td>
+                </tr>
+            </table>
+            
+            
+            
+            
+
+
         </div>
     </div>  
 </div>
 
+
+  <!-- QRCode.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+    // Generate the QR Code
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: "http://localhost/WEBFILE/mini-project/reward.php",
+        width: 170,  // Fixed width
+        height: 170, // Fixed height
+        colorDark: "#000000", // QR code color
+        colorLight: "#ffffff" // Background color
+    });
+</script>
+
 <div class="box2">
 <h4>Pending Orders</h4>
-<table>
+<table class="tablestyle">
             <tr>
                 <th>Order ID</th>
                 <th>Customer</th>
@@ -103,7 +219,7 @@ if (!isset($user_id)) {
                 <td></td>
                 <td></td>
                 <td><button type="button" class="btn btn-primary">Action</button></td>
-                <td><button type="button" class="btn btn-primary">Generate Invoice</button></td>
+                <td><button type="button" class="btn btn-success">Generate Invoice</button></td>
                 
             </tr>
         </table>
@@ -116,7 +232,6 @@ if (!isset($user_id)) {
 </div>
 
 <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-   
-        
+
 </body>
 </html>
