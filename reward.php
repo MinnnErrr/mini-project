@@ -17,7 +17,7 @@ if (!isset($user_id)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Reward</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
@@ -115,7 +115,7 @@ if (!isset($user_id)) {
 
     <div class="container-fluid">
         <div class="row vh-100">
-            <?php require 'sidebar.php' ?>
+            <?php require 'staffsidebar.php' ?>
 
             <div class="col-sm-12 col-lg-10">
                 <div class="container min-vh-100">

@@ -114,7 +114,7 @@ if (!isset($user_id)) {
 
 <div class="container-fluid">
     <div class="row vh-100">
-        <?php require 'sidebar.php' ?>
+        <?php require 'staffsidebar.php' ?>
 
         <div class="col-sm-12 col-lg-10">
             <div class="container min-vh-100">
@@ -180,12 +180,6 @@ if (!isset($user_id)) {
                     </td>
                 </tr>
             </table>
-            
-            
-            
-            
-
-
         </div>
     </div>  
 </div>
@@ -219,8 +213,7 @@ if (!isset($user_id)) {
                 <td></td>
                 <td></td>
                 <td><button type="button" class="btn btn-primary">Action</button></td>
-                <td><button type="button" class="btn btn-success">Generate Invoice</button></td>
-                
+                <td><a href="invoice.php" class="btn btn-success">Generate Invoice</a></td>
             </tr>
         </table>
 </div>
