@@ -1,69 +1,78 @@
-/* body{
-            font-family: Arial;
-        } */
+.welcome,.header{
+    background-color: #0d6efd;
+    border: 1px solid #0d6efd;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 20px;
+    color: white;
+    line-height: 0.7;
+}
 
-        .welcome,.header{
-            background-color: #1c95f0;
-            border: 1px solid #1c95f0;
-            border-radius: 12px;
-            text-align: center;
-            padding: 10px;
-            margin: 20px;
-            color: white;
-        }
+.row{
+    display: flex;
+    margin: 10px;
+}
 
-        .row{
-            display: flex;
-            margin: 10px;
-        }
+.box{
+    border: 1px solid #ddd;
+    text-align: center;
+    flex: 50%;
+    margin: 10px;
+    padding: 10px;   
+}
 
-        .box{
-            border: 1px solid #ddd;
-            text-align: center;
-            flex: 50%;
-            margin: 10px;
-            padding: 10px;   
-        }
+.box2{
+    border: 1px solid #ddd;
+    text-align: center;
+    flex: 50%;
+    margin: 30px;
+    padding: 10px;
+    padding-right: 3%;
+}
 
-        .box2{
-            border: 1px solid #ddd;
-            text-align: center;
-            flex: 50%;
-            margin: 30px;
-            padding: 10px;
-            padding-right: 3%;
-        }
+.box3{
+    border: 1px solid #ddd;
+    text-align: center;
+    flex: 50%;
+    margin: 30px;
+    padding: 10px;
+    padding-right: 3%;
+    background-color:rgb(36, 105, 201);
+    color: white;
+    border-radius: 12px;
+}
 
-        .box3{
-            border: 1px solid #ddd;
-            text-align: center;
-            flex: 50%;
-            margin: 30px;
-            padding: 10px;
-            padding-right: 3%;
-            background-color:rgb(36, 105, 201);
-            color: white;
-            border-radius: 12px;
-        }
+.tablestyle{
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    margin: 10px;
+    width: 100%;
+}
 
-        table{
-            border: 1px solid #ddd;
-            border-collapse: collapse;
-            margin: 10px;
-            width: 100%;
-        }
+.normal{
+    margin: 10px;
+    width: 100%;
+}
 
-        table th, table td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-        
-        table th {
-            background-color: #f9f9f9;
-        }
+.normal th{
+    padding-bottom: 10px;
+}
 
-        img{
-            float: right;
-            width: 10%;
-        }
+.normal td{
+    padding: 0%;
+}
+
+.tablestyle th, .tablestyle td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.tablestyle th {
+    background-color: #f9f9f9;
+}
+
+.customimg{
+    float: right;
+    width: 10%;
+}
