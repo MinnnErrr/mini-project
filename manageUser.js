@@ -1,3 +1,3 @@
-document.addEventListener("DOMContentLoaded", function(event) {
-    document.getElementById('deleteButton').click();
-  });
+// $('#myModal').on('shown.bs.modal', function () {
+//     $('#myInput').trigger('focus')
+//   })

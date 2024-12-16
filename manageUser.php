@@ -94,17 +94,17 @@ if (!isset($user_id)) {
         
         <td class="p-4">
              
-          <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="edit">
+          <button   class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="edit">
             <a href="editUser.php">Edit</a>
            </button>
            <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600"  title="view">
-             <a>View</a>
+             <a href="viewProfile.php">View</a>
            </button>
-           <button  class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="delete">
-             <a>Delete</a>
+           <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="delete">
+             <a >Delete</a>
            </button>
            <button  class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="verify">
-             <a>Verify</a>
+             <a href="verifyUser.php">Verify</a>
            </button>
         </td>
       </tr>
@@ -249,9 +249,27 @@ if (!isset($user_id)) {
             </div>
         </div>
     </div>
-   
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
     <script src="manageUser.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 
 </html>
