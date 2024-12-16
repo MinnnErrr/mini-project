@@ -8,20 +8,18 @@
             <ul class="nav flex-column d-flex justify-content-between" style="height: 87dvh;">
                 <div>
                     <li class="nav-item mt-lg-3">
-                        <a class="nav-link is-dark" id="dashboard" href="adminDashboard.php">Dashboard</a>
+                        <a class="nav-link is-dark is-active" href="">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" id="branch" href="branchManagement.php">Branch Management</a>
+                        <a class="nav-link is-dark" href="branchManagement.php">Mange Oder</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" id="package" href="packageManagement.php">Package Management</a>
+                        <a class="nav-link is-dark" href="applyMembership.php">Membership Card</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" id="user" href="manageUser.php">User Management</a>
+                        <a class="nav-link is-dark" href="CustomerProfile.php">Profile</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link is-dark" id="profile" href="adminProfile.php">My Profile</a>
-                    </li>
+                   
                 </div>
 
                 <div>

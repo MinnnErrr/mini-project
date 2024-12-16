@@ -1,0 +1,21 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.input-search{
+    padding:1.3rem;
+}
+.input-search input{
+    border: 1px solid black;
+}
+.template{
+    display: flex;
+    justify-content: space-between;
+}
+.add-new-user{
+    border:1px solid rgb(75, 35, 35);
+    border-radius: 20px;
+    margin: 20px;
+    padding: 5px;
+}
