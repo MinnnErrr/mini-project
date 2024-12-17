@@ -41,18 +41,17 @@ if (!isset($user_id)) {
 
     <div class="container-fluid">
         <div class="row">
-            <?php require 'sidebar.php' ?>
+        <?php require 'customerSidebar.php' ?>
+
 
             <div class="profile-teamplate">
             <div>
             <div class="bg-white overflow-hidden shadow rounded-lg border">
                 <div class="px-4 py-5 sm:px-6">
                     <h3 class="text-lg leading-6 font-medium text-gray-900">
-                        User Profile
+                       Apply Membership Cardd
                     </h3>
-                    <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                        This is some information about the user.
-                    </p>
+                    
                 </div>
                 <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
                     <dl class="sm:divide-y sm:divide-gray-200">
@@ -89,7 +88,7 @@ if (!isset($user_id)) {
                 </div>
             </div>
              <div class="edit-button-template">
-            <button ><a href="editUser.php">Edit</a></button>
+            <button>Apply</button>
         </div>
         </div>
        

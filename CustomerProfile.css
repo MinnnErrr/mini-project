@@ -1,0 +1,19 @@
+.profile-teamplate{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    height: 100vh;
+}
+.edit-button-template{
+    display: flex;
+   justify-content: end;
+    width: 100%;
+}
+.edit-button-template>button{
+    border: 1px solid black;
+    padding: 1rem;
+    margin-top:10px;
+    border-radius: 5px;
+}

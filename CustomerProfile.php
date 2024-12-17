@@ -41,7 +41,7 @@ if (!isset($user_id)) {
 
     <div class="container-fluid">
         <div class="row">
-            <?php require 'sidebar.php' ?>
+        <?php require 'customerSidebar.php' ?>
 
             <div class="profile-teamplate">
             <div>

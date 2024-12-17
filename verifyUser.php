@@ -17,7 +17,7 @@ if (!isset($user_id)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title></title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
@@ -41,7 +41,7 @@ if (!isset($user_id)) {
 
     <div class="container-fluid">
         <div class="row">
-            <?php require 'sidebar.php' ?>
+        <?php require 'customerSidebar.php' ?>
 
             <div class="profile-teamplate">
             <div>
@@ -89,7 +89,7 @@ if (!isset($user_id)) {
                 </div>
             </div>
              <div class="edit-button-template">
-            <button ><a href="editUser.php">Edit</a></button>
+            <button>Verify</button>
         </div>
         </div>
        
