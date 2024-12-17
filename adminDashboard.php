@@ -36,7 +36,7 @@ if (!isset($user_id)) {
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
-                <div class="container-fluid min-vh-100 p-4">
+                <div class="container min-vh-100 p-4">
 
                     <!--first row-->
                     <div class="row align-items-center mb-4">
