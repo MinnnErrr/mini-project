@@ -18,13 +18,10 @@ if (!isset($user_id)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Dashboard</title>
-    <!-- Method 1:Node=>Bootstrap -->
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-
-    <!-- Method 2:CDN Link-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
@@ -139,97 +136,97 @@ if (!isset($user_id)) {
                                     const xValues = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                                     const yValues = [70, 80, 80, 90, 90, 90, 100, 110, 140, 140, 150, 160];
 
-                                    new Chart("myChart", {
-                                        type: "line",
-                                        data: {
-                                            labels: xValues,
-                                            datasets: [{
-                                                fill: false,
-                                                lineTension: 0,
-                                                backgroundColor: "rgba(0,0,255,1.0)",
-                                                borderColor: "rgba(0,0,255,0.1)",
-                                                data: yValues
-                                            }]
-                                        },
-                                        options: {
-                                            legend: {
-                                                display: false
-                                            },
-                                            scales: {
-                                                yAxes: [{
-                                                    ticks: {
-                                                        min: 10,
-                                                        max: 300
-                                                    }
-                                                }],
-                                            }
-                                        }
-                                    });
-                                </script>
-                                <button type="button" class="btn btn-primary" style="float:right">Generate report</button>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="box">
-                                <table class="normal">
-                                    <tr>
-                                        <th>
-                                            <h5>Your Reward</h5>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td>Current Month Sales: RM</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Bonus Earned: RM</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div id="qrcode" style="margin-left:32%"></div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
+                new Chart("myChart", {
+                type: "line",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "rgba(0,0,255,1.0)",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    data: yValues
+                    }]
+                },
+                options: {
+                    legend: {display: false},
+                    scales: {
+                    yAxes: [{ticks: {min: 10, max:300}}],
+                    }
+                }
+                });
+                </script>
+                <button type="button" class="btn btn-primary" style="float:right">Generate report</button>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="box">
+            <table class="normal">
+                <tr>
+                    <th><h5>Your Reward</h5></th>
+                </tr>
+                <tr>
+                    <td>Current Month Sales: RM</td>
+                </tr>
+                <tr>
+                    <td>Bonus Earned: RM</td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                    <div id="qrcode-container" style="display: flex; justify-content: center;">
+                    <div id="qrcode"></div>
                     </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>  
+</div>
 
 
                     <!-- QRCode.js Library -->
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-                    <script>
-                        // Generate the QR Code
-                        var qrcode = new QRCode(document.getElementById("qrcode"), {
-                            text: "http://localhost/WEBFILE/mini-project/reward.php",
-                            width: 170, // Fixed width
-                            height: 170, // Fixed height
-                            colorDark: "#000000", // QR code color
-                            colorLight: "#ffffff" // Background color
-                        });
-                    </script>
+<script>
+    // Generate the QR Code
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: "http://localhost/WEBFILE/mini-project/reward.php",
+        width: 170,  // Fixed width
+        height: 170, // Fixed height
+        colorDark: "#000000", // QR code color
+        colorLight: "#ffffff" // Background color
+    });
 
-                    <div class="box2">
-                        <h4>Pending Orders</h4>
-                        <table class="tablestyle">
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Customer</th>
-                                <th>Status</th>
-                                <th colspan="2">Action</th>
-                            </tr>
-                            <tr>
-                                <td>Order info</td>
-                                <td></td>
-                                <td></td>
-                                <td><button type="button" class="btn btn-primary">Action</button></td>
-                                <td><a href="invoice.php" class="btn btn-success">Generate Invoice</a></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+</script>
+
+<div class="box2">
+<h4>Pending Orders</h4>
+<table class="tablestyle">
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td>Order info</td>
+                <td></td>
+                <td></td>
+                <td>
+                    <button type="button" class="btn btn-primary">Action</button>
+                    <button type="button" class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>
+                    
+                    <button type="button" class="btn btn-primary"><i class="bi bi-trash3"></i></button>
+                    <a href="invoice.php" class="btn btn-success"><i class="bi bi-receipt"></i></a>
+                </td>
+                
+            </tr>
+        </table>
+</div>
+            </div>
 
                 <?php require 'footer.php' ?>
             </div>
