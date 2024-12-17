@@ -31,10 +31,11 @@ if (!isset($user_id)) {
 
     <div class="container-fluid">
         <div class="row vh-100">
-            <?php require 'sidebar.php' ?> <!--change the name to your sidebar file-->
+            <?php require 'sidebar.php' ?> <!--chan
+            ge the name to your sidebar file-->
 
             <div class="col-sm-12 col-lg-10">
-                <div class="container min-vh-100">
+                <div class="container min-vh-100 p-4">
                     Your content here...
                 </div>
 
@@ -44,6 +45,9 @@ if (!isset($user_id)) {
     </div>
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('ENTER THE ID IN SIDEBAR    ').classList.add('is-active', 'text-decoration-underline');
+    </script>
 </body>
 
 </html>

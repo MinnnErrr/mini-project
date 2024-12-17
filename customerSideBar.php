@@ -11,7 +11,7 @@
                         <a class="nav-link is-dark is-active" href="customerDashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" href="branchManagement.php">Mange Oder</a>
+                        <a class="nav-link is-dark" href="branchManagement.php">Manage Oder</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link is-dark" href="applyMembership.php">Membership Card</a>
