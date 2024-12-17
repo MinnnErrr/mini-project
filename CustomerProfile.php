@@ -89,7 +89,7 @@ if (!isset($user_id)) {
                 </div>
             </div>
              <div class="edit-button-template">
-            <button href="editUser.php">Edit</button>
+            <button ><a href="editUser.php">Edit</a></button>
         </div>
         </div>
        
