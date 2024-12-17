@@ -146,8 +146,9 @@ if (!isset($user_id)) {
                     </tr>
                 </table>
 <br>
+                <button type="button" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</button>
+                <button type="button" class="btn btn-danger"><i class="bi bi-trash3"></i> Delete</button>
                 <button type="button" class="btn btn-success">Print Invoice</button>
-                <button type="button" class="btn btn-warning">Download Invoice</button>
             </div>
             <?php require 'footer.php' ?>
             </div>
