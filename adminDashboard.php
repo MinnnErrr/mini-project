@@ -26,6 +26,7 @@ if (!isset($user_id)) {
 
 <body class="bg-body-secondary bg-opacity-50">
 
+
     <?php require 'navbar.php' ?>
 
     <div class="container-fluid">
