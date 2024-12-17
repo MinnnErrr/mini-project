@@ -8,7 +8,7 @@
             <ul class="nav flex-column d-flex justify-content-between" style="height: 87dvh;">
                 <div>
                     <li class="nav-item mt-lg-3">
-                        <a class="nav-link is-dark is-active" href="staffDashboard.php">Dashboard</a>
+                        <a class="nav-link is-dark" href="staffDashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link is-dark" href="manageprinting.php">Manage printing</a>
