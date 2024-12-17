@@ -17,13 +17,10 @@ if (!isset($user_id)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Dashboard</title>
-    <!-- Method 1:Node=>Bootstrap -->
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-
-    <!-- Method 2:CDN Link-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
@@ -176,7 +173,9 @@ if (!isset($user_id)) {
                 </tr>
                 <tr>
                     <td>
-                    <div id="qrcode" style="margin-left:32%"></div>
+                    <div id="qrcode-container" style="display: flex; justify-content: center;">
+                    <div id="qrcode"></div>
+                    </div>
                     </td>
                 </tr>
             </table>
@@ -197,6 +196,7 @@ if (!isset($user_id)) {
         colorDark: "#000000", // QR code color
         colorLight: "#ffffff" // Background color
     });
+
 </script>
 
 <div class="box2">
@@ -206,14 +206,20 @@ if (!isset($user_id)) {
                 <th>Order ID</th>
                 <th>Customer</th>
                 <th>Status</th>
-                <th colspan="2">Action</th>
+                <th>Action</th>
             </tr>
             <tr>
                 <td>Order info</td>
                 <td></td>
                 <td></td>
-                <td><button type="button" class="btn btn-primary">Action</button></td>
-                <td><a href="invoice.php" class="btn btn-success">Generate Invoice</a></td>
+                <td>
+                    <button type="button" class="btn btn-primary">Action</button>
+                    <button type="button" class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>
+                    
+                    <button type="button" class="btn btn-primary"><i class="bi bi-trash3"></i></button>
+                    <a href="invoice.php" class="btn btn-success"><i class="bi bi-receipt"></i></a>
+                </td>
+                
             </tr>
         </table>
 </div>
