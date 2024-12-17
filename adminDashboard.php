@@ -35,14 +35,13 @@ if (!isset($user_id)) {
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
-                <div class="container min-vh-100 p-4">
+                <div class="container-fluid min-vh-100 p-4">
 
                     <!--first row-->
-                    <div class="row align-items-center">
-
+                    <div class="row align-items-center mb-4">
                         <!--admin dashboard-->
-                        <div class="col-lg-4 col-sm-12 mb-4">
-                            <div class="rounded-3 p-4 bg-gradient shadow d-flex justify-content-between" style="color: #0f524f; background-color: #08c4b3;">
+                        <div>
+                            <div class="rounded-3 p-4 bg-gradient shadow-sm d-flex justify-content-between" style="color: #0f524f; background-color: #08c4b3;">
                                 <div class="">
                                     <h4>Admin Dashboard</h4>
                                     <p>Welcome back, <?php echo $username ?> !</p>
@@ -52,35 +51,40 @@ if (!isset($user_id)) {
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-lg-2 col-sm-12 mb-4">
+                    <!--second row-->
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-12 mb-4 d-lg-flex align-self-stretch">
                             <div class="rounded-3 p-4 bg-white shadow-sm">
                                 <h6>Total Number of Staff</h6>
                                 <p>Number</p>
                             </div>
                         </div>
 
-                        <div class="col-lg-2 col-sm-12 mb-4">
+                        <div class="col-lg-3 col-sm-12 mb-4 d-lg-flex align-self-stretch">
                             <div class="rounded-3 p-4 bg-white shadow-sm">
                                 <h6>Total Number of Customer</h6>
                                 <p>Number</p>
                             </div>
                         </div>
 
-                        <div class="col-lg-2 col-sm-12 mb-4">
+                        <div class="col-lg-3 col-sm-12 mb-4 d-lg-flex align-self-stretch">
                             <div class="rounded-3 p-4 bg-white shadow-sm">
                                 <h6>Total Number of Registered Customer</h6>
                                 <p>Number</p>
                             </div>
                         </div>
 
-                        <div class="col-lg-2 col-sm-12 mb-4">
+                        <div class="col-lg-3 col-sm-12 mb-4 d-lg-flex align-self-stretch">
                             <div class="rounded-3 p-4 bg-white shadow-sm">
                                 <h6>Total Number of Verified Customer</h6>
                                 <p>Number</p>
                             </div>
                         </div>
                     </div>
+                    
+                    
 
                     <!--graph 1-->
                     <div class="row-lg-12 mb-4">

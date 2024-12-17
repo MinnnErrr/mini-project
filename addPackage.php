@@ -36,23 +36,30 @@ if (!isset($user_id)) {
             <div class="col-sm-12 col-lg-10">
                 <div class="container min-vh-100 p-5">
                     <div class="border rounded-3 p-4 bg-white col-lg-6 mx-auto">
-                        <h4 class="pb-3">Add Branch</h4>
+                        <h4 class="pb-3">Update Package</h4>
                         <form action="">
                             <div class="mb-3">
-                                <label for="branchName" class="form-label">Branch name</label>
-                                <input type="text" class="form-control" name="branchName" id="branchName">
+                                <label for="packageName" class="form-label">Package name</label>
+                                <input type="text" class="form-control" name="packageName" id="packageName">
                             </div>
                             <div class="mb-3">
-                                <label for="branchAddress" class="form-label">Address</label>
-                                <textarea class="form-control" name="branchAddress" id="branchAddress"></textarea>
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" name="description" id="description"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Base Price (RM)</label>
+                                <input type="text" class="form-control" name="price" id="price">
                             </div>
                             <div class="mb-5">
-                                <label for="branchContact" class="form-label">Contact number</label>
-                                <input type="text" class="form-control" name="branchContact" id="branchContact">
+                                <label for="availability" class="form-label">Availability</label>
+                                <select id="availability" class="form-select">
+                                    <option>Available</option>
+                                    <option>Unavailable</option>
+                                </select>
                             </div>
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn btn-dark me-3 w-100">Create</button>
-                                <a href="./branchManagement.php" class="btn btn-outline-dark ms-3 w-100">Back</a>
+                                <a href="./packageManagement.php" class="btn btn-outline-dark ms-3 w-100">Back</a>
                             </div>
                         </form>
                     </div>

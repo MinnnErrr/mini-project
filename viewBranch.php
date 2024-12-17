@@ -36,22 +36,22 @@ if (!isset($user_id)) {
             <div class="col-sm-12 col-lg-10">
                 <div class="container min-vh-100 p-5">
                     <div class="border rounded-3 p-4 bg-white col-lg-6 mx-auto">
-                        <h4 class="pb-3">Add Branch</h4>
+                        <h4 class="pb-3">Branch A</h4>
                         <form action="">
                             <div class="mb-3">
                                 <label for="branchName" class="form-label">Branch name</label>
-                                <input type="text" class="form-control" name="branchName" id="branchName">
+                                <input type="text" value="Branch A" readonly class="form-control-plaintext" name="branchName" id="branchName">
                             </div>
                             <div class="mb-3">
                                 <label for="branchAddress" class="form-label">Address</label>
-                                <textarea class="form-control" name="branchAddress" id="branchAddress"></textarea>
+                                <textarea readonly class="form-control-plaintext" name="branchAddress" id="branchAddress">Address A</textarea>
                             </div>
                             <div class="mb-5">
                                 <label for="branchContact" class="form-label">Contact number</label>
-                                <input type="text" class="form-control" name="branchContact" id="branchContact">
+                                <input type="text" value="0123456789" readonly class="form-control-plaintext" name="branchContact" id="branchContact">
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-dark me-3 w-100">Create</button>
+                                <a href="./updateBranch.php" class="btn btn-outline-dark me-3 w-100">Edit</a>
                                 <a href="./branchManagement.php" class="btn btn-outline-dark ms-3 w-100">Back</a>
                             </div>
                         </form>

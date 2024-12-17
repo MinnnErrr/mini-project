@@ -35,25 +35,27 @@ if (!isset($user_id)) {
 
             <div class="col-sm-12 col-lg-10">
                 <div class="container min-vh-100 p-5">
-                    <h4 class="pb-3">Update Branches</h4>
-                    <form action="" class="border rounded-3 p-3 bg-white">
-                        <div class="mb-3">
-                            <label for="branchName" class="form-label">Branch name</label>
-                            <input type="text" class="form-control" name="branchName" id="branchName">
-                        </div>
-                        <div class="mb-3">
-                            <label for="branchAddress" class="form-label">Address</label>
-                            <textarea class="form-control" name="branchAddress" id="branchAddress"></textarea>
-                        </div>
-                        <div class="mb-4">
-                            <label for="branchContact" class="form-label">Contact number</label>
-                            <input type="text" class="form-control" name="branchContact" id="branchContact">
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-dark me-3">Save</button>
-                            <button type="button" class="btn btn-outline-dark ms-3" onclick="history.back()">Back</button>
-                        </div>
-                    </form>
+                    <div class="border rounded-3 p-4 bg-white col-lg-6 mx-auto">
+                        <h4 class="pb-3">Update Branch</h4>
+                        <form action="">
+                            <div class="mb-3">
+                                <label for="branchName" class="form-label">Branch name</label>
+                                <input type="text" class="form-control" name="branchName" id="branchName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="branchAddress" class="form-label">Address</label>
+                                <textarea class="form-control" name="branchAddress" id="branchAddress"></textarea>
+                            </div>
+                            <div class="mb-5">
+                                <label for="branchContact" class="form-label">Contact number</label>
+                                <input type="text" class="form-control" name="branchContact" id="branchContact">
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-dark me-3 w-100">Save</button>
+                                <a href="./branchManagement.php" class="btn btn-outline-dark ms-3 w-100">Back</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
                 <?php require 'footer.php' ?>
