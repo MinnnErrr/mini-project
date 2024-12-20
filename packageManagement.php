@@ -32,8 +32,8 @@ if (!isset($user_id)) {
         <div class="row vh-100">
             <?php require 'sidebar.php' ?>
 
-            <div class="col-sm-12 col-lg-10">
-                <div class="min-vh-100 p-lg-5 p-sm-5">
+            <div class="col-sm-12 col-lg-10 ">
+                <div class="container min-vh-100 p-lg-5 p-lg-5 p-sm-5">
                     <div class="bg-white p-5 rounded-3 shadow-sm">
                         <div class="d-flex justify-content-between pb-3">
                             <h4>Printing Packages</h4>
