@@ -2,7 +2,7 @@
     <!-- Sidebar -->
     <div class="offcanvas-lg offcanvas-start position-fixed p-lg-2" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Admin Panel</h5>
+            <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Staff Panel</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body overflow-hidden">

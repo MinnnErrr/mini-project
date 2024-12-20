@@ -1,3 +1,4 @@
+<!--do not edit this template-->
 <?php
 require 'dbconfig.php';
 
@@ -13,10 +14,12 @@ if (!isset($user_id)) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage printing</title>
+    <!--your page title-->
+    <title>Manage printing</title> 
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
@@ -24,18 +27,22 @@ if (!isset($user_id)) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
 </head>
-<body class="bg-body-secondary bg-opacity-50">
 
-<?php require 'navbar.php' ?>
 
-<div class="container-fluid">
-    <div class="row vh-100">
-        <?php require 'staffsidebar.php' ?>
+<body class="bg-light">
 
-        <div class="col-sm-12 col-lg-10">
-            <div class="container min-vh-100">
-            <!-- Your content here... -->
-            <div class="header">
+    <?php require 'navbar.php' ?>
+
+    <div class="container-fluid p-0">
+        <div class="row vh-100 m-0">
+            <!--change the sidebar file name-->
+            <?php require 'staffsidebar.php' ?>
+
+            <!--right content-->
+            <div class="col-sm-12 col-lg-10 p-0">
+                <div class="container min-vh-100 p-4">
+                    <!-- your content starts here -->
+                    <div class="header">
                 <h3 style="margin-left: 10px;">Manage Orders</h3>
                 <p style="margin-left: 10px;">View and manage all printing orders</p>
             </div>
@@ -66,15 +73,24 @@ if (!isset($user_id)) {
         </tr>
     </table>
     </div>
-            </div>
-            <?php require 'footer.php' ?>
+                </div>
+                        <div class="row bg-body border-top py-2 m-0">
+                            <footer class="col d-flex justify-content-center align-items-center">
+                                <a href="#" class="text-decoration-none me-2">
+                                    <img src="./RapidPrintIcon.png" alt="RapidPrint" width="25">
+                                </a>
+                                <span>&copy 2024 RapidPrint. All rights reserved.</span>
+                            </footer>
+                        </div>
             </div>
         </div>
     </div>
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('managePrinting').classList.add('is-active', 'text-decoration-underline');
+        //change the id for every page according to the id in your sidebar. for example, the current page adminDashboard.php's id in adminSideBar is dashboard
+        document.getElementById('managePrinting').classList.add('is-active'); 
     </script>
 </body>
+
 </html>
