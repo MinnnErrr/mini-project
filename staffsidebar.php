@@ -1,11 +1,13 @@
-<div class="col-lg-2 border-end bg-light">
-    <div class="offcanvas-lg offcanvas-start position-fixed" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
+<div class="col-lg-2 border-end bg-body">
+    <!-- Sidebar -->
+    <div class="offcanvas-lg offcanvas-start position-fixed p-lg-2" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">RapidPrint</h5>
+            <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Admin Panel</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
-            <ul class="nav flex-column d-flex justify-content-between" style="height: 87dvh;">
+        <div class="offcanvas-body overflow-hidden">
+            <!-- Navigation Links -->
+            <ul class="nav flex-column d-flex justify-content-between vh-100 overflow-hidden">
                 <div>
                     <li class="nav-item mt-lg-3">
                         <a class="nav-link is-dark" id="staffDashboard" href="staffDashboard.php">Dashboard</a>
@@ -17,20 +19,18 @@
                         <a class="nav-link is-dark" id="reward" href="reward.php">Reward</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" id="staffDProfile" href="staffProfile.php">My Profile</a>
+                        <a class="nav-link is-dark" id="staffProfile" href="staffProfile.php">My Profile</a>
                     </li>
                 </div>
-
-                <div>
-                    <li class="nav-item">
-                        <div class="nav-link">
-                            <button class="btn w-100 btn-outline-dark" onclick="location.href='logout.php'">
-                                Log Out
-                            </button>
-                        </div>
+                <div class="mb-5 pb-5">
+                    <li>
+                        <button class="btn w-100 btn-dark rounded-3" onclick="location.href='logout.php'">
+                            Log Out
+                        </button>
                     </li>
                 </div>
             </ul>
+
 
         </div>
     </div>

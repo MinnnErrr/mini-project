@@ -1,3 +1,6 @@
+
+
+<!--do not edit this template-->
 <?php
 require 'dbconfig.php';
 
@@ -17,7 +20,7 @@ if (!isset($user_id)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Dashboard</title>
+    <title>Admin Dashboard</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
@@ -27,16 +30,20 @@ if (!isset($user_id)) {
 </head>
 
 
-<body class="bg-body-secondary bg-opacity-50">
+<body class="bg-light">
+
     <?php require 'navbar.php' ?>
 
     <div class="container-fluid">
         <div class="row vh-100">
+            <!--side bar-->
             <?php require 'staffsidebar.php' ?>
 
+            <!--right content-->
             <div class="col-sm-12 col-lg-10">
-                <div class="container min-vh-100">
-                    <!-- Your content here... -->
+                <div class="container min-vh-100 p-4">
+
+                    <!-- your content starts here -->
                     <div class="welcome">
                         <h3 style="margin-left: 10px;">RapidPrint Staff Dashboard</h3>
                         <p style="margin-left:10px;">Welcome back</p>
@@ -144,7 +151,8 @@ if (!isset($user_id)) {
             </tr>
         </table>
 </div>
-            </div>
+
+                </div>
 
                 <?php require 'footer.php' ?>
             </div>
@@ -153,9 +161,9 @@ if (!isset($user_id)) {
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('staffDashboard').classList.add('is-active', 'text-decoration-underline');
+        //change the id for every page according to the id in your sidebar. for example, the current page adminDashboard.php's id in adminSideBar is dashboard
+        document.getElementById('staffDashboard').classList.add('is-active'); 
     </script>
-
 </body>
 
 </html>
