@@ -32,7 +32,7 @@ if (!isset($user_id)) {
 
     <div class="container-fluid">
         <div class="row vh-100">
-            <!--side bar-->
+            <!--change the sidebar file name-->
             <?php require 'adminSideBar.php' ?>
 
             <!--right content-->
