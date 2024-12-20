@@ -20,7 +20,7 @@ if (!isset($user_id)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Staff Dashboard</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
@@ -34,13 +34,13 @@ if (!isset($user_id)) {
 
     <?php require 'navbar.php' ?>
 
-    <div class="container-fluid">
-        <div class="row vh-100">
+    <div class="container-fluid p-0">
+        <div class="row vh-100 m-0">
             <!--side bar-->
             <?php require 'staffsidebar.php' ?>
 
             <!--right content-->
-            <div class="col-sm-12 col-lg-10">
+            <div class="col-sm-12 col-lg-10 p-0">
                 <div class="container min-vh-100 p-4">
 
                     <!-- your content starts here -->
@@ -153,8 +153,14 @@ if (!isset($user_id)) {
 </div>
 
                 </div>
-
-                <?php require 'footer.php' ?>
+                        <div class="row bg-body border-top py-2 m-0">
+                            <footer class="col d-flex justify-content-center align-items-center">
+                                <a href="#" class="text-decoration-none me-2">
+                                    <img src="./RapidPrintIcon.png" alt="RapidPrint" width="25">
+                                </a>
+                                <span>&copy 2024 RapidPrint. All rights reserved.</span>
+                            </footer>
+                        </div>
             </div>
         </div>
     </div>
