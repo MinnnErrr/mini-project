@@ -17,23 +17,25 @@ if (!isset($user_id)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Koperasi Branches</title>
+    <title>Branch Management</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
 </head>
 
 
-<body class="bg-body-secondary bg-opacity-50">
+<body class="bg-light">
 
     <?php require 'navbar.php' ?>
 
     <div class="container-fluid">
         <div class="row vh-100">
-            <?php require 'sidebar.php' ?>
+            <?php require 'adminSideBar.php' ?>
 
+            <!--right content-->
             <div class="col-sm-12 col-lg-10">
-                <div class="container min-vh-100 p-lg-5 p-sm-4">
+                <div class="container min-vh-100 p-4">
+
                     <div class="bg-white p-5 rounded-3 shadow-sm">
                         <div class="d-flex justify-content-between pb-3">
                             <h4>Koperasi Branches</h4>
@@ -69,7 +71,7 @@ if (!isset($user_id)) {
                                 <tr>
                                     <th scope="col">No.</th>
                                     <th scope="col">Branch Name</th>
-                                    <th width="20%" scope="col">Action</th>
+                                    <th width="20%" colspan="3" scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -77,17 +79,19 @@ if (!isset($user_id)) {
                                     <th scope="row">1</th>
                                     <td>Branch A</td>
                                     <td>
-                                        <div class="d-flex">
-                                            <button class="btn btn-info me-2" onclick="location.href='./viewBranch.php'">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                            <button class="btn btn-secondary me-2" onclick="location.href='./updateBranch.php'">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </button>
-                                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </div>
+                                        <button class="btn btn-secondary me-2" onclick="location.href='./viewBranch.php'">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-secondary me-2" onclick="location.href='./updateBranch.php'">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -122,7 +126,7 @@ if (!isset($user_id)) {
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('branch').classList.add('is-active', 'text-decoration-underline');
+        document.getElementById('branch').classList.add('is-active');
     </script>
 </body>
 
