@@ -11,7 +11,7 @@
                         <a class="nav-link is-dark is-active" href="customerDashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
-<<<<<<< HEAD
+<head
                         <a class="nav-link is-dark" href="order_management.php">Add Order</a>
                     </li>
                     <li class="nav-item">
@@ -19,9 +19,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link is-dark" href="checkout.php">Checkout</a>
-=======
+
                         <a class="nav-link is-dark" href="">Manage Oder</a>
->>>>>>> 6c7255212529c240432043181b4e77e028d9f6f0
+
                     </li>
                     <li class="nav-item">
                         <a class="nav-link is-dark" href="applyMembership.php">Membership Card</a>
