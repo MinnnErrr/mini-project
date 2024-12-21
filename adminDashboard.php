@@ -47,7 +47,7 @@ if (!isset($user_id)) {
                                     <p>Welcome back, <?php echo $username ?> !</p>
                                 </div>
                                 <div class="d-flex">
-                                    <img style="max-width: 160px;" src="./undraw_admin.svg" alt="">
+                                    <img style="max-width: 160px;" src="./images/undraw_admin.svg" alt="">
                                 </div>
                             </div>
                         </div>

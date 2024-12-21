@@ -4,7 +4,7 @@
             <span class="bi bi-list fs-3"></span>
         </button>
         <a class="navbar-brand d-flex align-items-center" aria-current="page" href="#">
-            <img class="me-1" src="./RapidPrintIcon.png" alt="RapidPrint" width="30">
+            <img class="me-1" src="./images/RapidPrintIcon.png" alt="RapidPrint" width="30">
             <span class="ms-1">RapidPrint</span>
         </a>
     </div>

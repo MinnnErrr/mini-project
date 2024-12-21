@@ -77,7 +77,7 @@ $conn = null;
             <div class="col justify-content-center align-items-center d-flex">
                 <div class="row">
                     <div class="col-12 d-flex justify-content-center">
-                        <img src="./RapidPrintSquare.png" alt="RapidPrint Logo" class="img-fluid" style="max-width: 20vw;">
+                        <img src="./images/RapidPrintSquare.png" alt="RapidPrint Logo" class="img-fluid" style="max-width: 20vw;">
                     </div>
                     <div class="col-12">
                         <p class="fs-5 text-center">Fast, Convenient, Affordable</p>
