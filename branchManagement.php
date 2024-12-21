@@ -34,7 +34,7 @@ if (!isset($user_id)) {
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
-                <div class="container min-vh-100 p-4">
+                <div class="container-fluid min-vh-100 p-4">
 
                     <div class="bg-white p-5 rounded-3 shadow-sm">
                         <div class="d-flex justify-content-between pb-3">
