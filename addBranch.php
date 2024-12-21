@@ -31,7 +31,7 @@ if (!isset($user_id)) {
     <div class="container-fluid">
         <div class="row vh-100">
 
-            <?php require 'adminSideBar.php' ?>
+            <?php require 'adminSidebar.php' ?>
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
