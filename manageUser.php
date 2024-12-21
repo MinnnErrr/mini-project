@@ -9,6 +9,9 @@ $username = $_SESSION['username'];
 if (!isset($user_id)) {
     header('location:login.php');
 }
+    $stmt = $conn->prepare("SELECT * FROM user");
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -77,164 +80,11 @@ if (!isset($user_id)) {
     </thead>
 
     <tbody class="whitespace-nowrap">
-      <tr class="odd:bg-blue-50">
-       
-        <td class="p-4 text-sm">
-          <div class="flex items-center cursor-pointer w-max">
-            <img src='https://readymadeui.com/profile_4.webp' class="w-9 h-9 rounded-full shrink-0" />
-            <div class="ml-4">
-              <p class="text-sm text-black">Gladys Jones</p>
-              <p class="text-xs text-gray-500 mt-0.5">gladys@example.com</p>
-            </div>
-          </div>
-        </td>
-        <td class="p-4 text-sm text-black">
-         Admin
-        </td>
-        
-        <td class="p-4">
-             
-          <button   class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="edit">
-            <a href="editUser.php">Edit</a>
-           </button>
-           <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600"  title="view">
-             <a href="viewProfile.php">View</a>
-           </button>
-           <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="delete">
-             <a >Delete</a>
-           </button>
-           <button  class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="verify">
-             <a href="verifyUser.php">Verify</a>
-           </button>
-        </td>
-      </tr>
-
-      <tr class="odd:bg-blue-50">
-        
-        <td class="p-4 text-sm">
-          <div class="flex items-center cursor-pointer w-max">
-            <img src='https://readymadeui.com/profile_5.webp' class="w-9 h-9 rounded-full shrink-0" />
-            <div class="ml-4">
-              <p class="text-sm text-black">Jennie Cooper</p>
-              <p class="text-xs text-gray-500 mt-0.5">jennie@example.com</p>
-            </div>
-          </div>
-        </td>
-        <td class="p-4 text-sm text-black">
-          customer
-        </td>
-        
-        <td class="p-4" >
-        
-          <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="edit">
-           <a>Edit</a>
-          </button>
-          <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600"  title="view">
-            <a>View</a>
-          </button>
-          <button  class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="delete">
-            <a>Delete</a>
-          </button>
-          <button  class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="verify">
-            <a>Verify</a>
-          </button>
-         
-        </td>
-      </tr>
-
-      <tr class="odd:bg-blue-50">
-        
-        <td class="p-4 text-sm">
-          <div class="flex items-center cursor-pointer w-max">
-            <img src='https://readymadeui.com/profile_3.webp' class="w-9 h-9 rounded-full shrink-0" />
-            <div class="ml-4">
-              <p class="text-sm text-black">Philip Steward</p>
-              <p class="text-xs text-gray-500 mt-0.5">philip@example.com</p>
-            </div>
-          </div>
-        </td>
-        <td class="p-4 text-sm text-black">
-         customer
-        </td>
-       
-        <td class="p-4">
-          <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="edit">
-            <a>Edit</a>
-           </button>
-           <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600"  title="view">
-             <a>View</a>
-           </button>
-           <button  class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="delete">
-             <a>Delete</a>
-           </button>
-           <button  class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="verify">
-             <a>Verify</a>
-           </button>
-        </td>
-      </tr>
-
-      <tr class="odd:bg-blue-50">
-        
-        <td class="p-4 text-sm">
-          <div class="flex items-center cursor-pointer w-max">
-            <img src='https://readymadeui.com/profile_2.webp' class="w-9 h-9 rounded-full shrink-0" />
-            <div class="ml-4">
-              <p class="text-sm text-black">Jorge Black</p>
-              <p class="text-xs text-gray-500 mt-0.5">jorge@example.com</p>
-            </div>
-          </div>
-        </td>
-        <td class="p-4 text-sm text-black">
-          staff
-        </td>
-        
-        <td class="p-4">
-          <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="edit">
-            <a>Edit</a>
-           </button>
-           <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600"  title="view">
-             <a>View</a>
-           </button>
-           <button  class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="delete">
-             <a>Delete</a>
-           </button>
-           <button  class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="verify">
-             <a>Verify</a>
-           </button>
-        </td>
-      </tr>
-
-      <tr class="odd:bg-blue-50">
-        
-        </td>
-        <td class="p-4 text-sm">
-          <div class="flex items-center cursor-pointer w-max">
-            <img src='https://readymadeui.com/profile_6.webp' class="w-9 h-9 rounded-full shrink-0" />
-            <div class="ml-4">
-              <p class="text-sm text-black">Evan Flores</p>
-              <p class="text-xs text-gray-500 mt-0.5">evan@example.com</p>
-            </div>
-          </div>
-        </td>
-        <td class="p-4 text-sm text-black">
-          staff
-        </td>
-        
-        <td class="p-4">
-          <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="edit">
-            <a>Edit</a>
-           </button>
-           <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600"  title="view">
-             <a>View</a>
-           </button>
-           <button   class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="delete">
-             <a id="deleteButton">Delete</a>
-           </button>
-           <button  class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="verify">
-             <a>Verify</a>
-           </button>
-        </td>
-      </tr>
+     
+   <?php
+   require 'retrieveUser.php';
+   ?>
+      
     </tbody>
   </table>
 </div>
