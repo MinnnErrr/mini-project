@@ -74,7 +74,7 @@ if(isset($_POST['editStaffUser'])){
 
     <div class="container-fluid">
         <div class="row">
-            <?php require 'sidebar.php' ?>
+        <?php require 'adminSidebar.php' ?>
 
             <div class="profile-teamplate">
                 <form action="" method="post" enctype="multipart/form-data">

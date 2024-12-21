@@ -1,3 +1,18 @@
+  <!-- QRCode.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+    // Generate the QR Code
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: "http://localhost/WEBFILE/mini-project/reward.php",
+        width: 160,  // Fixed width
+        height: 160, // Fixed height
+        colorDark: "#000000", // QR code color
+        colorLight: "#ffffff" // Background color
+    });
+</script>
+
+<!--do not edit this template-->
 <?php
 require 'dbconfig.php';
 
@@ -17,110 +32,31 @@ if (!isset($user_id)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reward</title>
+    <!--your page title-->
+    <title>Reward</title> 
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
-     
-    <!-- Method 2:CDN Link -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <style>
-        .welcome,.header{
-            background-color: #0d6efd;
-            border: 1px solid #0d6efd;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 20px;
-            color: white;
-            line-height: 0.7;
-        }
-
-        .row{
-            display: flex;
-            margin: 10px;
-        }
-
-        .box{
-            border: 1px solid #ddd;
-            text-align: center;
-            flex: 50%;
-            margin: 10px;
-            padding: 10px;   
-        }
-
-        .box2{
-            border: 1px solid #ddd;
-            text-align: center;
-            flex: 50%;
-            margin: 30px;
-            padding: 10px;
-            padding-right: 3%;
-        }
-
-        .box3{
-            border: 1px solid #ddd;
-            text-align: center;
-            flex: 50%;
-            margin: 30px;
-            padding: 10px;
-            padding-right: 3%;
-            background-color:rgb(83, 134, 204);
-            color: white;
-            border-radius: 12px;
-        }
-
-        .tablestyle{
-            border: 1px solid #ddd;
-            border-collapse: collapse;
-            margin: 10px;
-            width: 100%;
-        }
-
-        .normal{
-            margin: 10px;
-            width: 100%;
-        }
-
-        .normal th{
-            padding-bottom: 10px;
-        }
-
-        .normal td{
-            padding: 0%;
-        }
-
-        .tablestyle th, .tablestyle td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-        
-        .tablestyle th {
-            background-color: #f9f9f9;
-        }
-
-        .customimg{
-            float: right;
-            width: 10%;
-        }
-
-    </style>
+    <link rel="stylesheet" href="./printing.css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
 </head>
 
 
-<body class="bg-body-secondary bg-opacity-50">
+<body class="bg-light">
 
     <?php require 'navbar.php' ?>
 
-    <div class="container-fluid">
-        <div class="row vh-100">
+    <div class="container-fluid p-0">
+        <div class="row vh-100 m-0">
+            <!--change the sidebar file name-->
             <?php require 'staffsidebar.php' ?>
 
-            <div class="col-sm-12 col-lg-10">
-                <div class="container min-vh-100">
-                    <!-- Your content here... -->
-                     <div class="header">
+            <!--right content-->
+            <div class="col-sm-12 col-lg-10 p-0">
+                <div class="container min-vh-100 p-4">
+
+                    <!-- your content starts here -->
+                    <div class="header">
                         <h3 style="margin-left: 10px;">Staff Reward Dashboard</h3>
                         <p style="margin-left: 10px;">Track your sales performance and earned rewards</p>
                      </div>
@@ -181,33 +117,24 @@ if (!isset($user_id)) {
                         </tr>
                      </table>
                 </div>
-
                 </div>
-
-                <?php require 'footer.php' ?>
+                        <div class="row bg-body border-top py-2 m-0">
+                            <footer class="col d-flex justify-content-center align-items-center">
+                                <a href="#" class="text-decoration-none me-2">
+                                    <img src="./RapidPrintIcon.png" alt="RapidPrint" width="25">
+                                </a>
+                                <span>&copy 2024 RapidPrint. All rights reserved.</span>
+                            </footer>
+                        </div>
             </div>
         </div>
     </div>
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('reward').classList.add('is-active', 'text-decoration-underline');
+        //change the id for every page according to the id in your sidebar. for example, the current page adminDashboard.php's id in adminSideBar is dashboard
+        document.getElementById('reward').classList.add('is-active'); 
     </script>
-
 </body>
 
 </html>
-
-  <!-- QRCode.js Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<script>
-    // Generate the QR Code
-    var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "http://localhost/WEBFILE/mini-project/reward.php",
-        width: 160,  // Fixed width
-        height: 160, // Fixed height
-        colorDark: "#000000", // QR code color
-        colorLight: "#ffffff" // Background color
-    });
-</script>

@@ -39,9 +39,9 @@ if (!isset($user_id)) {
 
                     <div class="bg-white p-5 rounded-3 shadow-sm">
                         <div class="d-flex justify-content-between pb-3">
-                            <h4>Printing Packages</h4>
+                            <h4>Package A</h4>
                             <button class="btn btn-sm btn-outline-dark" onclick="location.href='./addPackage.php'">
-                                ADD PACKAGE
+                                ADD PROPERTIES
                             </button>
                         </div>
 
@@ -57,12 +57,12 @@ if (!isset($user_id)) {
                             </div>
                             <div class="col-sm-12 col-lg-3 mb-2">
                                 <select class="form-select rounded-0">
-                                    <option value="">Sort by Package Name</option>
+                                    <option value="">Sort by Property Name</option>
                                 </select>
                             </div>
                             <div class="col-sm-12 col-lg-3 mb-2">
                                 <select class="form-select rounded-0">
-                                    <option value="">Filter by Availability</option>
+                                    <option value="">Filter by Category</option>
                                 </select>
                             </div>
                         </div>
@@ -71,15 +71,15 @@ if (!isset($user_id)) {
                             <thead>
                                 <tr>
                                     <th scope="col">No.</th>
-                                    <th scope="col">Package Name</th>
+                                    <th scope="col">Property Name</th>
                                     <th width="20%" scope="col">
                                         <div class="d-flex justify-content-center">
-                                            Package Properties
+                                            Category
                                         </div>
                                     </th>
                                     <th width="20%" scope="col">
                                         <div class="d-flex justify-content-center">
-                                            Availability
+                                            Price (RM)
                                         </div>
                                     </th>
                                     <th width="20%" colspan="3" scope="col">
@@ -92,17 +92,15 @@ if (!isset($user_id)) {
                             <tbody>
                                 <tr>
                                     <th scope="row">1</th>
-                                    <td>Package A</td>
+                                    <td>Colour</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
-                                            <button class="btn btn-outline-dark me-2" onclick="location.href='./packageProperties.php'">
-                                                more details
-                                            </button>
+                                            Colour Mode
                                         </div>
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center">
-                                            <span class="badge rounded-pill text-bg-success">Available</span>
+                                            0.50
                                         </div>
 
                                     </td>
@@ -133,6 +131,12 @@ if (!isset($user_id)) {
                                 </tr>
                             </tbody>
                         </table>
+
+                        <div class="d-flex justify-content-center pt-4">
+                            <button class="btn btn-dark" onclick="location.href='./packageManagement.php'">
+                                Back
+                            </button>
+                        </div>
                     </div>
 
                 </div>

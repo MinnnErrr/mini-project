@@ -24,15 +24,14 @@ if (!isset($user_id)) {
 </head>
 
 
-<body class="bg-body-secondary bg-opacity-50">
-
+<body class="bg-light">
 
     <?php require 'navbar.php' ?>
 
     <div class="container-fluid">
         <div class="row vh-100">
             <!--side bar-->
-            <?php require 'sidebar.php' ?>
+            <?php require 'adminSidebar.php' ?>
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
@@ -84,8 +83,6 @@ if (!isset($user_id)) {
                             </div>
                         </div>
                     </div>
-                    
-                    
 
                     <!--graph 1-->
                     <div class="row-lg-12 mb-4">
@@ -109,7 +106,7 @@ if (!isset($user_id)) {
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('dashboard').classList.add('is-active', 'text-decoration-underline');
+        document.getElementById('dashboard').classList.add('is-active');
     </script>
 </body>
 
