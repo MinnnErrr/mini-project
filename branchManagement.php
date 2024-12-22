@@ -66,60 +66,74 @@ if (!isset($user_id)) {
                             </div>
                         </div>
 
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">No.</th>
-                                    <th scope="col">Branch Name</th>
-                                    <th width="20%" colspan="3" scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Branch A</td>
-                                    <td>
-                                        <button class="btn btn-secondary me-2" onclick="location.href='./viewBranch.php'">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-secondary me-2" onclick="location.href='./updateBranch.php'">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No.</th>
+                                        <th scope="col">Branch Name</th>
+                                        <th width="20%"scope="col">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $stmt = $conn->prepare('SELECT * FROM branch ORDER BY branch.BranchID DESC');
+                                    $stmt->execute();
 
+                                    $branches = $stmt->fetchAll(PDO::FETCH_OBJ);
+                                    $no = 0;
+                                    foreach ($branches as $branch):
+                                    ?>
+                                        <tr>
+                                            <th scope="row"><?php echo $no + 1 ?></th>
+                                            <td><?php echo $branch->Name ?></td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <button class="btn btn-secondary me-4" onclick="location.href='./viewBranch.php?id=<?php echo $branch->BranchID ?>'">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?php echo $branch->BranchID ?>" name="deleteBranch">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <div class="modal fade" id="delete<?php echo $branch->BranchID ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteLabel<?php echo $branch->BranchID ?>" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5">Delete</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Are you sure you want to delete branch <?php echo $branch->Name ?>?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Back</button>
+                                                        <form action="./controller/branchController.php" method="post">
+                                                            <input type="hidden" name="branchID" value="<?php echo $branch->BranchID ?>">
+                                                            <button type="submit" class="btn btn-danger" name="deleteBranch">Confirm</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <?php
+                                        $no++;
+                                    endforeach
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
                 </div>
 
                 <?php require 'footer.php' ?>
-            </div>
-        </div>
-    </div>
-
-    <!--modal-->
-    <div class="modal fade" id="delete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="deleteLabel">Delete</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete the branch?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Back</button>
-                    <button type="button" class="btn btn-danger">Confirm</button>
-                </div>
             </div>
         </div>
     </div>

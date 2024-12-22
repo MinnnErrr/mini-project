@@ -39,21 +39,21 @@ if (!isset($user_id)) {
 
                     <div class="border rounded-3 p-4 bg-white col-lg-6 mx-auto">
                         <h4 class="pb-3">Add Branch</h4>
-                        <form action="">
+                        <form action="./controller/branchController.php" method="post">
                             <div class="mb-3">
                                 <label for="branchName" class="form-label">Branch name</label>
-                                <input type="text" class="form-control" name="branchName" id="branchName">
+                                <input type="text" class="form-control" name="branchName" id="branchName" required>
                             </div>
                             <div class="mb-3">
                                 <label for="branchAddress" class="form-label">Address</label>
-                                <textarea class="form-control" name="branchAddress" id="branchAddress"></textarea>
+                                <textarea class="form-control" name="branchAddress" id="branchAddress" required></textarea>
                             </div>
                             <div class="mb-5">
                                 <label for="branchContact" class="form-label">Contact number</label>
-                                <input type="text" class="form-control" name="branchContact" id="branchContact">
+                                <input type="text" class="form-control" name="branchContact" id="branchContact" required>
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-dark me-3 w-100">Create</button>
+                                <button type="submit" class="btn btn-dark me-3 w-100" name="createBranch">Create</button>
                                 <a href="./branchManagement.php" class="btn btn-outline-dark ms-3 w-100">Back</a>
                             </div>
                         </form>
@@ -67,8 +67,13 @@ if (!isset($user_id)) {
     </div>
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         document.getElementById('branch').classList.add('is-active');
+    </script>
+
+    <script>
+
     </script>
 </body>
 

@@ -30,31 +30,45 @@ if (!isset($user_id)) {
 
     <div class="container-fluid">
         <div class="row vh-100">
-            
+
             <?php require 'adminSidebar.php' ?>
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
-                <div class="container min-vh-100 p-4">
+                <div class="container min-vh-100 p-5">
 
                     <div class="border rounded-3 p-4 bg-white col-lg-6 mx-auto">
+
                         <h4 class="pb-3">Update Branch</h4>
-                        <form action="">
-                            <div class="mb-3">
-                                <label for="branchName" class="form-label">Branch name</label>
-                                <input type="text" class="form-control" name="branchName" id="branchName">
+
+                        <?php
+                        $stmt = $conn->prepare('SELECT * FROM branch WHERE BranchID = :id');
+                        $stmt->bindParam(':id', $_GET['id']);
+                        $stmt->execute();
+
+                        $branch = $stmt->fetch(PDO::FETCH_OBJ);
+                        ?>
+
+                        <form action="./controller/branchController.php" method="post">
+                            <div class="mb-3 visually-hidden">
+                                <label for="branchID" class="form-label">Branch ID</label>
+                                <input type="text" class="form-control" name="branchID" id="branchID" value="<?php echo $branch->BranchID ?>">
                             </div>
-                            <div class="mb-3">
+                            <div class=" mb-3">
+                                <label for="branchName" class="form-label">Branch name</label>
+                                <input type="text" class="form-control" name="branchName" id="branchName" value="<?php echo $branch->Name ?>"">
+                            </div>
+                            <div class=" mb-3">
                                 <label for="branchAddress" class="form-label">Address</label>
-                                <textarea class="form-control" name="branchAddress" id="branchAddress"></textarea>
+                                <textarea class="form-control" name="branchAddress" id="branchAddress"><?php echo $branch->Address ?></textarea>
                             </div>
                             <div class="mb-5">
                                 <label for="branchContact" class="form-label">Contact number</label>
-                                <input type="text" class="form-control" name="branchContact" id="branchContact">
+                                <input type="text" class="form-control" name="branchContact" id="branchContact" value="<?php echo $branch->ContactNumber ?>">
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-dark me-3 w-100">Save</button>
-                                <a href="./branchManagement.php" class="btn btn-outline-dark ms-3 w-100">Back</a>
+                                <button type="submit" class="btn btn-dark me-3 w-100" name="updateBranch">Save</button>
+                                <a href="./viewBranch.php?id=<?php echo $branch->BranchID ?>" class="btn btn-outline-dark ms-3 w-100">Cancel</a>
                             </div>
                         </form>
                     </div>

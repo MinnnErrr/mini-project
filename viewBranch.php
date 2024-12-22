@@ -38,24 +38,39 @@ if (!isset($user_id)) {
                 <div class="container min-vh-100 p-5">
 
                     <div class="border rounded-3 p-4 bg-white col-lg-6 mx-auto">
-                        <h4 class="pb-3">Branch A</h4>
+
+                        <h4 class="pb-3">Branch Details</h4>
+
+                        <?php
+                        $stmt = $conn->prepare('SELECT * FROM branch WHERE BranchID = :id');
+                        $stmt->bindParam(':id', $_GET['id']);
+                        $stmt->execute();
+
+                        $branch = $stmt->fetch(PDO::FETCH_OBJ);
+                        ?>
+
                         <form action="">
+
                             <div class="mb-3">
                                 <label for="branchName" class="form-label">Branch name</label>
-                                <input type="text" value="Branch A" readonly class="form-control-plaintext" name="branchName" id="branchName">
+                                <input type="text" value="<?php echo $branch->Name ?>" readonly class="form-control-plaintext" name="branchName" id="branchName">
                             </div>
+
                             <div class="mb-3">
                                 <label for="branchAddress" class="form-label">Address</label>
-                                <textarea readonly class="form-control-plaintext" name="branchAddress" id="branchAddress">Address A</textarea>
+                                <textarea readonly class="form-control-plaintext" name="branchAddress" id="branchAddress"><?php echo $branch->Address ?></textarea>
                             </div>
+
                             <div class="mb-5">
                                 <label for="branchContact" class="form-label">Contact number</label>
-                                <input type="text" value="0123456789" readonly class="form-control-plaintext" name="branchContact" id="branchContact">
+                                <input type="text" value="<?php echo $branch->ContactNumber ?>" readonly class="form-control-plaintext" name="branchContact" id="branchContact">
                             </div>
+
                             <div class="d-flex justify-content-center">
-                                <a href="./updateBranch.php" class="btn btn-outline-dark me-3 w-100">Edit</a>
+                                <a href="./updateBranch.php?id=<?php echo $branch->BranchID ?>" class="btn btn-outline-dark me-3 w-100">Edit</a>
                                 <a href="./branchManagement.php" class="btn btn-outline-dark ms-3 w-100">Back</a>
                             </div>
+
                         </form>
                     </div>
 
