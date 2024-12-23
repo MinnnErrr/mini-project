@@ -41,7 +41,18 @@ if (isset($_POST['signIn'])) {
                     exit;
                 } else if ($user['Role'] == 'customer') {
                     $_SESSION['role'] = 'customer';
-                    header('location:customerDashboard.php');
+                    $stmt = $conn->prepare("SELECT * FROM customer WHERE UserID = :userid");
+                    $stmt->bindParam(':userid', $user['UserID']);
+                    $stmt->execute();
+                    $customer = $stmt->fetch(PDO::FETCH_ASSOC);
+                    if(!isset($customer['StudentCard'])){
+                        header('location:studentCard.php');
+                    }
+                    else{
+                        header('location:customerDashboard.php');
+                    }
+                
+                   
                     exit;
                 }
             } else {
@@ -77,7 +88,7 @@ $conn = null;
             <div class="col justify-content-center align-items-center d-flex">
                 <div class="row">
                     <div class="col-12 d-flex justify-content-center">
-                        <img src="./RapidPrintSquare.png" alt="RapidPrint Logo" class="img-fluid" style="max-width: 20vw;">
+                        <img src="./images/RapidPrintSquare.png" alt="RapidPrint Logo" class="img-fluid" style="max-width: 20vw;">
                     </div>
                     <div class="col-12">
                         <p class="fs-5 text-center">Fast, Convenient, Affordable</p>

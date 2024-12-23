@@ -9,6 +9,21 @@ $username = $_SESSION['username'];
 if (!isset($user_id)) {
     header('location:login.php');
 }
+if(isset($_GET['editUserID'])){
+    $editUserID = $_GET['editUserID'];
+    $stmt = $conn->prepare("SELECT * FROM user WHERE UserID = :editUserID");
+    $stmt->bindParam(':editUserID', $editUserID);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $Username = $user['Username'];
+    $Email = $user['Email'];
+    $Role = $user['Role'];
+    $stmt = $conn->prepare("SELECT * FROM customer WHERE UserID = :editUserID");
+    $stmt->bindParam(':editUserID', $editUserID);
+    $stmt->execute();
+    $customer = $stmt->fetch(PDO::FETCH_ASSOC);
+    $StudentID = $customer['StudentID'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -41,9 +56,10 @@ if (!isset($user_id)) {
 
     <div class="container-fluid">
         <div class="row">
-            <?php require 'sidebar.php' ?>
+        <?php require 'adminSidebar.php' ?>
 
             <div class="profile-teamplate">
+            <form action="" method="post" enctype="multipart/form-data">
             <div>
             <div class="bg-white overflow-hidden shadow rounded-lg border">
                 <div class="px-4 py-5 sm:px-6">
@@ -58,29 +74,24 @@ if (!isset($user_id)) {
                             <dt class="text-sm font-medium text-gray-500">
                                 Full name
                             </dt>
-                            <input type="text" class="border border-gray-300 rounded-md p-2 mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" value="John Doe">
-                            </input>
+                                <input name="Username" type="text" class="border border-gray-300 rounded-md p-2 mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" value="<?php echo htmlspecialchars($Username, ENT_QUOTES, 'UTF-8'); ?>">
+                                </input>
+                        
+                            
                         </div>
                         <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">
                                 Email address
                             </dt>
-                            <input type="text" class=" border border-gray-300 rounded-md p-2 mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" value="johndoe@example.com">
+                            <input name="Email" type="text" class=" border border-gray-300 rounded-md p-2 mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" value="<?php echo htmlspecialchars($Email, ENT_QUOTES, 'UTF-8'); ?>">
                             </input>
                         
                         </div>
                         <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">
-                                Phone number
+                            StudentID
                             </dt>
-                            <input type="text" class="border border-gray-300 rounded-md p-2 mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" value="21321324">
-                            </input>
-                        </div>
-                        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-gray-500">
-                                Address
-                            </dt>
-                            <input type="text" class="border border-gray-300 rounded-md p-2 mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" value="023,jalan2323">
+                            <input name="StudentID" type="text" class="border border-gray-300 rounded-md p-2 mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"  value="<?php echo htmlspecialchars($StudentID, ENT_QUOTES, 'UTF-8'); ?>">
                             </input>
                         </div>
                     </dl>
@@ -99,7 +110,6 @@ if (!isset($user_id)) {
             </div>
         </div>
     </div>
-
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

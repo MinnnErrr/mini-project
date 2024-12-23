@@ -31,7 +31,7 @@ if (!isset($user_id)) {
     <div class="container-fluid">
         <div class="row vh-100">
             <!--side bar-->
-            <?php require 'AdminSideBar.php' ?>
+            <?php require 'adminSidebar.php' ?>
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
@@ -47,7 +47,7 @@ if (!isset($user_id)) {
                                     <p>Welcome back, <?php echo $username ?> !</p>
                                 </div>
                                 <div class="d-flex">
-                                    <img style="max-width: 160px;" src="./undraw_admin.svg" alt="">
+                                    <img style="max-width: 160px;" src="./images/undraw_admin.svg" alt="">
                                 </div>
                             </div>
                         </div>
