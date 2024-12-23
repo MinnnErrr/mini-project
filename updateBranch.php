@@ -42,8 +42,8 @@ if (!isset($user_id)) {
                         <h4 class="pb-3">Update Branch</h4>
 
                         <?php
-                        $stmt = $conn->prepare('SELECT * FROM branch WHERE BranchID = :id');
-                        $stmt->bindParam(':id', $_GET['id']);
+                        $branchID = $_GET['id'];
+                        $stmt = $conn->prepare("SELECT * FROM branch WHERE BranchID = '$branchID'");
                         $stmt->execute();
 
                         $branch = $stmt->fetch(PDO::FETCH_OBJ);
@@ -68,7 +68,7 @@ if (!isset($user_id)) {
                             </div>
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn btn-dark me-3 w-100" name="updateBranch">Save</button>
-                                <a href="./viewBranch.php?id=<?php echo $branch->BranchID ?>" class="btn btn-outline-dark ms-3 w-100">Cancel</a>
+                                <a href="./viewBranch.php?id=<?php echo $branchID ?>" class="btn btn-outline-dark ms-3 w-100">Cancel</a>
                             </div>
                         </form>
                     </div>

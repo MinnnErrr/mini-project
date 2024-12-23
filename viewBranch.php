@@ -42,8 +42,8 @@ if (!isset($user_id)) {
                         <h4 class="pb-3">Branch Details</h4>
 
                         <?php
-                        $stmt = $conn->prepare('SELECT * FROM branch WHERE BranchID = :id');
-                        $stmt->bindParam(':id', $_GET['id']);
+                        $branchID = $_GET['id'];
+                        $stmt = $conn->prepare("SELECT * FROM branch WHERE BranchID = '$branchID'");
                         $stmt->execute();
 
                         $branch = $stmt->fetch(PDO::FETCH_OBJ);

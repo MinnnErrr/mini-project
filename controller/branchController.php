@@ -73,7 +73,8 @@ if (isset($_POST['deleteBranch'])) {
     $branchID = $_POST['branchID'];
 
     try {
-        $stmt = $conn->prepare("DELETE FROM branch WHERE BranchID = $branchID");
+        $stmt = $conn->prepare('DELETE FROM branch WHERE BranchID = :branchID');
+        $stmt->bindParam(':branchID', $branchID);
         $stmt->execute();
 
         echo "

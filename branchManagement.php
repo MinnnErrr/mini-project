@@ -83,11 +83,11 @@ if (!isset($user_id)) {
                                     $stmt->execute();
 
                                     $branches = $stmt->fetchAll(PDO::FETCH_OBJ);
-                                    $no = 0;
+                                    $i = 1;
                                     foreach ($branches as $branch):
                                     ?>
                                         <tr>
-                                            <th scope="row"><?php echo $no + 1 ?></th>
+                                            <th scope="row"><?php echo $i ?></th>
                                             <td><?php echo $branch->Name ?></td>
                                             <td>
                                                 <div class="d-flex">
@@ -123,7 +123,7 @@ if (!isset($user_id)) {
                                         </div>
 
                                     <?php
-                                        $no++;
+                                        $i++;
                                     endforeach
                                     ?>
                                 </tbody>
