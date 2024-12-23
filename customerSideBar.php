@@ -11,7 +11,6 @@
                         <a class="nav-link is-dark is-active" href="customerDashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
-<head
                         <a class="nav-link is-dark" href="order_management.php">Add Order</a>
                     </li>
                     <li class="nav-item">
@@ -19,9 +18,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link is-dark" href="checkout.php">Checkout</a>
-
-                        <a class="nav-link is-dark" href="">Manage Oder</a>
-
                     </li>
                     <li class="nav-item">
                         <a class="nav-link is-dark" href="applyMembership.php">Membership Card</a>
