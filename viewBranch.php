@@ -52,17 +52,17 @@ if (!isset($user_id)) {
                         <form action="">
 
                             <div class="mb-3">
-                                <label for="branchName" class="form-label">Branch name</label>
+                                <label for="branchName" class="form-label fw-bold">Branch name</label>
                                 <input type="text" value="<?php echo $branch->Name ?>" readonly class="form-control-plaintext" name="branchName" id="branchName">
                             </div>
 
                             <div class="mb-3">
-                                <label for="branchAddress" class="form-label">Address</label>
+                                <label for="branchAddress" class="form-label fw-bold">Address</label>
                                 <textarea readonly class="form-control-plaintext" name="branchAddress" id="branchAddress"><?php echo $branch->Address ?></textarea>
                             </div>
 
                             <div class="mb-5">
-                                <label for="branchContact" class="form-label">Contact number</label>
+                                <label for="branchContact" class="form-label fw-bold">Contact number</label>
                                 <input type="text" value="<?php echo $branch->ContactNumber ?>" readonly class="form-control-plaintext" name="branchContact" id="branchContact">
                             </div>
 
