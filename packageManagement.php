@@ -67,96 +67,96 @@ if (!isset($user_id)) {
                             </div>
                         </div>
 
-                        <table class="table table-hover table-sm">
-                            <thead>
-                                <tr>
-                                    <th scope="col">No.</th>
-                                    <th scope="col">Package Name</th>
-                                    <th width="20%" scope="col">
-                                        <div class="d-flex justify-content-center">
-                                            Package Properties
-                                        </div>
-                                    </th>
-                                    <th width="20%" scope="col">
-                                        <div class="d-flex justify-content-center">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No.</th>
+                                        <th scope="col">Package Name</th>
+                                        <th scope="col">Affiliated Branch</th>
+                                        <th scope="col">
                                             Availability
-                                        </div>
-                                    </th>
-                                    <th width="20%" colspan="3" scope="col">
-                                        <div class="d-flex justify-content-center">
+                                        </th>
+                                        <th width="20%" scope="col">
                                             Action
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Package A</td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            <button class="btn btn-outline-dark me-2" onclick="location.href='./packageProperties.php'">
-                                                more details
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            <span class="badge rounded-pill text-bg-success">Available</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $stmt = $conn->prepare("SELECT * FROM printingpackage ORDER BY PackageID DESC");
+                                    $stmt->execute();
+
+                                    $packages = $stmt->fetchAll(PDO::FETCH_OBJ);
+                                    $i = 1;
+                                    foreach ($packages as $package):
+                                    ?>
+
+                                        <tr>
+                                            <th scope="row"><?php echo $i ?></th>
+                                            <td><?php echo $package->Name ?></td>
+                                            <td>
+                                                <?php
+                                                $branch = $package->BranchID;
+
+                                                $stmt = $conn->prepare(("SELECT * FROM branch WHERE BranchID = $branch"));
+                                                $stmt->execute();
+
+                                                $branch = $stmt->fetch(PDO::FETCH_OBJ);
+                                                echo $branch->Name
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <span class="badge rounded-pill text-bg-<?php echo $package->Availability == 'Available' ? 'success' : 'danger' ?>">
+                                                    <?php echo $package->Availability ?>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <button class="btn btn-secondary me-4" onclick="location.href='./viewPackage.php?id=<?php echo $package->PackageID ?>'">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?php echo $package->PackageID ?>">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <!--modal-->
+                                        <div class="modal fade" id="delete<?php echo $package->PackageID ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="deleteLabel">Delete</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Are you sure you want to delete package <?php echo $package->Name ?>?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Back</button>
+                                                        <form action="./controller/packageController.php" method="post">
+                                                            <input type="hidden" name="packageID" value="<?php echo $package->PackageID ?>">
+                                                            <button type="submit" name="deletePackage" class="btn btn-danger">Confirm</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            <button class="btn btn-secondary me-2" onclick="location.href='./viewPackage.php'">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                        </div>
+                                    <?php
+                                        $i++;
+                                    endforeach
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
 
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            <button class="btn btn-secondary me-2" onclick="location.href='./updatePackage.php'">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </button>
-                                        </div>
-
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletePackage">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </div>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
-
                 </div>
 
                 <?php require 'footer.php' ?>
-            </div>
-        </div>
-    </div>
-
-    <!--modal-->
-    <div class="modal fade" id="deletePackage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="deleteLabel">Delete</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete the package?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Back</button>
-                    <button type="button" class="btn btn-danger">Confirm</button>
-                </div>
             </div>
         </div>
     </div>

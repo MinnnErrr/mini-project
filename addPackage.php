@@ -39,7 +39,7 @@ if (!isset($user_id)) {
 
                     <div class="border rounded-3 p-4 bg-white col-lg-6 mx-auto">
                         <h4 class="pb-3">Add Package</h4>
-                        <form action="">
+                        <form action="./controller/packageController.php" method="post">
                             <div class="mb-3">
                                 <label for="packageName" class="form-label">Package name</label>
                                 <input type="text" class="form-control" name="packageName" id="packageName">
@@ -52,15 +52,33 @@ if (!isset($user_id)) {
                                 <label for="price" class="form-label">Base Price (RM)</label>
                                 <input type="text" class="form-control" name="price" id="price">
                             </div>
-                            <div class="mb-5">
+                            <div class="mb-3">
                                 <label for="availability" class="form-label">Availability</label>
-                                <select id="availability" class="form-select">
-                                    <option>Available</option>
-                                    <option>Unavailable</option>
+                                <select id="availability" class="form-select" name="availability">
+                                    <option value="Available">Available</option>
+                                    <option value="Unavailable">Unavailable</option>
+                                </select>
+                            </div>
+                            <div class="mb-5">
+                                <label for="branch" class="form-label">Branch</label>
+                                <select id="branch" class="form-select" name="branch">
+
+                                    <?php
+                                    $stmt = $conn->prepare('SELECT * FROM branch');
+                                    $stmt->execute();
+
+                                    $branches = $stmt->fetchAll(PDO::FETCH_OBJ);
+                                    foreach ($branches as $branch):
+                                    ?>
+
+                                    <option value="<?php echo $branch->BranchID ?>"><?php echo $branch->Name ?></option>    
+
+                                    <?php endforeach; ?>
+
                                 </select>
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-dark me-3 w-100">Create</button>
+                                <button type="submit" class="btn btn-dark me-3 w-100" name="createPackage">Create</button>
                                 <a href="./packageManagement.php" class="btn btn-outline-dark ms-3 w-100">Back</a>
                             </div>
                         </form>
