@@ -48,7 +48,7 @@ if (!isset($user_id)) {
             </div>
 
     <div class="box">
-        <input type="text" placeholder="Search by Order ID or Customer name" style="margin: 3px; padding:10px; width:40%; float:left">
+        <input type="text" placeholder="Search by Order ID or Customer name" style="margin: 3px; padding:10px; width:40%; float:left; margin-bottom:20px;">
         <select name="" id="" style="margin: 4px; padding:10px; float:left">
             <option value="">Filter Status</option>
             <option value="Pending">Pending</option>
@@ -56,7 +56,7 @@ if (!isset($user_id)) {
             <option value="Cancelled">Cancelled</option>
         </select>
         <button type="button" class="btn btn-primary" style="float:left; margin-top:8px">Filter</button>
-    
+
 <?php
 // Connect to the database server
 $link = mysqli_connect("localhost", "root", "", "mini_project") or die("Could not connect: " . mysqli_connect_error());
@@ -95,7 +95,7 @@ while ($row = mysqli_fetch_assoc($rs)) {
     $orderID = $row['OrderID'];
     $status = $row['Status'];
 
-    //if ($status !== 'Collected') {
+    if ($status !== 'Collected') {
     echo '<tr>';
     echo '<td>' . $orderID . '</td>';
     echo '<td>' . $row['Date'] . '</td>';
@@ -104,10 +104,19 @@ while ($row = mysqli_fetch_assoc($rs)) {
     echo '<td>' . $row['Points'] . '</td>';
     echo '<td>' . $row['StudentID'] . '</td>';
     echo '<td>';
-    //}
+    }
+
+    // Add "Accept Order" action
+    if ($status == 'Ordered') {
+        echo '
+        <form method="POST" action="backprinting.php">
+        <input type="hidden" name="order_id" value="' . $orderID . '">
+        <button type="submit" name="action" value="accept_order" class="btn btn-info"><i class="bi bi-check2-all"></i> Accept Order</button>
+        </form>';
+    }
     
     // Add "Complete Order" action
-    if ($status == 'Ordered') {
+    if ($status == 'Accepted') {
         echo '
         <form method="POST" action="backprinting.php">
         <input type="hidden" name="order_id" value="' . $orderID . '">
@@ -130,14 +139,14 @@ while ($row = mysqli_fetch_assoc($rs)) {
             </form>';
     } 
     
-    //Testing
-    else if ($status == 'Collected') {
-        echo '
-            <form method="POST" action="" style="display:inline;">
-                <input type="hidden" name="order_id" value="' . $orderID . '">
-                <button type="submit" name="action" value="back" class="btn btn-secondary">Back</button>
-            </form>';
-    }
+    // Testing
+    // else if ($status == 'Collected') {
+    //     echo '
+    //         <form method="POST" action="" style="display:inline;">
+    //             <input type="hidden" name="order_id" value="' . $orderID . '">
+    //             <button type="submit" name="action" value="back" class="btn btn-secondary">Back</button>
+    //         </form>';
+    // }
     
     // Handle the "back" action
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'back') {
@@ -167,10 +176,10 @@ mysqli_close($link);
                 </div>
                         <div class="row bg-body border-top py-2 m-0">
                             <footer class="col d-flex justify-content-center align-items-center">
-                                <a href="#" class="text-decoration-none me-2">
-                                    <img src="./RapidPrintIcon.png" alt="RapidPrint" width="25">
-                                </a>
-                                <span>&copy 2024 RapidPrint. All rights reserved.</span>
+                            <a href="#" class="text-decoration-none me-2">
+                                <img src="./Images/RapidPrintIcon.png" alt="RapidPrint" width="25">
+                            </a>
+                            <span>&copy 2024 RapidPrint. All rights reserved.</span>
                             </footer>
                         </div>
             </div>

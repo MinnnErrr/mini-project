@@ -166,7 +166,7 @@ while ($row = mysqli_fetch_assoc($rs)) {
     $orderID = htmlspecialchars($row['OrderID']);
     $status = htmlspecialchars($row['Status']);
 
-    //if ($status !== 'Collected') {
+    if ($status !== 'Collected') {
     echo '<tr>';
     echo '<td>' . $orderID . '</td>';
     echo '<td>' . htmlspecialchars($row['Date']) . '</td>';
@@ -175,10 +175,19 @@ while ($row = mysqli_fetch_assoc($rs)) {
     echo '<td>' . htmlspecialchars($row['Points']) . '</td>';
     echo '<td>' . htmlspecialchars($row['StudentID']) . '</td>';
     echo '<td>';
-    //}
-    
-    // Add "Complete Order" action
+    }
+
+    // Add "Accept Order" action
     if ($status == 'Ordered') {
+        echo '
+        <form method="POST" action="backprinting.php">
+        <input type="hidden" name="order_id" value="' . $orderID . '">
+        <button type="submit" name="action" value="accept_orderD" class="btn btn-info"><i class="bi bi-check2-all"></i> Accept Order</button>
+        </form>';
+    }
+
+    // Add "Complete Order" action
+    if ($status == 'Accepted') {
         echo '
         <form method="POST" action="backprinting.php">
         <input type="hidden" name="order_id" value="' . $orderID . '">
@@ -202,13 +211,13 @@ while ($row = mysqli_fetch_assoc($rs)) {
     } 
     
     //Testing
-    else if ($status == 'Collected') {
-        echo '
-            <form method="POST" action="" style="display:inline;">
-                <input type="hidden" name="order_id" value="' . $orderID . '">
-                <button type="submit" name="action" value="back" class="btn btn-secondary">Back</button>
-            </form>';
-    }
+    // else if ($status == 'Collected') {
+    //     echo '
+    //         <form method="POST" action="" style="display:inline;">
+    //             <input type="hidden" name="order_id" value="' . $orderID . '">
+    //             <button type="submit" name="action" value="back" class="btn btn-secondary">Back</button>
+    //         </form>';
+    // }
     
     // Handle the "back" action
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'back') {
@@ -240,14 +249,14 @@ mysqli_close($link);
 </div>
 
                 </div>
-                        <div class="row bg-body border-top py-2 m-0">
+                         <div class="row bg-body border-top py-2 m-0">
                             <footer class="col d-flex justify-content-center align-items-center">
-                                <a href="#" class="text-decoration-none me-2">
-                                    <img src="./RapidPrintIcon.png" alt="RapidPrint" width="25">
-                                </a>
-                                <span>&copy 2024 RapidPrint. All rights reserved.</span>
+                            <a href="#" class="text-decoration-none me-2">
+                                <img src="./Images/RapidPrintIcon.png" alt="RapidPrint" width="25">
+                            </a>
+                            <span>&copy 2024 RapidPrint. All rights reserved.</span>
                             </footer>
-                        </div>
+                         </div>
             </div>
         </div>
     </div>

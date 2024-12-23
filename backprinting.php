@@ -42,6 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             break;
+        
+        case 'accept_order':
+            // Mark as "Accepted"
+            $query = "UPDATE `order` SET `Status` = 'Accepted' WHERE `OrderID` = $orderID";
+            if (mysqli_query($link, $query)) {
+                  header('location:manageprinting.php');
+            } else {
+                echo "Error updating order: " . mysqli_error($link);
+            }
+            break;
 
         case 'complete_order':
             // Mark as "Order Complete"
@@ -72,6 +82,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo "Error deleting order: " . mysqli_error($link);
                 }
                 break;
+
+            case 'accept_orderD':
+            // Mark as "Accepted"
+            $query = "UPDATE `order` SET `Status` = 'Accepted' WHERE `OrderID` = $orderID";
+            if (mysqli_query($link, $query)) {
+                  header('location:staffDashboard.php');
+            } else {
+                echo "Error updating order: " . mysqli_error($link);
+            }
+            break;
     
             case 'complete_orderD':
                 // Mark as "Order Complete"
