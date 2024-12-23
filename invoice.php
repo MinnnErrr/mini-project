@@ -12,6 +12,10 @@ if (!isset($user_id)) {
 }
 ?>
 
+<?php
+require 'queryInvoice.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,29 +48,63 @@ if (!isset($user_id)) {
 
                 <!-- your content starts here -->
                 <img src="./RapidPrintIcon.png" alt="RapidPrint" class="customimg">
-                <h2>INVOICE</h2>
-                <p>INVOICE ID</p>
-                <p>Date</p>
+                <h2>INVOICE <i class="bi bi-receipt"></i></h2>
+                <div style="line-height: 0.7;">
+                    <p style="padding-top:30px">Invoice ID: <?php echo $InvoiceID; ?></p>
+                    <p>Order ID: <?php echo $orderID; ?></p>
+                    <p>Order Date: <?php echo $Date; ?></p>
+                    <p>Date: <?php echo $InvoiceDate; ?></p>
+                </div>
+                
+                    <br>
             <br>
-                <b>From</b>
-                <p></p>
+            <div style="line-height: 0.7;">
+                <p><b>From:</b></p>
+                <p>RapidPrint</p>
+                <p>Universiti Malaysia Pahang</p>
+                <p>26600 Pekan, Pahang</p>
+                <p>Phone: 09-424 5000</p>
+                <p>Email: rapidprint@ump.edu.my</p>
+            </div>
+              
             <br>
-                <b>Bill To</b>
-                <p>Customer Name</p>
-                <p>Customer ID</p>
-                <p>Email</p>
-                <p>Phone</p>
+            <div style="line-height: 0.7;">
+                <p><b>Bill To:</b></p>
+                <p>Customer Name: <?php echo $Name; ?></p>
+                <p>Customer ID: <?php echo $sID; ?></p>
+                <p>Email: <?php echo $Email; ?></p>
+                <p>Phone: <?php echo $PhoneNo; ?></p>
+            </div>
+                
             <br>
-                <table class="tablestyle">
-                    <tr>
+            <table class="table table-bordered" style="text-align: center;">
+                <thead class="table-primary">
+                        <th>No</th>
                         <th>Description</th>
                         <th>Quantity</th>
                         <th>Unit Price (RM)</th>
                         <th>Amount (RM)</th>
                     </tr>
-                    <tr>
-                        <td>Invoice info</td>
-                    </tr>
+                </thead>
+                <script src="calcInvoice.js"></script>
+                        <?php
+                            require 'queryInvoice.php';
+                            $i = 0;
+                            ++$i;
+                            $Amount = $Qty * $Price;
+                                echo "<tr>
+                                    <td>$i.</td>
+                                    <td>$PackageName</td>
+                                    <td>$Qty</td>
+                                    <td>$Price</td>
+                                    <td>$Amount</td>
+                                </tr>";   
+                        ?>
+                            <tr>
+                                <td colspan="4" style="text-align: right;"><strong>Total (RM):</strong></td>
+                                <td id="totalAmount">0.00</td>
+                            </tr>
+                            
                 </table>
 <br>
                 <button type="button" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</button>

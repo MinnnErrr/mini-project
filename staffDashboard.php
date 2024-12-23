@@ -1,5 +1,3 @@
-
-
 <!--do not edit this template-->
 <?php
 require 'dbconfig.php';
@@ -129,25 +127,114 @@ if (!isset($user_id)) {
 
 <div class="box2">
 <h4>Pending Orders</h4>
-<table class="tablestyle">
-            <tr>
-                <th>Order ID</th>
-                <th>Customer</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-            <tr>
-                <td>Order info</td>
-                <td></td>
-                <td></td>
-                <td>
-                    <button type="button" class="btn btn-primary">Action</button>
-                    <button type="button" class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>
-                    
-                    <button type="button" class="btn btn-primary"><i class="bi bi-trash3"></i></button>
-                    <a href="invoice.php" class="btn btn-success"><i class="bi bi-receipt"></i></a>
-                </td>
-                
+            
+<?php
+// Connect to the database server
+$link = mysqli_connect("localhost", "root", "", "mini_project") or die("Could not connect: " . mysqli_connect_error());
+
+// SQL query with JOIN to fetch customer name from the customer table
+$strSQL = "
+    SELECT `order`.`OrderID`, `order`.`Date`, `order`.`TotalPrice`, `order`.`Status`, `order`.`Points`, 
+           `customer`.`StudentID`, `customer`.`PhoneNumber`
+    FROM `order`
+    JOIN `customer` ON `order`.`CustomerID` = `customer`.`CustomerID`";
+
+// Execute the query
+$rs = mysqli_query($link, $strSQL);
+
+if (!$rs) {
+    die("Query failed: " . mysqli_error($link));
+}
+
+// Display records in a table
+echo '<table class="table table-striped table-bordered table-hover">';
+echo '<thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Points</th>
+            <th>Student ID</th>
+            <th>Actions</th>
+        </tr>
+      </thead>';
+echo '<tbody>';
+
+// Loop through the recordset
+while ($row = mysqli_fetch_assoc($rs)) {
+    $orderID = htmlspecialchars($row['OrderID']);
+    $status = htmlspecialchars($row['Status']);
+
+    //if ($status !== 'Collected') {
+    echo '<tr>';
+    echo '<td>' . $orderID . '</td>';
+    echo '<td>' . htmlspecialchars($row['Date']) . '</td>';
+    echo '<td>' . htmlspecialchars($row['TotalPrice']) . '</td>';
+    echo '<td>' . $status . '</td>';
+    echo '<td>' . htmlspecialchars($row['Points']) . '</td>';
+    echo '<td>' . htmlspecialchars($row['StudentID']) . '</td>';
+    echo '<td>';
+    //}
+    
+    // Add "Complete Order" action
+    if ($status == 'Ordered') {
+        echo '
+        <form method="POST" action="backprinting.php">
+        <input type="hidden" name="order_id" value="' . $orderID . '">
+        <button type="submit" name="action" value="complete_orderD" class="btn btn-primary"><i class="bi bi-check2-all"></i> Complete Order</button>
+   
+        <input type="hidden" name="order_id" value="' . $orderID . '">
+        <button type="submit" name="action" value="deleteD" class="btn btn-danger" style="display:inline;"><i class="bi bi-trash3-fill"></i> Delete</button>
+
+        <input type="hidden" name="order_id" value="' . $orderID . '">
+        <button type="submit" name="action" value="generate_invoice" class="btn btn-success" style="display:inline;"><i class="bi bi-receipt"></i> Generate Invoice</button>
+    </form>';
+    }
+    
+    // Add "Mark Collected" action
+    else if ($status == 'Order Complete') {
+        echo '
+            <form method="POST" action="backprinting.php" style="display:inline;">
+                <input type="hidden" name="order_id" value="' . $orderID . '">
+                <button type="submit" name="action" value="mark_collectedD" class="btn btn-secondary">Mark Collected</button>
+            </form>';
+    } 
+    
+    //Testing
+    else if ($status == 'Collected') {
+        echo '
+            <form method="POST" action="" style="display:inline;">
+                <input type="hidden" name="order_id" value="' . $orderID . '">
+                <button type="submit" name="action" value="back" class="btn btn-secondary">Back</button>
+            </form>';
+    }
+    
+    // Handle the "back" action
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'back') {
+        $orderID = intval($_POST['order_id']); // Retrieve the OrderID
+        $query = "UPDATE `order` SET `Status` = 'Ordered' WHERE `OrderID` = $orderID";
+        
+        // Execute the query
+        if (mysqli_query($link, $query)) {
+            echo "Order status reverted to 'Ordered'.";
+            
+        } else {
+            echo "Error updating order status: " . mysqli_error($link);
+        }
+    }
+    
+    echo '</td>';
+    echo '</tr>';
+}
+
+echo '</tbody>';
+echo '</table>';
+
+// Close the database connection
+mysqli_close($link);
+?>
+
             </tr>
         </table>
 </div>

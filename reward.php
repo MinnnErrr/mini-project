@@ -1,17 +1,3 @@
-  <!-- QRCode.js Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<script>
-    // Generate the QR Code
-    var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "http://localhost/WEBFILE/mini-project/reward.php",
-        width: 160,  // Fixed width
-        height: 160, // Fixed height
-        colorDark: "#000000", // QR code color
-        colorLight: "#ffffff" // Background color
-    });
-</script>
-
 <!--do not edit this template-->
 <?php
 require 'dbconfig.php';
@@ -24,6 +10,8 @@ $username = $_SESSION['username'];
 if (!isset($user_id)) {
     header('location:login.php');
 }
+
+require 'queryReward.php';
 ?>
 
 <!DOCTYPE html>
@@ -65,17 +53,19 @@ if (!isset($user_id)) {
                         <div class="col-6">
                             <div class="box">
                                 <h5>Staff Information</h5>
-                                <p>Staff Name</p>
-                                <p>ID</p>
-                                <p>Department</p>
-                                <p>Join Date</p>
+                                <br><br>
+                                    <p>Staff Name: <?php echo $Name; ?></p>
+                                    <p>ID: <?php echo $StaffID; ?></p>
+                                    <p>Position: <?php echo $Position; ?></p>
+                                    <p>Branch: <?php echo $Branch; ?></p>  
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="box">
                                 <h5 style="margin-bottom:15px;"><b>Your QR Code</b></h5>
-                                <!-- QR Code Container with fixed dimensions -->
-                                <div id="qrcode" style="margin-left:34%"></div>
+                                <div id="qrcode-container" style="display: flex; justify-content: center;">
+                                <div id="qrcode"></div>
+                                </div>
                                 <p style="font-size:smaller">Scan to view detailed performance</p>
                             </div>   
                         </div>
@@ -85,35 +75,53 @@ if (!isset($user_id)) {
                      <div class="col-4">
                         <div class="box3">
                             <h6>Monthly Printing Sales</h6>
-                            <p>RM</p>
+                            <p>RM<?php echo $MonthlySales; ?></p>
                         </div>
                      </div>
                      <div class="col-4">
                         <div class="box3">
                             <h6>Points Earned</h6>
-                            <p>RM</p>
+                            <p>RM <?php echo $Points; ?></p>
                         </div>
                      </div>
                      <div class="col-4">
                         <div class="box3">
                             <h6>Current Bonus</h6>
-                            <p>RM</p>
+                            <p>RM <?php echo $Bonus; ?></p>
                         </div>
                      </div>
                 </div>     
 
                 <div class="box2">
                      <h4>Bonus Structure</h4>
-                     <table class="tablestyle">
+                     <table class="table table-bordered" style="text-align:center">
+                     <thead class="table-primary">
                         <tr>
                             <th>Monthly Printing Sales</th>
                             <th>Bonus Obtained (RM)</th>
                             <th>Points Awarded</th>
                         </tr>
+                     </thead>   
+                   
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>More than RM200</td>
+                            <td>RM50</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>More than RM280</td>
+                            <td>RM80</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td>More than RM350</td>
+                            <td>RM120</td>
+                            <td>30</td>
+                        </tr>
+                        <tr>
+                            <td>More than RM450</td>
+                            <td>RM150</td>
+                            <td>40</td>
                         </tr>
                      </table>
                 </div>
@@ -138,3 +146,18 @@ if (!isset($user_id)) {
 </body>
 
 </html>
+
+<!-- QRCode.js Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+    // Generate the QR Code
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: "http://localhost/WEBFILE/mini-project/reward.php",
+        width: 170,  // Fixed width
+        height: 170, // Fixed height
+        colorDark: "#000000", // QR code color
+        colorLight: "#ffffff" // Background color
+    });
+
+</script>
