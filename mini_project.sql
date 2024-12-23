@@ -93,7 +93,7 @@ CREATE TABLE `order` (
   `PickUpDate` datetime DEFAULT NULL,
   `PickUpTime` datetime DEFAULT NULL,
   `CustomerID` int(11) NOT NULL,
-  `StaffID` int(11) NOT NULL
+  `StaffID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -163,7 +163,8 @@ CREATE TABLE `reward` (
   `MonthlySales` decimal(10,0) DEFAULT NULL,
   `Bonus` decimal(10,0) DEFAULT NULL,
   `Date` datetime DEFAULT NULL,
-  `Description` enum('More than RM200','More than RM280','More than RM350','More than RM450') DEFAULT NULL
+  `Description` enum('More than RM200','More than RM280','More than RM350','More than RM450') DEFAULT NULL,
+  `Points` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

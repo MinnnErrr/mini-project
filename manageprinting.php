@@ -48,38 +48,138 @@ if (!isset($user_id)) {
             </div>
 
     <div class="box">
-        <input type="text" placeholder="Search by Order ID or Customer name" style="margin: 10px; padding:10px; width:40%; float:left">
-        <select name="" id="" style="margin: 10px; padding:10px; float:left">
+        <input type="text" placeholder="Search by Order ID or Customer name" style="margin: 3px; padding:10px; width:40%; float:left; margin-bottom:20px;">
+        <select name="" id="" style="margin: 4px; padding:10px; float:left">
             <option value="">Filter Status</option>
             <option value="Pending">Pending</option>
             <option value="Completed">Completed</option>
             <option value="Cancelled">Cancelled</option>
         </select>
-        <button type="button" class="btn btn-primary" style="float:left; margin-top:12px">Filter</button>
-    
-    <table class="tablestyle">
+        <button type="button" class="btn btn-primary" style="float:left; margin-top:8px">Filter</button>
+
+<?php
+// Connect to the database server
+$link = mysqli_connect("localhost", "root", "", "mini_project") or die("Could not connect: " . mysqli_connect_error());
+
+// SQL query with JOIN to fetch customer name from the customer table
+$strSQL = "
+    SELECT `order`.`OrderID`, `order`.`Date`, `order`.`TotalPrice`, `order`.`Status`, `order`.`Points`, 
+           `customer`.`StudentID`, `customer`.`PhoneNumber`
+    FROM `order`
+    JOIN `customer` ON `order`.`CustomerID` = `customer`.`CustomerID`";
+
+// Execute the query
+$rs = mysqli_query($link, $strSQL);
+
+if (!$rs) {
+    die("Query failed: " . mysqli_error($link));
+}
+
+// Display records in a table
+echo '<table class="table table-striped table-bordered table-hover">';
+echo '<thead>
         <tr>
             <th>Order ID</th>
-            <th>Customer</th>
+            <th>Date</th>
+            <th>Total Price</th>
             <th>Status</th>
-            <th colspan="2">Action</th>
+            <th>Points</th>
+            <th>Student ID</th>
+            <th>Actions</th>
         </tr>
-        <tr>
-            <td>Order info</td>
-            <td></td>
-            <td></td>
-            <td><button type="button" class="btn btn-primary">Action</button></td>
-            <td><a href="invoice.php" class="btn btn-success">Generate Invoice</a></td>
-        </tr>
-    </table>
+      </thead>';
+echo '<tbody>';
+
+// Loop through the recordset
+while ($row = mysqli_fetch_assoc($rs)) {
+    $orderID = $row['OrderID'];
+    $status = $row['Status'];
+
+    if ($status !== 'Collected') {
+    echo '<tr>';
+    echo '<td>' . $orderID . '</td>';
+    echo '<td>' . $row['Date'] . '</td>';
+    echo '<td>' . $row['TotalPrice'] . '</td>';
+    echo '<td>' . $status . '</td>';
+    echo '<td>' . $row['Points'] . '</td>';
+    echo '<td>' . $row['StudentID'] . '</td>';
+    echo '<td>';
+    }
+
+    // Add "Accept Order" action
+    if ($status == 'Ordered') {
+        echo '
+        <form method="POST" action="backprinting.php">
+        <input type="hidden" name="order_id" value="' . $orderID . '">
+        <button type="submit" name="action" value="accept_order" class="btn btn-info"><i class="bi bi-check2-all"></i> Accept Order</button>
+        </form>';
+    }
+    
+    // Add "Complete Order" action
+    if ($status == 'Accepted') {
+        echo '
+        <form method="POST" action="backprinting.php">
+        <input type="hidden" name="order_id" value="' . $orderID . '">
+        <button type="submit" name="action" value="complete_order" class="btn btn-primary"><i class="bi bi-check2-all"></i> Complete Order</button>
+   
+        <input type="hidden" name="order_id" value="' . $orderID . '">
+        <button type="submit" name="action" value="delete" class="btn btn-danger" style="display:inline;"><i class="bi bi-trash3-fill"></i> Delete</button>
+
+        <input type="hidden" name="order_id" value="' . $orderID . '">
+        <button type="submit" name="action" value="generate_invoice" class="btn btn-success" style="display:inline;"><i class="bi bi-receipt"></i> Generate Invoice</button>
+    </form>';
+    }
+    
+    // Add "Mark Collected" action
+    else if ($status == 'Order Complete') {
+        echo '
+            <form method="POST" action="backprinting.php" style="display:inline;">
+                <input type="hidden" name="order_id" value="' . $orderID . '">
+                <button type="submit" name="action" value="mark_collected" class="btn btn-secondary">Mark Collected</button>
+            </form>';
+    } 
+    
+    // Testing
+    // else if ($status == 'Collected') {
+    //     echo '
+    //         <form method="POST" action="" style="display:inline;">
+    //             <input type="hidden" name="order_id" value="' . $orderID . '">
+    //             <button type="submit" name="action" value="back" class="btn btn-secondary">Back</button>
+    //         </form>';
+    // }
+    
+    // Handle the "back" action
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'back') {
+        $orderID = intval($_POST['order_id']); // Retrieve the OrderID
+        $query = "UPDATE `order` SET `Status` = 'Ordered' WHERE `OrderID` = $orderID";
+        
+        // Execute the query
+        if (mysqli_query($link, $query)) {
+            echo "Order status reverted to 'Ordered'.";
+            
+        } else {
+            echo "Error updating order status: " . mysqli_error($link);
+        }
+    }
+    
+    echo '</td>';
+    echo '</tr>';
+}
+
+echo '</tbody>';
+echo '</table>';
+
+// Close the database connection
+mysqli_close($link);
+?>
     </div>
                 </div>
                         <div class="row bg-body border-top py-2 m-0">
                             <footer class="col d-flex justify-content-center align-items-center">
-                                <a href="#" class="text-decoration-none me-2">
-                                    <img src="./RapidPrintIcon.png" alt="RapidPrint" width="25">
-                                </a>
-                                <span>&copy 2024 RapidPrint. All rights reserved.</span>
+                            <a href="#" class="text-decoration-none me-2">
+                                <img src="./Images/RapidPrintIcon.png" alt="RapidPrint" width="25">
+                            </a>
+                            <span>&copy 2024 RapidPrint. All rights reserved.</span>
                             </footer>
                         </div>
             </div>
