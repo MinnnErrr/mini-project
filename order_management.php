@@ -29,7 +29,6 @@ $packages = $conn->query("SELECT * FROM printingpackage WHERE Availability = 1")
 
 <body class="bg-body-secondary bg-opacity-50">
     <?php require 'navbar.php'; ?>
-
     <div class="container-fluid">
         <div class="row vh-100">
             <!-- Sidebar -->

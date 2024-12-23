@@ -14,10 +14,10 @@
                         <a class="nav-link is-dark" href="order_management.php">Add Order</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" href="viewOrder.php">View Order</a>
+                        <a class="nav-link is-dark" href="showOrder.php">View Order</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" href="checkout.php">Checkout</a>
+                        <a class="nav-link is-dark" href="viewOrder.php">Checkout</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link is-dark" href="applyMembership.php">Membership Card</a>

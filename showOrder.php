@@ -35,6 +35,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
         }
+
         .order-card {
             margin-top: 20px;
             padding: 20px;
@@ -42,15 +43,21 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             background-color: white;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         .table thead th {
             background-color: #007bff;
             color: white;
         }
+
         .file-icon {
-            font-size: 1.0rem; /* Icon size */
-            margin-right: 5px; /* Space between icon and text */
-            color: #007bff; /* Icon color */
+            font-size: 1.0rem;
+            /* Icon size */
+            margin-right: 5px;
+            /* Space between icon and text */
+            color: #007bff;
+            /* Icon color */
         }
+
         .no-orders {
             text-align: center;
             padding: 20px;
@@ -59,100 +66,103 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </style>
 </head>
 
-<body>
-    <div class="row vh-100">
-        <div class="col-lg-2 border-end bg-light">
-            <div class="offcanvas-lg offcanvas-start position-fixed" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">RapidPrint</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul class="nav flex-column d-flex justify-content-between" style="height: 87vh;">
-                        <div>
-                            <li class="nav-item mt-lg-3">
-                                <a class="nav-link is-dark" href="customerDashboard.php">Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link is-dark" href="order_management.php">Add Order</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link is-dark" href="showOrder.php">View Order</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link is-dark is-active" href="viewOrder.php">Checkout</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link is-dark" href="applyMembership.php">Membership Card</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link is-dark" href="CustomerProfile.php">Profile</a>
-                            </li>
-                        </div>
-                        <div>
-                            <li class="nav-item">
-                                <div class="nav-link">
-                                    <button class="btn w-100 btn-outline-dark" onclick="location.href='logout.php'">
-                                        Log Out
-                                    </button>
-                                </div>
-                            </li>
-                        </div>
-                    </ul>
+<body class="bg-body-secondary bg-opacity-50">
+    <?php require 'navbar.php'; ?>
+    <div class="container-fluid">
+        <div class="row vh-100">
+            <div class="col-lg-2 border-end bg-light">
+                <div class="offcanvas-lg offcanvas-start position-fixed" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">RapidPrint</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="nav flex-column d-flex justify-content-between" style="height: 87vh;">
+                            <div>
+                                <li class="nav-item mt-lg-3">
+                                    <a class="nav-link is-dark" href="customerDashboard.php">Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link is-dark" href="order_management.php">Add Order</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link is-dark is-active" href="showOrder.php">View Order</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link is-dark" href="viewOrder.php">Checkout</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link is-dark" href="applyMembership.php">Membership Card</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link is-dark" href="CustomerProfile.php">Profile</a>
+                                </li>
+                            </div>
+                            <div>
+                                <li class="nav-item">
+                                    <div class="nav-link">
+                                        <button class="btn w-100 btn-outline-dark" onclick="location.href='logout.php'">
+                                            Log Out
+                                        </button>
+                                    </div>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-10">
-            <div class="container mt-5">
-                <h4 class="mb-4">List of Orders</h4>
+            <div class="col-lg-10">
+                <div class="container mt-5">
+                    <h4 class="mb-4">List of Orders</h4>
 
-                <div class="order-card">
-                    <!-- Orders Table -->
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Date</th>
-                                <th>Total Price (RM)</th>
-                                <th>Points Earned</th>
-                                <th>Payment Method</th>
-                                <th>Pick-Up Date</th>
-                                <th>Pick-Up Time</th>
-                                <th>File</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (count($orders) > 0): ?>
-                                <?php foreach ($orders as $order): ?>
-                                    <tr>
-                                        <td><?= htmlspecialchars($order['OrderID']); ?></td>
-                                        <td><?= htmlspecialchars($order['Date']); ?></td>
-                                        <td><?= number_format($order['TotalPrice'], 2); ?></td>
-                                        <td><?= htmlspecialchars($order['Points']); ?></td>
-                                        <td><?= htmlspecialchars($order['PaymentMethod']); ?></td>
-                                        <td><?= htmlspecialchars($order['PickUpDate']); ?></td>
-                                        <td><?= htmlspecialchars($order['PickUpTime']); ?></td>
-                                        <td>
-                                            <?php if (!empty($order['file'])): ?>
-                                                <a href="files/<?= htmlspecialchars($order['file']); ?>" target="_blank">
-                                                    <i class="bi bi-file-earmark-text file-icon" title="Download Order File"></i>
-                                                    
-                                                </a>
-                                            <?php else: ?>
-                                                No File Available
-                                            <?php endif; ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
+                    <div class="order-card">
+                        <!-- Orders Table -->
+                        <table class="table table-hover">
+                            <thead>
                                 <tr>
-                                    <td colspan="8" class="no-orders">No orders found for this account.</td>
+                                    <th>Order ID</th>
+                                    <th>Date</th>
+                                    <th>Total Price (RM)</th>
+                                    <th>Points Earned</th>
+                                    <th>Payment Method</th>
+                                    <th>Pick-Up Date</th>
+                                    <th>Pick-Up Time</th>
+                                    <th>File</th>
                                 </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                <?php if (count($orders) > 0): ?>
+                                    <?php foreach ($orders as $order): ?>
+                                        <tr>
+                                            <td><?= htmlspecialchars($order['OrderID']); ?></td>
+                                            <td><?= htmlspecialchars($order['Date']); ?></td>
+                                            <td><?= number_format($order['TotalPrice'], 2); ?></td>
+                                            <td><?= htmlspecialchars($order['Points']); ?></td>
+                                            <td><?= htmlspecialchars($order['PaymentMethod']); ?></td>
+                                            <td><?= htmlspecialchars($order['PickUpDate']); ?></td>
+                                            <td><?= htmlspecialchars($order['PickUpTime']); ?></td>
+                                            <td>
+                                                <?php if (!empty($order['file'])): ?>
+                                                    <a href="files/<?= htmlspecialchars($order['file']); ?>" target="_blank">
+                                                        <i class="bi bi-file-earmark-text file-icon" title="Download Order File"></i>
 
+                                                    </a>
+                                                <?php else: ?>
+                                                    No File Available
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="8" class="no-orders">No orders found for this account.</td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
