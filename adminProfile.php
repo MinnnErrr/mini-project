@@ -41,8 +41,7 @@ if (!isset($user_id)) {
 
     <div class="container-fluid">
         <div class="row">
-            <?php require 'sidebar.php' ?>
-
+        <?php require 'staffsidebar.php' ?>
             <div class="profile-teamplate">
             <div>
             <div class="bg-white overflow-hidden shadow rounded-lg border">

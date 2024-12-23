@@ -41,7 +41,18 @@ if (isset($_POST['signIn'])) {
                     exit;
                 } else if ($user['Role'] == 'customer') {
                     $_SESSION['role'] = 'customer';
-                    header('location:customerDashboard.php');
+                    $stmt = $conn->prepare("SELECT * FROM customer WHERE UserID = :userid");
+                    $stmt->bindParam(':userid', $user['UserID']);
+                    $stmt->execute();
+                    $customer = $stmt->fetch(PDO::FETCH_ASSOC);
+                    if(!isset($customer['StudentCard'])){
+                        header('location:studentCard.php');
+                    }
+                    else{
+                        header('location:customerDashboard.php');
+                    }
+                
+                   
                     exit;
                 }
             } else {
