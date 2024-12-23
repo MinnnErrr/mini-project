@@ -52,12 +52,23 @@ require 'queryReward.php';
                      <div class="row">
                         <div class="col-6">
                             <div class="box">
-                                <h5>Staff Information</h5>
-                                <br><br>
-                                    <p>Staff Name: <?php echo $Name; ?></p>
-                                    <p>ID: <?php echo $StaffID; ?></p>
-                                    <p>Position: <?php echo $Position; ?></p>
-                                    <p>Branch: <?php echo $Branch; ?></p>  
+                                <!-- fs-1 = Larger -->
+                                <h5><i class="bi bi-person-circle fs-4"></i> Staff Information</h5>
+                                <br>
+                                <table style="text-align:left; margin-left:40px">
+                                    <tr>
+                                        <td><p>Staff Name: <?php echo $Name; ?></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Staff ID: <?php echo $StaffID; ?></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Position: <?php echo $Position; ?></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Branch: <?php echo $Branch; ?></p> </td>
+                                    </tr>
+                                </table>       
                             </div>
                         </div>
                         <div class="col-6">
@@ -75,19 +86,19 @@ require 'queryReward.php';
                      <div class="col-4">
                         <div class="box3">
                             <h6>Monthly Printing Sales</h6>
-                            <p>RM<?php echo $MonthlySales; ?></p>
+                            <p>RM<?php echo $MonthlySales; ?>?</p>
                         </div>
                      </div>
                      <div class="col-4">
                         <div class="box3">
                             <h6>Points Earned</h6>
-                            <p>RM <?php echo $Points; ?></p>
+                            <p>RM <?php echo $Points; ?>?</p>
                         </div>
                      </div>
                      <div class="col-4">
                         <div class="box3">
                             <h6>Current Bonus</h6>
-                            <p>RM <?php echo $Bonus; ?></p>
+                            <p>RM <?php echo $Bonus; ?>?</p>
                         </div>
                      </div>
                 </div>     
