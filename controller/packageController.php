@@ -10,12 +10,13 @@ if (isset($_POST['createPackage'])) {
     $branchID = $_POST['branch'];
 
     try {
-        $stmt = $conn->prepare("SELECT * FROM printingpackage WHERE Name = :name");
+        $stmt = $conn->prepare("SELECT * FROM printingpackage WHERE Name = :name AND BranchID = :branchID");
         $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':branchID', $branchID);
         $stmt->execute();
 
         if ($stmt->rowCount() < 1) {
-            //branch bot exist, insert new branch
+            
             $stmt = $conn->prepare("INSERT INTO printingpackage (Name, Description, BasePrice, Availability, BranchID) VALUES (:name, :description, :basePrice, :availability, :branchID)");
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':description', $description);
@@ -42,7 +43,7 @@ if (isset($_POST['createPackage'])) {
     }
 }
 
-//update branch
+//update package
 if (isset($_POST['updatePackage'])) {
     $name = $_POST['packageName'];
     $description = $_POST['description'];
@@ -52,18 +53,19 @@ if (isset($_POST['updatePackage'])) {
     $packageID = $_POST['packageID'];
 
     try {
-        $stmt = $conn->prepare("UPDATE printingpackage SET Name = :name, Description = :description, BasePrice = :basePrice, Availability = :availability, BranchID = :branchID WHERE PackageID = $packageID");
+        $stmt = $conn->prepare("UPDATE printingpackage SET Name = :name, Description = :description, BasePrice = :basePrice, Availability = :availability, BranchID = :branchID WHERE PackageID = :packageID");
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':description', $description);
         $stmt->bindParam(':basePrice', $basePrice);
         $stmt->bindParam(':availability', $availability);
         $stmt->bindParam(':branchID', $branchID);
+        $stmt->bindParam(':packageID', $packageID);
         $stmt->execute();
 
         echo "
         <script>
             alert('Package updated successfully.');
-            location.href='../viewPackage.php?id=" . $packageID . "';
+            location.href='../viewPackage.php?id=$packageID';
         </script>";
         exit;
     } catch (PDOException $e) {

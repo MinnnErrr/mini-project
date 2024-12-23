@@ -47,26 +47,26 @@ if (!isset($user_id)) {
 
                         $package = $stmt->fetch(PDO::FETCH_OBJ);
                         ?>
-                        
+
                         <form action="">
                             <div class="mb-3">
-                                <label for="packageName" class="form-label">Package name</label>
+                                <label for="packageName" class="form-label fw-bold">Package name</label>
                                 <input type="text" value="<?php echo $package->Name ?>" readonly class="form-control-plaintext" name="packageName" id="packageName">
                             </div>
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
+                                <label for="description" class="form-label fw-bold">Description</label>
                                 <textarea class="form-control-plaintext" readonly name="description" id="description"><?php echo $package->Description ?></textarea>
                             </div>
                             <div class="mb-3">
-                                <label for="price" class="form-label">Base Price (RM)</label>
+                                <label for="price" class="form-label fw-bold">Base Price (RM)</label>
                                 <input type="text" value="<?php echo $package->BasePrice ?>" readonly class="form-control-plaintext" name="price" id="price">
                             </div>
                             <div class="mb-3">
-                                <label for="availability" class="form-label">Availability</label>
-                                <input type="text" value="<?php echo $package->Availability?>" readonly class="form-control-plaintext" name="branchContact" id="branchContact">
+                                <label for="availability" class="form-label fw-bold">Availability</label>
+                                <input type="text" value="<?php echo $package->Availability ?>" readonly class="form-control-plaintext" name="branchContact" id="branchContact">
                             </div>
                             <div class="mb-5">
-                                <label for="branch" class="form-label">Affiliated branch</label>
+                                <label for="branch" class="form-label fw-bold">Affiliated branch</label>
                                 <?php
                                 $branchID = $package->BranchID;
                                 $stmt = $conn->prepare("SELECT * FROM branch where BranchID = '$branchID'");
@@ -77,7 +77,7 @@ if (!isset($user_id)) {
                                 <input type="text" value="<?php echo $branch->Name ?>" readonly class="form-control-plaintext" name="branch" id="branch">
                             </div>
                             <div class="d-flex justify-content-center">
-                                <a href="./updatePackage.php?id=<?php echo $package->PackageID?>" class="btn btn-outline-dark me-3 w-100">Edit</a>
+                                <a href="./updatePackage.php?id=<?php echo $package->PackageID ?>" class="btn btn-outline-dark me-3 w-100">Edit</a>
                                 <a href="./packageManagement.php" class="btn btn-outline-dark ms-3 w-100">Back</a>
                             </div>
                         </form>
@@ -86,7 +86,7 @@ if (!isset($user_id)) {
                     <div class="border bg-white p-4 rounded-3 col-lg-8 mx-auto mt-4">
                         <div class="d-flex justify-content-between pb-3">
                             <h4>Package Properties</h4>
-                            <button class="btn btn-sm btn-outline-dark" onclick="location.href='./addPackage.php'">
+                            <button class="btn btn-sm btn-outline-dark" onclick="location.href='./addPackageProperty.php?id=<?php echo $packageID ?>'">
                                 ADD PROPERTY
                             </button>
                         </div>
@@ -103,41 +103,59 @@ if (!isset($user_id)) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row"></th>
-                                        <td>property1</td>
-                                        <td>cat1</td>
-                                        <td>0.00</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <button class="btn btn-secondary me-4" onclick="location.href=''">
-                                                    <i class="bi bi-eye"></i>
-                                                </button>
-                                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteProperty">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    $stmt = $conn->prepare("SELECT * FROM packageproperty WHERE PackageID = $packageID ORDER BY PropertyID DESC");
+                                    $stmt->execute();
 
-                                    <!--modal-->
-                                    <div class="modal fade" id="deleteProperty" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="deleteLabel">Delete</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    $properties = $stmt->fetchAll(PDO::FETCH_OBJ);
+                                    $i = 1;
+                                    foreach ($properties as $property):
+                                    ?>
+
+                                        <tr>
+                                            <th scope="row"><?php echo $i ?></th>
+                                            <td><?php echo $property->Name ?></td>
+                                            <td><?php echo $property->Category ?></td>
+                                            <td><?php echo $property->Price ?></td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <button class="btn btn-secondary me-4" onclick="location.href='./updatePackageProperty.php?id=<?php echo $property->PropertyID ?>'">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </button>
+                                                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?php echo $property->PropertyID ?>">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
                                                 </div>
-                                                <div class="modal-body">
-                                                    Are you sure you want to delete the property?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Back</button>
-                                                    <button type="button" class="btn btn-danger">Confirm</button>
+                                            </td>
+                                        </tr>
+
+                                        <!--modal-->
+                                        <div class="modal fade" id="delete<?php echo $property->PropertyID ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="deleteLabel">Delete</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Are you sure you want to delete property <?php echo $property->Name ?>?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Back</button>
+                                                        <form action="./controller/packagePropertiesController.php" method="post">
+                                                            <input type="hidden" name="propertyID" value="<?php echo $property->PropertyID ?>">
+                                                            <input type="hidden" name="packageID" value="<?php echo $property->PackageID ?>">
+                                                            <button type="submit" class="btn btn-danger" name="deletePackageProperty">Confirm</button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+
+                                    <?php
+                                        $i++;
+                                    endforeach
+                                    ?>
                                 </tbody>
                             </table>
                         </div>

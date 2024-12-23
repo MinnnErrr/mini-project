@@ -147,7 +147,7 @@ if (!isset($user_id)) {
 
                                     <?php
                                         $i++;
-                                    endforeach
+                                        endforeach
                                     ?>
                                 </tbody>
                             </table>
