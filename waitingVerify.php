@@ -10,21 +10,21 @@ if (!isset($user_id)) {
     header('location:login.php');
 }
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   try {
-    $imgCard = file_get_contents($_FILES['imgCard']['tmp_name']);
-    $stmt = $conn->prepare("UPDATE customer SET StudentCard = :StudentCard WHERE UserID = :user_id");
-    $stmt->bindParam(':StudentCard', $imgCard);
+    $stmt = $conn->prepare("SELECT * FROM customer WHERE UserID = :user_id");
     $stmt->bindParam(':user_id', $user_id);
     $stmt->execute();
-    header("location:login.php");
+    $customer = $stmt->fetch(PDO::FETCH_ASSOC);
+    print_r($customer['VerificationStatus']);
+    if($customer['VerificationStatus'] != "pending"){
+        header("location:customerDashboard.php");
+    }
   } catch (PDOException $e) {
     error_log(message: "Database Error: " . $e->getMessage());
     $_SESSION['signupError'] = $e->getMessage();
-    header('location: login.php');
+    header('location: registration.php');
   }
-}
 
 ?>
 
@@ -59,25 +59,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <div class="container-fluid">
         <div class="row">
-            <?php require 'verifySidebar.php' ?>
-
+            <?php require 'verifySideBar.php' ?>
             <div class="template">
-                <div class="form">
-                    <form method='post' action='' enctype='multipart/form-data'>
-                        <div class="title">Uplaod Student Card</div>
-
-                        <div class="input-box">
-                            <div class="photo"><img  alt="" id="imageStudent"></div>
-                            <div class="file">
-                                <input id="id-image-input" type="file" name="imgCard" required>
-                            </div>
-                        </div>
-
-                        <div class="button-template">
-                            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
-                        </div>
-
-                    </form>
+                <div class="row">
+                <h2>Please wait for admin to verify your account</h2>
                 </div>
             </div>
             <?php require 'footer.php' ?>

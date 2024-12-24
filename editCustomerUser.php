@@ -31,17 +31,35 @@ if(isset($_POST['editCustomerUser'])){
     $editEmail = $_POST['Email'];
     $editStudentID = $_POST['StudentID'];
     $editPhoneNumber = $_POST['PhoneNumber'];
-    $stmt = $conn->prepare("UPDATE user SET Username = :editUsername, Email = :editEmail WHERE UserID = :editUserID");
-    $stmt->bindParam(':editUsername', $editUsername);
-    $stmt->bindParam(':editEmail', $editEmail);
-    $stmt->bindParam(':editUserID', $editUserID);
-    $stmt->execute();
-    $stmt = $conn->prepare("UPDATE customer SET  StudentID = :editStudentID, PhoneNumber = :editPhoneNumber  WHERE UserID = :editUserID");
-    $stmt->bindParam(':editStudentID', $editStudentID);
-    $stmt->bindParam(':editUserID', $editUserID);
-    $stmt->bindParam(':editPhoneNumber', $editPhoneNumber);
-    $stmt->execute();
-    header("Refresh:0");
+     try {
+        $stmt = $conn->prepare("SELECT * FROM user WHERE Username = :username OR Email = :email");
+        $stmt->bindParam(':username',  $editUsername);
+        $stmt->bindParam(':email', $editEmail);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+        if ($stmt->rowCount() > 1) {
+            
+            $_SESSION['signupError'] = 'Email or username already exist. Please try with a different one.';
+           
+        }
+        else{
+        $stmt = $conn->prepare("UPDATE user SET Username = :editUsername, Email = :editEmail WHERE UserID = :editUserID");
+        $stmt->bindParam(':editUsername', $editUsername);
+        $stmt->bindParam(':editEmail', $editEmail);
+        $stmt->bindParam(':editUserID', $editUserID);
+        $stmt->execute();
+        $stmt = $conn->prepare("UPDATE customer SET  StudentID = :editStudentID, PhoneNumber = :editPhoneNumber  WHERE UserID = :editUserID");
+        $stmt->bindParam(':editStudentID', $editStudentID);
+        $stmt->bindParam(':editUserID', $editUserID);
+        $stmt->bindParam(':editPhoneNumber', $editPhoneNumber);
+        $stmt->execute();
+        header("Refresh:0");
+        }
+    } catch (PDOException $e) {
+        error_log(message: "Database Error: " . $e->getMessage());
+        $_SESSION['signupError'] = $e->getMessage();
+        header('location: registration.php');
+    }
 }
 ?>
 
@@ -70,7 +88,15 @@ if(isset($_POST['editCustomerUser'])){
 
 
 <body class="bg-body-secondary bg-opacity-50">
-
+    <?php if (isset($_SESSION['signupError'])): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?php echo $_SESSION['signupError']; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <?php
+        unset($_SESSION['signupError']);
+    endif;
+    ?>
     <?php require 'navbar.php' ?>
 
     <div class="container-fluid">
