@@ -22,7 +22,8 @@ if(isset($_GET['viewUserID'])){
     $stmt->bindParam(':viewUserID', $viewUserID);
     $stmt->execute();
     $customer = $stmt->fetch(PDO::FETCH_ASSOC);
-    $Position = $customer['Position'];
+    $position = $customer['Position'];
+    $phoneNumber = $customer['PhoneNumber'];
 }
 ?>
 
@@ -58,7 +59,7 @@ if(isset($_GET['viewUserID'])){
     <div class="container-fluid">
         <div class="row">
         
-            <?php require 'staffsidebar.php' ?>
+            <?php require 'adminsidebar.php' ?>
             <div class="profile-teamplate">
                 <form action="" method="post" enctype="multipart/form-data">
                     <div>
@@ -99,9 +100,18 @@ if(isset($_GET['viewUserID'])){
                                         <dt class="text-sm font-medium text-gray-500">
                                         Position
                                         </dt>
-                                        <input disabled name="StudentID" type="text"
+                                        <input disabled name="position" type="text"
                                             class="border border-gray-300 rounded-md p-2 mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-                                            value="<?php echo htmlspecialchars($Position, ENT_QUOTES, 'UTF-8'); ?>">
+                                            value="<?php echo htmlspecialchars($position, ENT_QUOTES, 'UTF-8'); ?>">
+                                        </input>
+                                    </div>
+                                    <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt class="text-sm font-medium text-gray-500">
+                                        Phone Number
+                                        </dt>
+                                        <input disabled name="phoneNumber" type="text"
+                                            class="border border-gray-300 rounded-md p-2 mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+                                            value="<?php echo htmlspecialchars($phoneNumber, ENT_QUOTES, 'UTF-8'); ?>">
                                         </input>
                                     </div>
                                 </dl>

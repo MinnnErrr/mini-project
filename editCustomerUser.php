@@ -23,6 +23,43 @@ if(isset($_GET['editUserID'])){
     $stmt->execute();
     $customer = $stmt->fetch(PDO::FETCH_ASSOC);
     $StudentID = $customer['StudentID'];
+    $phoneNumber= $customer['PhoneNumber'];
+}
+if(isset($_POST['editCustomerUser'])){
+    $editUserID = $_GET['editUserID'];
+    $editUsername = $_POST['Username'];
+    $editEmail = $_POST['Email'];
+    $editStudentID = $_POST['StudentID'];
+    $editPhoneNumber = $_POST['PhoneNumber'];
+     try {
+        $stmt = $conn->prepare("SELECT * FROM user WHERE Username = :username OR Email = :email");
+        $stmt->bindParam(':username',  $editUsername);
+        $stmt->bindParam(':email', $editEmail);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+        if ($stmt->rowCount() > 1) {
+            
+            $_SESSION['signupError'] = 'Email or username already exist. Please try with a different one.';
+           
+        }
+        else{
+        $stmt = $conn->prepare("UPDATE user SET Username = :editUsername, Email = :editEmail WHERE UserID = :editUserID");
+        $stmt->bindParam(':editUsername', $editUsername);
+        $stmt->bindParam(':editEmail', $editEmail);
+        $stmt->bindParam(':editUserID', $editUserID);
+        $stmt->execute();
+        $stmt = $conn->prepare("UPDATE customer SET  StudentID = :editStudentID, PhoneNumber = :editPhoneNumber  WHERE UserID = :editUserID");
+        $stmt->bindParam(':editStudentID', $editStudentID);
+        $stmt->bindParam(':editUserID', $editUserID);
+        $stmt->bindParam(':editPhoneNumber', $editPhoneNumber);
+        $stmt->execute();
+        header("Refresh:0");
+        }
+    } catch (PDOException $e) {
+        error_log(message: "Database Error: " . $e->getMessage());
+        $_SESSION['signupError'] = $e->getMessage();
+        header('location: registration.php');
+    }
 }
 ?>
 
@@ -51,7 +88,15 @@ if(isset($_GET['editUserID'])){
 
 
 <body class="bg-body-secondary bg-opacity-50">
-
+    <?php if (isset($_SESSION['signupError'])): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?php echo $_SESSION['signupError']; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <?php
+        unset($_SESSION['signupError']);
+    endif;
+    ?>
     <?php require 'navbar.php' ?>
 
     <div class="container-fluid">
@@ -94,11 +139,20 @@ if(isset($_GET['editUserID'])){
                             <input name="StudentID" type="text" class="border border-gray-300 rounded-md p-2 mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"  value="<?php echo htmlspecialchars($StudentID, ENT_QUOTES, 'UTF-8'); ?>">
                             </input>
                         </div>
+                        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt class="text-sm font-medium text-gray-500">
+                                            Phone number
+                                        </dt>
+                                        <input  name="PhoneNumber" type="text"
+                                            class="border border-gray-300 rounded-md p-2 mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+                                            value="<?php echo htmlspecialchars($phoneNumber, ENT_QUOTES, 'UTF-8'); ?>">
+                                        </input>
+                                    </div>
                     </dl>
                 </div>
             </div>
              <div class="edit-button-template">
-            <button>Submit</button>
+            <button name="editCustomerUser">Submit</button>
         </div>
         </div>
        

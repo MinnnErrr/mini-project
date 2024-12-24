@@ -49,22 +49,24 @@ $stmt->bindParam(':email', $email);
             $stmt->execute();
             if($role == 'customer'){
                 $userID = $conn->lastInsertId(); // need fix later maybe have error
-                $stmt = $conn->prepare("INSERT INTO customer(StudentID,UserID) VALUES (:studentID,  :userID)");
+                $stmt = $conn->prepare("INSERT INTO customer(StudentID,UserID,PhoneNumber) VALUES (:studentID,  :userID, :phoneNumber)");
                 $stmt->bindParam(':studentID', $studentID);
                 $stmt->bindParam(':userID',  $userID); 
+                $stmt->bindParam(':phoneNumber',  $phoneNumber); 
                 $stmt->execute();
             }
             else if($role == 'staff'){
                 $userID = $conn->lastInsertId();
-                $stmt = $conn->prepare(query: "INSERT INTO staff(Position,UserID,BranchID) VALUES (:position,  :userID, :branchID)");
+                $stmt = $conn->prepare(query: "INSERT INTO staff(Position,UserID,BranchID,PhoneNumber) VALUES (:position,  :userID, :branchID,:phoneNumber)");
                 $stmt->bindParam(':position', $position);
                 $stmt->bindParam(':userID',  $userID); 
                 $stmt->bindParam(':branchID',  $branchID); 
+                $stmt->bindParam(':phoneNumber',  $phoneNumber); 
                 $stmt->execute();
             }
             
             $_SESSION['signupSuccess'] = 'Registration successful!';
-            header('location: login.php');
+            header('location: manageUser.php');
         } else {
             $_SESSION['signupError'] = 'Email or username already exist. Please try with a different one.';
             header('location: registration.php');
