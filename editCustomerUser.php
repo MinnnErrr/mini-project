@@ -10,7 +10,7 @@ if (!isset($user_id)) {
     header('location:login.php');
 }
 if(isset($_GET['editUserID'])){
-    $editUserID = $_GET['editUserID'];
+    $editUserID = $_GET['editUserID']; // Get the user ID from the URL
     $stmt = $conn->prepare("SELECT * FROM user WHERE UserID = :editUserID");
     $stmt->bindParam(':editUserID', $editUserID);
     $stmt->execute();

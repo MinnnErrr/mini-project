@@ -19,14 +19,14 @@ if (isset($_POST["register"])) {
     $position = $_POST['position'];
     $branchID = $_POST['branchID'];
 
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT); //PASSWORD_DEFAULT - algorithm used for hashing.
 
     try {
-        $stmt = $conn->prepare("SELECT * FROM user WHERE Username = :username OR Email = :email");
+        $stmt = $conn->prepare("SELECT * FROM user WHERE Username = :username OR Email = :email"); // select all user with same name and email
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC); // 只要是select都要fetch，其他的都到execute而已        
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC); // 只要是select都要fetch，其他的都到execute而已     // fetch all rows become array   
 
         if ($stmt->rowCount() < 1) { //如果在database有return不多过1行一样的user info(意思就是不存在database的话才proceed if()里面的东西)
             //prepare SQL statement
@@ -40,15 +40,15 @@ if (isset($_POST["register"])) {
 
 // $studentID = $_POST[“studentID”];
 
-$stmt->bindParam(':username', $username);
-$stmt->bindParam(':password', $hashedPassword);
-$stmt->bindParam(':role', $role);
-$stmt->bindParam(':email', $email);
+    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':password', $hashedPassword);
+    $stmt->bindParam(':role', $role);
+    $stmt->bindParam(':email', $email);
             
             //execute statement
             $stmt->execute();
             if($role == 'customer'){
-                $userID = $conn->lastInsertId(); // need fix later maybe have error
+                $userID = $conn->lastInsertId(); // get last inserted user id 
                 $stmt = $conn->prepare("INSERT INTO customer(StudentID,UserID,PhoneNumber) VALUES (:studentID,  :userID, :phoneNumber)");
                 $stmt->bindParam(':studentID', $studentID);
                 $stmt->bindParam(':userID',  $userID); 
@@ -65,7 +65,7 @@ $stmt->bindParam(':email', $email);
                 $stmt->execute();
             }
             
-            $_SESSION['signupSuccess'] = 'Registration successful!';
+            $_SESSION['signupSuccess'] = 'Registration successful!'; 
             header('location: manageUser.php');
         } else {
             $_SESSION['signupError'] = 'Email or username already exist. Please try with a different one.';
@@ -199,22 +199,10 @@ $conn = null;
                                 </div>
                             </div>
                             <div class="mt-6 " id="studentIDTemplete">
-                                <!-- <label for="ID" class=" block text-sm font-medium leading-5 text-gray-700 ">
-                                    Student ID
-                                </label>
-                                <div class="mt-1 rounded-md shadow-sm">
-                                    <input id="studentID" name="studentID" type="text" required=""
-                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                                </div> -->
+                               
                             </div>
                             <div class="mt-6 " id="positionTemplete">
-                                <!-- <label for="position" class="block text-sm font-medium leading-5 text-gray-700">
-                                    Position
-                                </label>
-                                <div class="mt-1 rounded-md shadow-sm" >
-                                    <input id="position" name="position" type="text" required=""
-                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                                </div> -->
+                                
                             </div>
 
                             <div class="mt-6 " id="branchIDTemplete">
