@@ -41,14 +41,20 @@ if (isset($_POST['signIn'])) {
                     exit;
                 } else if ($user['Role'] == 'customer') {
                     $_SESSION['role'] = 'customer';
-                    $stmt = $conn->prepare("SELECT * FROM customer WHERE UserID = :userid");
+                    $stmt = $conn->prepare("SELECT * FROM customer WHERE UserID = :userid"); 
                     $stmt->bindParam(':userid', $user['UserID']);
                     $stmt->execute();
-                    $customer = $stmt->fetch(PDO::FETCH_ASSOC);
-                    if(!isset($customer['StudentCard'])){
-                        header('location:studentCard.php');
+                    $customer = $stmt->fetch(PDO::FETCH_ASSOC);// check if user is verified
+            
+                    if($customer['VerificationStatus'] == "pending"){ // if user is not verified
+                        if(!isset($customer['StudentCard'])){ // if user has not uploaded student card
+                         header('location:studentCard.php');
+                        }
+                        else{// if user has not uploaded student card and is not verified
+                            header('location:waitingVerify.php');
+                        }
                     }
-                    else{
+                    else{ // if user is verified
                         header('location:customerDashboard.php');
                     }
                 
@@ -88,7 +94,8 @@ $conn = null;
             <div class="col justify-content-center align-items-center d-flex">
                 <div class="row">
                     <div class="col-12 d-flex justify-content-center">
-                        <img src="./images/RapidPrintSquare.png" alt="RapidPrint Logo" class="img-fluid" style="max-width: 20vw;">
+                        <img src="./images/RapidPrintSquare.png" alt="RapidPrint Logo" class="img-fluid"
+                            style="max-width: 20vw;">
                     </div>
                     <div class="col-12">
                         <p class="fs-5 text-center">Fast, Convenient, Affordable</p>
@@ -100,10 +107,10 @@ $conn = null;
                 <form action="" method="post" class="w-75">
                     <h2 class="mb-4">USER LOGIN</h2>
                     <?php if (isset($_SESSION['loginError'])): ?>
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <?php echo $_SESSION['loginError']; ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?php echo $_SESSION['loginError']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                     <?php
                         unset($_SESSION['loginError']);
                     endif;

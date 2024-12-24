@@ -47,7 +47,7 @@ require 'queryInvoice.php';
                 <div class="container min-vh-100 p-4">
 
                 <!-- your content starts here -->
-                <img src="./RapidPrintIcon.png" alt="RapidPrint" class="customimg">
+                <img src="./Images/RapidPrintIcon.png" alt="RapidPrint" class="customimg">
                 <h2>INVOICE <i class="bi bi-receipt"></i></h2>
                 <div style="line-height: 0.7;">
                     <p style="padding-top:30px">Invoice ID: <?php echo $InvoiceID; ?></p>
@@ -109,7 +109,7 @@ require 'queryInvoice.php';
 <br>
                 <button type="button" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</button>
                 <button type="button" class="btn btn-danger"><i class="bi bi-trash3"></i> Delete</button>
-                <button type="button" class="btn btn-success"><i class="bi bi-printer"></i> Print Invoice</button>
+                <button type="button" class="btn btn-success" onclick="window.print()"><i class="bi bi-printer"></i> Print Invoice</button>
 
                 </div>
 
