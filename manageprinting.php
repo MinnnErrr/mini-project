@@ -61,9 +61,9 @@ if (!isset($user_id)) {
 // Connect to the database server
 $link = mysqli_connect("localhost", "root", "", "mini_project") or die("Could not connect: " . mysqli_connect_error());
 
-// SQL query with JOIN to fetch customer name from the customer table
+// SQL query with JOIN to fetch customer ID & phoneNo from the customer table
 $strSQL = "
-    SELECT `order`.`OrderID`, `order`.`Date`, `order`.`TotalPrice`, `order`.`Status`, `order`.`Points`, 
+    SELECT `order`.`OrderID`, `order`.`Date`, `order`.`TotalPrice`, `order`.`Status`, `order`.`Points`,
            `customer`.`StudentID`, `customer`.`PhoneNumber`
     FROM `order`
     JOIN `customer` ON `order`.`CustomerID` = `customer`.`CustomerID`";
@@ -95,6 +95,7 @@ while ($row = mysqli_fetch_assoc($rs)) {
     $orderID = $row['OrderID'];
     $status = $row['Status'];
 
+    // Colleted will no display
     if ($status !== 'Collected') {
     echo '<tr>';
     echo '<td>' . $orderID . '</td>';
@@ -111,6 +112,7 @@ while ($row = mysqli_fetch_assoc($rs)) {
         echo '
         <form method="POST" action="backprinting.php">
         <input type="hidden" name="order_id" value="' . $orderID . '">
+        <input type="hidden" name="user_id" value="' . $user_id . '">
         <button type="submit" name="action" value="accept_order" class="btn btn-info"><i class="bi bi-check2-all"></i> Accept Order</button>
         </form>';
     }
@@ -138,30 +140,7 @@ while ($row = mysqli_fetch_assoc($rs)) {
                 <button type="submit" name="action" value="mark_collected" class="btn btn-secondary">Mark Collected</button>
             </form>';
     } 
-    
-    // Testing
-    // else if ($status == 'Collected') {
-    //     echo '
-    //         <form method="POST" action="" style="display:inline;">
-    //             <input type="hidden" name="order_id" value="' . $orderID . '">
-    //             <button type="submit" name="action" value="back" class="btn btn-secondary">Back</button>
-    //         </form>';
-    // }
-    
-    // Handle the "back" action
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'back') {
-        $orderID = intval($_POST['order_id']); // Retrieve the OrderID
-        $query = "UPDATE `order` SET `Status` = 'Ordered' WHERE `OrderID` = $orderID";
         
-        // Execute the query
-        if (mysqli_query($link, $query)) {
-            echo "Order status reverted to 'Ordered'.";
-            
-        } else {
-            echo "Error updating order status: " . mysqli_error($link);
-        }
-    }
-    
     echo '</td>';
     echo '</tr>';
 }
