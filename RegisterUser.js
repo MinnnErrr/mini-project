@@ -1,5 +1,5 @@
 
-function setSelect(branches){
+function setSelect(branches){ 
     const $select = $('<select>', {
         name: 'branchID',
         id: 'branchID',

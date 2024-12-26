@@ -9,9 +9,9 @@ $username = $_SESSION['username'];
 if (!isset($user_id)) {
   header('location:login.php');
 }
-$stmt = $conn->prepare("SELECT * FROM user");
+$stmt = $conn->prepare("SELECT * FROM user"); 
 $stmt->execute();
-$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);// fetch all users info become array
 ?>
 
 <!DOCTYPE html>
@@ -26,8 +26,10 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <link rel="stylesheet" href="./main.css">
   <link rel="stylesheet" href="manageUser.css">
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <style type="text/tailwindcss">
     @layer utilities {
       .content-auto {
@@ -97,25 +99,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
   </div>
 
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
+ 
 
   <script src="manageUser.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -123,6 +107,25 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <script>
     document.getElementById('user').classList.add('is-active');
   </script>
+   <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><a href="deleteUser.php?deleteUserID=' . $UserID . '&role=' . $role . '">Delete</a></button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 </body>
 
 </html>

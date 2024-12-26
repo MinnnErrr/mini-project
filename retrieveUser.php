@@ -27,7 +27,7 @@ foreach($results as $result){
             </td>
             <td class="p-4">
                 <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="edit">
-                    <a href="editCustomerUser.php?editUserID=' . $UserID . '">Edit</a>
+                    <a href="editCustomerUser.php?editUserID=' . $UserID . '">Edit</a> //send user id to edit
                 </button>
                 <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="view">
                     <a href="viewCustomerProfile.php?viewUserID=' . $UserID . '">View</a>
