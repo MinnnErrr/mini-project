@@ -18,7 +18,10 @@
         c.PhoneNumber AS PhoneNo, 
         op.Quantity AS qty, 
         pp.Name AS PackageName, 
-        pp.BasePrice AS Price 
+        pp.BasePrice AS Price,
+        o.StaffID AS StaffID,
+        p.PropertyID AS PropertyID,p.Category AS Category,p.Name AS PropertyName,
+        p.Price AS PropertyPrice, p.PackageID AS PackageID
     FROM 
         `order` o 
     JOIN 
@@ -31,11 +34,15 @@
         `orderprintingpackage` op ON o.OrderID = op.OrderID 
     JOIN 
         `printingpackage` pp ON op.PackageID = pp.PackageID 
+    JOIN 
+        `packageproperty` p ON pp.PackageID = p.PackageID 
     WHERE 
         o.OrderID = $orderID";
 
     $result = mysqli_query($link, $query);
 
+    $i = 0;
+    $TotalAmount = 0;
     // Fetch the row from the result
     while ($row = mysqli_fetch_assoc($result)){
         $InvoiceID = $row["InvoiceID"];
@@ -49,6 +56,27 @@
         $Qty = $row["qty"];
         $PackageName = $row["PackageName"];
         $Price = $row["Price"];
+        $StaffID = $row["StaffID"];
+        $PropertyID = $row["PropertyID"];
+        $Category = $row["Category"];
+        $PropertyName = $row["PropertyName"];
+        $PropertyPrice = $row["PropertyPrice"];
+        $PackageID = $row["PackageID"];
+
+        $Amount = $Qty * $Price;
+        $TotalAmount += $Amount;
+                        
+        ++$i;
+            echo "<tr>
+            <td>$i.</td>
+            <td>$PackageName</td>
+            <td>$Category</td>
+            <td>$PropertyName</td>
+            <td>$PropertyPrice</td>
+            <td>$Qty</td>
+            <td>$Price</td>
+            <td>$Amount</td>
+        </tr>";  
     }
    
 ?>
