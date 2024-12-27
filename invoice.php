@@ -170,12 +170,15 @@ if (!isset($user_id)) {
                 </thead>
                         <?php
                             require 'queryInvoice.php';    
+
+                            $query2 = "UPDATE `order` SET TotalPrice = $TotalAmount WHERE OrderID = $orderID";
+                            mysqli_query($link, $query2);
+                              
                         ?>
                             <tr>
                                 <td colspan="5" style="text-align: right;"><strong>Total (RM):</strong></td>
                                 <td><?php echo $TotalAmount;?></td>
                             </tr>
-                            
                 </table>
 <br>
             <form action="manageInvoice.php" method="POST" style="display: inline;">

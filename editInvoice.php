@@ -336,6 +336,8 @@ while ($row = mysqli_fetch_assoc($result)) {
        
    ";
 
+   $query2 = "UPDATE `order` SET TotalPrice = $TotalAmount WHERE OrderID = $orderID";
+   mysqli_query($link, $query2);
 ?>
                             
             <form action="manageprinting.php" method="POST" style="display: inline; float:right">
