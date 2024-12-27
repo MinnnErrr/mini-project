@@ -12,6 +12,7 @@ if (!isset($user_id)) {
 }
 
 require 'queryReward.php';
+require 'calcSales.php';
 ?>
 
 <!DOCTYPE html>
@@ -86,19 +87,19 @@ require 'queryReward.php';
                      <div class="col-4">
                         <div class="box3">
                             <h6>Monthly Printing Sales</h6>
-                            <p>RM<?php echo $MonthlySales; ?>?</p>
+                            <p>RM<?php echo $monthlySales; ?></p>
                         </div>
                      </div>
                      <div class="col-4">
                         <div class="box3">
                             <h6>Points Earned</h6>
-                            <p>RM <?php echo $Points; ?>?</p>
+                            <p>RM <?php echo $points; ?></p>
                         </div>
                      </div>
                      <div class="col-4">
                         <div class="box3">
                             <h6>Current Bonus</h6>
-                            <p>RM <?php echo $Bonus; ?>?</p>
+                            <p>RM <?php echo $bonus; ?></p>
                         </div>
                      </div>
                 </div>     

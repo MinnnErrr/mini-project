@@ -52,9 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 //  mysqli_query($link, $query3);
  
                  // Insert new properties
-                    //  $query4 = "INSERT INTO `orderproperty` (`OrderPackageID`, `PropertyID`) 
-                    //             VALUES ($orderPackageID, $propertyID)";
-                    //  mysqli_query($link, $query4);
+                    // $query4 = "INSERT INTO `orderproperty` (`OrderPackageID`, `PropertyID`) 
+                    //            VALUES ($orderPackageID, $AllPropertyID)";
+                    // mysqli_query($link, $query4);
+
+                    ++$i;
                 }
     
                     header("location:editInvoice.php?orderID=$orderID");

@@ -256,8 +256,8 @@ while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>
             <td>$i.</td>
             <td>
-                <select name='package[]'>
-                <option selected='selected'>$PackageName</option>";
+                <select name='package[]' class='btn btn-primary'>";
+                
                 // Fetch all available printing packages
                 $query2 = "SELECT PackageID, Name FROM printingpackage ";
                 $result2 = mysqli_query($link, $query2);
@@ -266,7 +266,13 @@ while ($row = mysqli_fetch_assoc($result)) {
                     // Generate dropdown options for packages
                     while ($row2 = mysqli_fetch_assoc($result2)) {
                         $packageID=$row2['PackageID'];
-                        echo "<option value='{$packageID}'>   {$row2['Name']}  </option>";
+                        $packageName=$row2['Name'];
+                        if($packageName==$PackageName){
+                            echo "<option value='{$packageID}' selected>   {$packageName}  </option>";
+                        }else{
+                            echo "<option value='{$packageID}'>   {$packageName}  </option>";
+                        }
+  
                         
                     }
                 
@@ -283,7 +289,8 @@ while ($row = mysqli_fetch_assoc($result)) {
         </button>
         <ul class='dropdown-menu' style='padding: 10px; width: 300px;''>";
             // Fetch all available printing packages property
-            $query3 = "SELECT CONCAT(p.Category, ': ', p.Name, ' (RM', p.Price, ')', '[',pp.Name,']') AS PropertyDisplay, p.PropertyID 
+            $query3 = "SELECT CONCAT(p.Category, ': ', p.Name, ' (RM', p.Price, ')', '[',pp.Name,']') AS PropertyDisplay, 
+            p.PropertyID AS PropertyID
             FROM packageproperty p
                         JOIN 
                             printingpackage pp ON p.PackageID = pp.PackageID ";
@@ -331,7 +338,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 ?>
                             
-            <form action="manageInvoice.php" method="POST" style="display: inline; float:right">
+            <form action="manageprinting.php" method="POST" style="display: inline; float:right">
                 <input type="hidden" name="action" value="GoManage">
                 <input type="hidden" name="order_id" value="<?php echo $OrderID;?>">
                 <input type="hidden" name="invoice_id" value="<?php echo $InvoiceID;?>">

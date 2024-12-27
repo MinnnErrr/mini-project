@@ -10,6 +10,7 @@ $username = $_SESSION['username'];
 if (!isset($user_id)) {
     header('location:login.php');
 }
+require 'calcSales.php';
 ?>
 
 <!DOCTYPE html>
@@ -90,10 +91,10 @@ if (!isset($user_id)) {
                     <th><h5>Your Reward</h5></th>
                 </tr>
                 <tr>
-                    <td>Current Month Sales: RM<?php echo $MonthlySales; ?>?</td>
+                    <td>Current Month Sales: RM<?php echo $monthlySales; ?></td>
                 </tr>
                 <tr>
-                    <td>Bonus Earned: RM<?php echo $Bonus; ?>?</td>
+                    <td>Bonus Earned: RM<?php echo $bonus; ?></td>
                 </tr>
                 <tr>
                     <td></td>
