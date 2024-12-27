@@ -10,6 +10,8 @@ $username = $_SESSION['username'];
 if (!isset($user_id)) {
     header('location:login.php');
 }
+
+require 'calcSales.php';
 ?>
 
 <!DOCTYPE html>

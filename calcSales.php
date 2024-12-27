@@ -1,57 +1,60 @@
 <?php
+
 $UserID = intval($_SESSION['user_id']);
 
 // Connect to the database
 $link = mysqli_connect("localhost", "root", "", "mini_project") or die("Could not connect: " . mysqli_connect_error());
 
-$query = "SELECT s.StaffID AS StaffID FROM `staff` s
-    JOIN 
-        `user` u ON s.UserID = u.UserID
-    JOIN 
-        `branch` b ON b.BranchID = s.BranchID
-    WHERE 
-        u.UserID = $UserID";
-
+// Get the StaffID for the logged-in user
+$query = "SELECT s.StaffID AS StaffID 
+          FROM `staff` s
+          JOIN `user` u ON s.UserID = u.UserID
+          JOIN `branch` b ON b.BranchID = s.BranchID
+          WHERE u.UserID = $UserID";
 $result = mysqli_query($link, $query);
 $row = mysqli_fetch_assoc($result);
+
 $StaffID = $row["StaffID"];
-    
+
 // Get the current month and year
 $currentMonth = date('Y-m'); // Format: YYYY-MM
-$monthlySales = 0;
 
-// Calculate the bonus and points based on the updated MonthlySales
-$query6 = "SELECT MonthlySales FROM `reward` WHERE StaffID = $StaffID AND DATE_FORMAT(Date, '%Y-%m') = '$currentMonth'";
-$result6 = mysqli_query($link, $query6);
-$row6 = mysqli_fetch_assoc($result6);
-if ($row6) {
-    // If MonthlySales already exist, use the stored value
-    $monthlySales = $row6['MonthlySales'];
-} else {
-    // If no MonthlySales, calculate it from the orders
-    $query2 = "SELECT TotalPrice FROM `order` WHERE StaffID = $StaffID AND Status = 'Order Complete' AND DATE_FORMAT(Date, '%Y-%m') = '$currentMonth'";
-    $result2 = mysqli_query($link, $query2);
-    while ($row2 = mysqli_fetch_assoc($result2)) {
-        $TotalPrice = $row2['TotalPrice'];
-        $monthlySales += $TotalPrice;
-    }
+// Calculate MonthlySales from orders
+$monthlySales = 0;
+$query2 = "SELECT TotalPrice 
+           FROM `order` 
+           WHERE StaffID = $StaffID 
+           AND Status = 'Collected' 
+           AND DATE_FORMAT(Date, '%Y-%m') = '$currentMonth'";
+$result2 = mysqli_query($link, $query2);
+
+while ($row2 = mysqli_fetch_assoc($result2)) {
+    $monthlySales += $row2['TotalPrice'];
 }
 
 // Check if an entry for the current month exists in the reward table
-$query3 = "SELECT COUNT(*) AS RewardCount FROM `reward` WHERE StaffID = $StaffID AND DATE_FORMAT(Date, '%Y-%m') = '$currentMonth'";
+$query3 = "SELECT COUNT(*) AS RewardCount 
+           FROM `reward` 
+           WHERE StaffID = $StaffID 
+           AND DATE_FORMAT(Date, '%Y-%m') = '$currentMonth'";
 $result3 = mysqli_query($link, $query3);
 $row3 = mysqli_fetch_assoc($result3);
 
 if ($row3['RewardCount'] > 0) {
     // Update MonthlySales for the current month
-    $query4 = "UPDATE `reward` SET MonthlySales = $monthlySales WHERE StaffID = $StaffID AND DATE_FORMAT(Date, '%Y-%m') = '$currentMonth'";
-    mysqli_query($link, $query4) or die(mysqli_error($link));
+    $query4 = "UPDATE `reward` 
+               SET MonthlySales = $monthlySales 
+               WHERE StaffID = $StaffID 
+               AND DATE_FORMAT(Date, '%Y-%m') = '$currentMonth'";
+    mysqli_query($link, $query4) or die("Error updating MonthlySales: " . mysqli_error($link));
 } else {
     // Insert a new entry for the current month
-    $query5 = "INSERT INTO `reward` (StaffID, Date, MonthlySales, Bonus, Description, Points) VALUES ($StaffID, NOW(), $monthlySales, NULL, '', 0)";
-    mysqli_query($link, $query5) or die(mysqli_error($link));
+    $query5 = "INSERT INTO `reward` (StaffID, Date, MonthlySales, Bonus, Description, Points) 
+               VALUES ($StaffID, NOW(), $monthlySales, NULL, '', 0)";
+    mysqli_query($link, $query5) or die("Error inserting reward: " . mysqli_error($link));
 }
 
+// Determine the bonus, points, and description based on MonthlySales
 $bonus = 0;
 $points = 0;
 $Description = "";
@@ -74,9 +77,12 @@ if ($monthlySales > 450) {
     $Description = "More than RM200";
 }
 
-// Update the bonus and points in the reward table
-$query7 = "UPDATE `reward` SET Bonus = $bonus, Points = $points, Description = '$Description' WHERE StaffID = $StaffID 
-AND DATE_FORMAT(Date, '%Y-%m') = '$currentMonth'";
-mysqli_query($link, $query7) or die(mysqli_error($link));
+// Update the bonus, points, and description in the reward table
+$query7 = "UPDATE `reward` 
+           SET Bonus = $bonus, Points = $points, Description = '$Description' 
+           WHERE StaffID = $StaffID 
+           AND DATE_FORMAT(Date, '%Y-%m') = '$currentMonth'";
+mysqli_query($link, $query7) or die("Error updating bonus and points: " . mysqli_error($link));
 
+// echo "Reward table successfully updated.";
 ?>

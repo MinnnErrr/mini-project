@@ -46,10 +46,9 @@ require 'calcSales.php';
 
                     <!-- your content starts here -->
                     <div class="header">
-                        <h3 style="margin-left: 10px;">Staff Reward Dashboard</h3>
+                        <h3 style="margin-left: 10px;">Staff Sales History</h3>
                         <p style="margin-left: 10px;">Track your sales performance and earned rewards</p>
                      </div>
-
                      <div class="row">
                         <div class="col-6">
                             <div class="box">
@@ -73,41 +72,19 @@ require 'calcSales.php';
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="box">
-                                <h5 style="margin-bottom:15px;"><b>Your QR Code</b></h5>
-                                <div id="qrcode-container" style="display: flex; justify-content: center;">
-                                <div id="qrcode"></div>
-                                </div>
-                                <p style="font-size:smaller">Scan to view detailed performance</p>
-                                
-                                <form method="POST" action="showReward.php">
-                                    <input type="hidden" name="order_id" value="' . $orderID . '">
-                                    <button type="submit" name="action" value="showReawrd" class="btn btn-info">View Sales History</button>
-                                </form>
-                            </div>   
-                        </div>
-                     </div>
-
-                <div class="row">
-                     <div class="col-4">
                         <div class="box3">
                             <h6>Monthly Printing Sales</h6>
                             <p>RM<?php echo $monthlySales; ?></p>
                         </div>
-                     </div>
-                     <div class="col-4">
                         <div class="box3">
                             <h6>Points Earned</h6>
                             <p>RM <?php echo $points; ?></p>
                         </div>
-                     </div>
-                     <div class="col-4">
                         <div class="box3">
                             <h6>Current Bonus</h6>
                             <p>RM <?php echo $bonus; ?></p>
                         </div>
-                     </div>
-                </div>     
+                        </div>
 
                 <div class="box2">
                      <h4>Bonus Structure</h4>
@@ -163,18 +140,3 @@ require 'calcSales.php';
 </body>
 
 </html>
-
-<!-- QRCode.js Library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<script>
-    // Generate the QR Code
-    var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "http://localhost/WEBFILE/mini-project/reward.php",
-        width: 170,  // Fixed width
-        height: 170, // Fixed height
-        colorDark: "#000000", // QR code color
-        colorLight: "#ffffff" // Background color
-    });
-
-</script>
