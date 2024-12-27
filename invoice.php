@@ -163,8 +163,6 @@ if (!isset($user_id)) {
                         <th>No</th>
                         <th>Description</th>
                         <th>Category</th>
-                        <th>Property</th>
-                        <th>PropertyPrice</th>
                         <th>Quantity</th>
                         <th>Unit Price (RM)</th>
                         <th>Amount (RM)</th>
@@ -174,7 +172,7 @@ if (!isset($user_id)) {
                             require 'queryInvoice.php';    
                         ?>
                             <tr>
-                                <td colspan="7" style="text-align: right;"><strong>Total (RM):</strong></td>
+                                <td colspan="5" style="text-align: right;"><strong>Total (RM):</strong></td>
                                 <td><?php echo $TotalAmount;?></td>
                             </tr>
                             

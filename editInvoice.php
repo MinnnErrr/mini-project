@@ -67,7 +67,6 @@ if (!isset($user_id)) {
         $Price = $row["Price"];
         $StaffID = $row["StaffID"];
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -100,9 +99,7 @@ if (!isset($user_id)) {
             <div class="col-sm-12 col-lg-10 p-0">
                 <div class="container min-vh-100 p-4">
 
-                <!-- your content starts here -->
-                <form action="manageInvoice.php" method="POST" style="display: inline;">
-                
+                <!-- your content starts here --> 
                 <img src="./Images/RapidPrintIcon.png" alt="RapidPrint" class="customimg">
                 <h2>INVOICE <i class="bi bi-receipt"></i></h2>
                 <div style="line-height: 0.7;">
@@ -126,9 +123,9 @@ if (!isset($user_id)) {
                     REPLACE(b.Address, ',', '\n') AS Address,
                     b.ContactNumber,s.StaffID
                     FROM 
-                            `branch` b
+                            branch b
                         JOIN 
-                            `staff` s ON b.BranchID = s.BranchID 
+                            staff s ON b.BranchID = s.BranchID 
                             WHERE 
                             s.StaffID = $StaffID";
 
@@ -161,104 +158,185 @@ if (!isset($user_id)) {
             </div>
                 
             <br>
+            <form action="manageInvoice.php" method="POST" style="display: inline;">
             <table class="table table-bordered" style="text-align: center;">
                 <thead class="table-primary">
                         <th>No</th>
                         <th>Description</th>
+                        <th>Category</th>
                         <th>Quantity</th>
-                        <th>Unit Price (RM)</th>
-                        <th>Amount (RM)</th>
                     </tr>
                 </thead>
-                <?php
-    // Get the id from the URL
-    $orderID = intval($_GET['orderID']); // Convert to integer
+ 
+<!--
+---------------------------------------------------------------------------------
+GROUP_CONCAT() [SQL]:
+---------------------------------------------------------------------------------
+Combines multiple rows into a single string.
+----------------------------------------------------------------------------------
 
-    $link = mysqli_connect("localhost", "root", "", "mini_project") or die("Could not connect: " . mysqli_connect_error());
+==================================================================================
+CONCAT() [SQL]:
+==================================================================================
+Combines multiple strings into one.
+separator , ==> Format: A4 (RM1), Color: black white (RM2)
+==================================================================================
+-->
+<?php
+// Get the id from the URL
+$orderID = intval($_GET['orderID']); // Convert to integer
 
-    // Query to fetch order, customer, and package details
-    $query = "
-    SELECT 
-        o.OrderID AS OrderID, 
-        i.InvoiceID AS InvoiceID,
-        o.Date AS Date, 
-        i.InvoiceDate AS InvoiceDate,
-        o.TotalPrice AS Total, 
-        u.Username AS Name, 
-        c.StudentID AS sID, 
-        u.Email AS Email, 
-        c.PhoneNumber AS PhoneNo, 
-        op.Quantity AS qty, 
-        pp.Name AS PackageName, 
-        pp.BasePrice AS Price,
-        o.StaffID AS StaffID
-    FROM 
-        `order` o 
-    JOIN 
-        `invoice` i ON o.OrderID = i.OrderID 
-    JOIN 
-        `customer` c ON o.CustomerID = c.CustomerID 
-    JOIN 
-        `user` u ON c.UserID = u.UserID 
-    JOIN 
-        `orderprintingpackage` op ON o.OrderID = op.OrderID 
-    JOIN 
-        `printingpackage` pp ON op.PackageID = pp.PackageID 
-    WHERE 
-        o.OrderID = $orderID";
+$link = mysqli_connect("localhost", "root", "", "mini_project") or die("Could not connect: " . mysqli_connect_error());
 
-    $result = mysqli_query($link, $query);
+// Query to fetch order, customer, and package details
+$query = "
+   SELECT 
+    o.OrderID AS OrderID, 
+    i.InvoiceID AS InvoiceID,
+    o.Date AS Date, 
+    i.InvoiceDate AS InvoiceDate,
+    o.TotalPrice AS Total, 
+    u.Username AS Name, 
+    c.StudentID AS sID, 
+    u.Email AS Email, 
+    c.PhoneNumber AS PhoneNo, 
+    op.Quantity AS qty, 
+    pp.Name AS PackageName, 
+    pp.BasePrice AS Price,
+    o.StaffID AS StaffID,
+    GROUP_CONCAT(CONCAT(p.Category, ': ', p.Name, ' (RM', p.Price, ')') SEPARATOR ', ') AS Properties,
+    SUM(p.Price) AS TotalPropertyPrice
+FROM 
+    `order` o 
+JOIN 
+    `invoice` i ON o.OrderID = i.OrderID 
+JOIN 
+    `customer` c ON o.CustomerID = c.CustomerID 
+JOIN 
+    `user` u ON c.UserID = u.UserID 
+JOIN 
+    `orderprintingpackage` op ON o.OrderID = op.OrderID 
+JOIN 
+    `printingpackage` pp ON op.PackageID = pp.PackageID
+JOIN 
+    `orderproperty` opp ON op.OrderPackageID = opp.OrderPackageID 
+JOIN 
+    `packageproperty` p ON opp.PropertyID = p.PropertyID 
+WHERE 
+    o.OrderID = $orderID
+GROUP BY 
+    op.OrderPackageID";
 
-    $i = 0;
-    $TotalAmount = 0;
-    // Fetch the row from the result
-    while ($row = mysqli_fetch_assoc($result)){
-        $InvoiceID = $row["InvoiceID"];
-        $Date = $row["Date"];
-        $InvoiceDate = $row["InvoiceDate"];
-        $Total = $row["Total"];
-        $Name = $row["Name"];
-        $sID = $row["sID"];
-        $Email = $row["Email"];
-        $PhoneNo = $row["PhoneNo"];
-        $Qty = $row["qty"];
-        $PackageName = $row["PackageName"];
-        $Price = $row["Price"];
-        $StaffID = $row["StaffID"];
 
-        $Amount = $Qty * $Price;
-        $TotalAmount += $Amount;
-                        
+$result = mysqli_query($link, $query);
+
+$i = 0;
+$TotalAmount = 0;
+
+// Fetch the rows from the result
+while ($row = mysqli_fetch_assoc($result)) {
+    $InvoiceID = $row["InvoiceID"];
+    $Date = $row["Date"];
+    $InvoiceDate = $row["InvoiceDate"];
+    $Total = $row["Total"];
+    $Name = $row["Name"];
+    $sID = $row["sID"];
+    $Email = $row["Email"];
+    $PhoneNo = $row["PhoneNo"];
+    $Qty = $row["qty"];
+    $PackageName = $row["PackageName"];
+    $Price = $row["Price"];
+    $Properties = $row["Properties"]; // Aggregated properties
+    $TotalPropertyPrice = $row["TotalPropertyPrice"];
+
+    $Amount = ($Qty * $Price) + ($Qty * $TotalPropertyPrice);
+    $TotalAmount += $Amount;
+                   
         ++$i;
             echo "<tr>
             <td>$i.</td>
-            <td><input type ='text' name='name' size='40' value='".$PackageName."'></td>
-            <td><input type ='text' name='name' size='40' value='".$Qty."'></td>
-            <td>$Price</td>
-            <td>$Amount</td>
-        </tr>";  
+            <td>
+                <select name='package[]'>
+                <option selected='selected'>$PackageName</option>";
+                // Fetch all available printing packages
+                $query2 = "SELECT PackageID, Name FROM printingpackage ";
+                $result2 = mysqli_query($link, $query2);
+
+                
+                    // Generate dropdown options for packages
+                    while ($row2 = mysqli_fetch_assoc($result2)) {
+                        $packageID=$row2['PackageID'];
+                        echo "<option value='{$packageID}'>   {$row2['Name']}  </option>";
+                        
+                    }
+                
+            echo "</select>
+            </td>
+            <td>";
+        // ---------------------------------------------------------------------------------------------------------------------------
+        // Bootstrap5 Dropdown
+        // ---------------------------------------------------------------------------------------------------------------------------
+        echo "
+        <div class='dropdown'>
+        <button class='btn btn-primary dropdown-toggle' type='button' data-bs-toggle='dropdown'>
+            Select property
+        </button>
+        <ul class='dropdown-menu' style='padding: 10px; width: 300px;''>";
+            // Fetch all available printing packages property
+            $query3 = "SELECT CONCAT(p.Category, ': ', p.Name, ' (RM', p.Price, ')', '[',pp.Name,']') AS PropertyDisplay, p.PropertyID 
+            FROM packageproperty p
+                        JOIN 
+                            printingpackage pp ON p.PackageID = pp.PackageID ";
+            $result3 = mysqli_query($link, $query3);
+
+            // Generate dropdown options with checkboxes
+            while ($row3 = mysqli_fetch_assoc($result3)) {
+                $propertyDisplay = $row3['PropertyDisplay'];
+                $propertyID = $row3['PropertyID'];
+
+                echo "
+                <li>
+                    <label>
+                        <input type='checkbox' name='properties[]' value='$propertyID'> 
+                        $propertyDisplay
+                    </label>
+                </li>";
+            }
+        echo "</ul>
+    </div>";
+            
+        echo "</td>
+            <td><input type='number' name='quantity[]' value='$Qty' min='1' style='text-align:center;'></td>
+       
+       
+         </tr>";
+   
+
     }
    
+    echo "</table>";
+    echo "
+    <input type='hidden' name='action' value='edit'>
+<input type='hidden' name='order_id' value='$orderID'>
+           <button type='submit' class='btn btn-warning'><i class='bi bi-pencil-square'></i> Update</button>
+           <button type='reset' class='btn btn-success'><i class='bi bi-x-octagon'></i> Reset</button>
+       </form>
+       <form action='manageInvoice.php' method='POST' style='display: inline;'>
+           <input type='hidden' name='action' value='delete'>
+           <input type='hidden' name='invoice_id' value='$InvoiceID'>
+               <button type='submit' class='btn btn-danger'><i class='bi bi-trash3'></i> Delete</button>
+       </form>
+       
+   ";
+
 ?>
-                            <tr>
-                                <td colspan="4" style="text-align: right;"><strong>Total (RM):</strong></td>
-                                <td><?php echo $TotalAmount;?></td>
-                            </tr>
                             
-                </table>
-<br>
-
-                <input type="hidden" name="action" value="edit">
-                <button type="submit" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Update</button>
-                <button type="reset" class="btn btn-success"><i class="bi bi-printer"></i> Reset</button>
-            </form>
-
-            <form action="manageInvoice.php" method="POST" style="display: inline;">
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="invoice_id" value="<?php echo $InvoiceID; ?>">
-                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash3"></i> Delete</button>
-            </form>
-
+            <form action="manageInvoice.php" method="POST" style="display: inline; float:right">
+                <input type="hidden" name="action" value="GoManage">
+                <input type="hidden" name="order_id" value="<?php echo $OrderID;?>">
+                <input type="hidden" name="invoice_id" value="<?php echo $InvoiceID;?>">
+                    <button type="submit" class="btn btn-light"><i class="bi bi-chevron-double-left"></i> Back</button>
+            </form>          
                 
 
                 </div>
