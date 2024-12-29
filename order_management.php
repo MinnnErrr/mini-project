@@ -23,60 +23,22 @@ $packages = $conn->query("SELECT * FROM printingpackage WHERE Availability = 1")
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
     <title>Order Management</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
 </head>
 
-<body class="bg-body-secondary bg-opacity-50">
+<body class="bg-light">
     <?php require 'navbar.php'; ?>
     <div class="container-fluid">
         <div class="row vh-100">
             <!-- Sidebar -->
-            <div class="col-lg-2 border-end bg-light">
-                <div class="offcanvas-lg offcanvas-start position-fixed" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">RapidPrint</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="nav flex-column d-flex justify-content-between" style="height: 87dvh;">
-                            <div>
-                                <li class="nav-item mt-lg-3">
-                                    <a class="nav-link is-dark" href="customerDashboard.php">Dashboard</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark is-active" href="order_management.php">Add Order</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark" href="showOrder.php">View Order</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark" href="viewOrder.php">Checkout</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark" href="applyMembership.php">Membership Card</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark" href="CustomerProfile.php">Profile</a>
-                                </li>
-                            </div>
-                            <div>
-                                <li class="nav-item">
-                                    <div class="nav-link">
-                                        <button class="btn w-100 btn-outline-dark" onclick="location.href='logout.php'">
-                                            Log Out
-                                        </button>
-                                    </div>
-                                </li>
-                            </div>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <?php require 'customerSidebar.php' ?>
 
             <!-- Main Content -->
             <div class="col-sm-12 col-lg-10">
-                <div class="container py-5">
+                <div class="container min-vh-100 py-5">
+
+                    <!-- content starts here -->
                     <div class="card shadow-lg">
                         <div class="card-header bg-primary text-white text-center">
                             <h2><i class="bi bi-cart-plus"></i> Place Your Order</h2>
@@ -140,14 +102,20 @@ $packages = $conn->query("SELECT * FROM printingpackage WHERE Availability = 1")
                                 </button>
                             </form>
                         </div>
-                        <?php require 'footer.php'; ?>
+                        
                     </div>
                 </div>
-            </div>
+
+                <?php require 'footer.php'; ?>
+            </div>        
         </div>
     </div>
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        //change the id for every page according to the id in your sidebar. for example, the current page adminDashboard.php's id in adminSideBar is dashboard
+        document.getElementById('orderManagement').classList.add('is-active'); 
+    </script>
 </body>
 
 </html>
