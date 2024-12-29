@@ -4,7 +4,7 @@
             <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">RapidPrint</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
+        <div class="offcanvas-body overflow-hidden">
             <ul class="nav flex-column d-flex justify-content-between vh-100 overflow-hidden">
                 <div>
                     <li class="nav-item mt-lg-3">
