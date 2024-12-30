@@ -3,14 +3,14 @@ require "dbconfig.php";
 
 session_start();
 
-if(isset($_SESSION['user_id'])){
-    if($_SESSION['role'] == 'admin'){
+if (isset($_SESSION['user_id'])) {
+    if ($_SESSION['role'] == 'admin') {
         header('location: adminDashboard.php');
         exit;
-    }elseif($_SESSION['role'] == 'staff'){
+    } elseif ($_SESSION['role'] == 'staff') {
         header('location: staffDashboard.php');
         exit;
-    }elseif($_SESSION['role'] == 'customer'){
+    } elseif ($_SESSION['role'] == 'customer') {
         header('location: customerDashboard.php');
         exit;
     }
@@ -21,51 +21,53 @@ if (isset($_POST['signIn'])) {
     $password = $_POST['password'];
 
     try {
-        $stmt = $conn->prepare("SELECT * FROM user WHERE Username = :emailOrName OR Email = :emailOrName");
-        $stmt->bindParam(':emailOrName', $emailOrName);
-        $stmt->execute();
+        if ($emailOrName && $password) {
+            $stmt = $conn->prepare("SELECT * FROM user WHERE Username = :emailOrName OR Email = :emailOrName");
+            $stmt->bindParam(':emailOrName', $emailOrName);
+            $stmt->execute();
 
-        if ($stmt->rowCount() > 0) {
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            if (password_verify($password, $user['Password'])) {
-                $_SESSION['user_id'] = $user['UserID'];
-                $_SESSION['username'] = $user['Username'];
+            if ($stmt->rowCount() > 0) {
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                if (password_verify($password, $user['Password'])) {
+                    $_SESSION['user_id'] = $user['UserID'];
+                    $_SESSION['username'] = $user['Username'];
 
-                if ($user['Role'] == 'admin') {
-                    $_SESSION['role'] = 'admin';
-                    header('location:adminDashboard.php');
-                    exit;
-                } else if ($user['Role'] == 'staff') {
-                    $_SESSION['role'] = 'staff';
-                    header('location:staffDashboard.php');
-                    exit;
-                } else if ($user['Role'] == 'customer') {
-                    $_SESSION['role'] = 'customer';
-                    $stmt = $conn->prepare("SELECT * FROM customer WHERE UserID = :userid"); 
-                    $stmt->bindParam(':userid', $user['UserID']);
-                    $stmt->execute();
-                    $customer = $stmt->fetch(PDO::FETCH_ASSOC);// check if user is verified
-            
-                    if($customer['VerificationStatus'] == "pending"){ // if user is not verified
-                        if(!isset($customer['StudentCard'])){ // if user has not uploaded student card
-                         header('location:studentCard.php');
+                    if ($user['Role'] == 'admin') {
+                        $_SESSION['role'] = 'admin';
+                        header('location:adminDashboard.php');
+                        exit;
+                    } else if ($user['Role'] == 'staff') {
+                        $_SESSION['role'] = 'staff';
+                        header('location:staffDashboard.php');
+                        exit;
+                    } else if ($user['Role'] == 'customer') {
+                        $_SESSION['role'] = 'customer';
+                        $stmt = $conn->prepare("SELECT * FROM customer WHERE UserID = :userid");
+                        $stmt->bindParam(':userid', $user['UserID']);
+                        $stmt->execute();
+                        $customer = $stmt->fetch(PDO::FETCH_ASSOC); // check if user is verified
+
+                        if ($customer['VerificationStatus'] == "pending") { // if user is not verified
+                            if (!isset($customer['StudentCard'])) { // if user has not uploaded student card
+                                header('location:studentCard.php');
+                            } else { // if user has not uploaded student card and is not verified
+                                header('location:waitingVerify.php');
+                            }
+                        } else { // if user is verified
+                            header('location:customerDashboard.php');
                         }
-                        else{// if user has not uploaded student card and is not verified
-                            header('location:waitingVerify.php');
-                        }
+
+
+                        exit;
                     }
-                    else{ // if user is verified
-                        header('location:customerDashboard.php');
-                    }
-                
-                   
-                    exit;
+                } else {
+                    $_SESSION['loginError'] = 'Wrong password. Please try again';
                 }
             } else {
-                $_SESSION['loginError'] = 'Wrong password. Please try again';
+                $_SESSION['loginError'] = 'No user found. Please sign in as guest of contact administrator';
             }
         } else {
-            $_SESSION['loginError'] = 'No user found. Please sign in as guest of contact administrator';
+            $_SESSION['loginError'] = 'Please enter your username/email and password.';
         }
     } catch (PDOException $e) {
         echo $e->getMessage();
@@ -107,10 +109,10 @@ $conn = null;
                 <form action="" method="post" class="w-75">
                     <h2 class="mb-4">USER LOGIN</h2>
                     <?php if (isset($_SESSION['loginError'])): ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <?php echo $_SESSION['loginError']; ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <?php echo $_SESSION['loginError']; ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     <?php
                         unset($_SESSION['loginError']);
                     endif;
