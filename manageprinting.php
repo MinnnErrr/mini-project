@@ -124,12 +124,15 @@ while ($row = mysqli_fetch_assoc($rs)) {
         echo '
         <form method="POST" action="backprinting.php">
         <input type="hidden" name="order_id" value="' . $orderID . '">
+        <input type="hidden" name="user_id" value="' . $user_id . '">
         <button type="submit" name="action" value="complete_order" class="btn btn-primary"><i class="bi bi-check2-all"></i> Complete Order</button>
    
         <input type="hidden" name="order_id" value="' . $orderID . '">
+        <input type="hidden" name="user_id" value="' . $user_id . '">
         <button type="submit" name="action" value="delete" class="btn btn-danger" style="display:inline;"><i class="bi bi-trash3-fill"></i> Delete</button>
 
         <input type="hidden" name="order_id" value="' . $orderID . '">
+        <input type="hidden" name="user_id" value="' . $user_id . '">
         <button type="submit" name="action" value="generate_invoice" class="btn btn-success" style="display:inline;"><i class="bi bi-receipt"></i> Generate Invoice</button>
     </form>';
     }
@@ -139,6 +142,7 @@ while ($row = mysqli_fetch_assoc($rs)) {
         echo '
             <form method="POST" action="backprinting.php" style="display:inline;">
                 <input type="hidden" name="order_id" value="' . $orderID . '">
+                <input type="hidden" name="user_id" value="' . $user_id . '">
                 <button type="submit" name="action" value="mark_collected" class="btn btn-secondary">Mark Collected</button>
             </form>';
     } 
