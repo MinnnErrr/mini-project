@@ -7,101 +7,143 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$customer_id = $_SESSION['user_id'];
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $order_id = $_POST['order_id'];
-    $package_id = $_POST['package_id'];
-    $quantity = $_POST['quantity'];
-    $payment_method = $_POST['payment_method'];
-    $pickup_date = $_POST['pickup_date'];
-    $pickup_time = $_POST['pickup_time'];
+    $order_id = $_POST['order_id'] ?? null;
+    $package_id = $_POST['package_id'] ?? null;
+    $property_id = $_POST['category'] ?? null;
+    $quantity = $_POST['quantity'] ?? null;
+    $description = $_POST['description'] ?? null;
+    $payment_method = $_POST['payment_method'] ?? null;
+    $pickup_date = $_POST['pickup_date'] ?? null;
+    $pickup_time = $_POST['pickup_time'] ?? null;
+    $file = $_FILES['file'] ?? null;
 
-    // File upload handling
-    $file_upload = $_FILES['file'];
-    $file_path = null;
-    if ($file_upload['error'] === UPLOAD_ERR_OK) {
-        $file_name = basename($file_upload['name']);
-        $upload_dir = 'uploads/';
-        $file_path = $upload_dir . time() . '_' . $file_name;
-
-        if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0777, true);
-        }
-
-        if (!move_uploaded_file($file_upload['tmp_name'], $file_path)) {
-            $_SESSION['error'] = "Failed to upload file.";
-            header("Location: editOrder.php?order_id=$order_id");
-            exit();
-        }
+    if (!$order_id || !$package_id || !$property_id || !$quantity || !$pickup_date || !$pickup_time) {
+        header('Location: editOrder.php?order_id=' . $order_id);
+        exit();
     }
 
-    // Start a transaction
-    $conn->beginTransaction();
-
     try {
-        // Fetch the BasePrice of the selected package
-        $query = "SELECT BasePrice FROM printingpackage WHERE PackageID = :package_id";
+        $conn->beginTransaction();
+
+        // Fetch package base price and property price
+        $query = "SELECT p.BasePrice, pp.Price FROM printingpackage p 
+                  INNER JOIN packageproperty pp ON pp.PackageID = p.PackageID
+                  WHERE p.PackageID = :package_id AND pp.PropertyID = :property_id";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':package_id', $package_id, PDO::PARAM_INT);
+        $stmt->bindParam(':property_id', $property_id, PDO::PARAM_INT);
         $stmt->execute();
-        $package = $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$package) {
-            throw new Exception("Invalid package selected.");
+        if (!$result) {
+            throw new Exception('Invalid package or property selection.');
         }
 
-        $base_price = $package['BasePrice'];
-        $total_price = $quantity * $base_price;
+        $base_price = $result['BasePrice'];
+        $property_price = $result['Price'];
 
-        // Update the order details in the `order` table
-        $query = "
-            UPDATE `order`
-            SET PaymentMethod = :payment_method,
-                PickUpDate = :pickup_date,
-                PickUpTime = :pickup_time,
-                TotalPrice = :total_price
-            WHERE OrderID = :order_id AND CustomerID = :customer_id
+        // Calculate total price
+        $total_price = ($base_price + $property_price) * $quantity;
+
+        // Calculate points
+        $points = round($total_price / 2);
+
+        // Handle file upload with timestamp renaming (no directory in the path)
+        $uploaded_file = null;
+        if ($file && $file['error'] === UPLOAD_ERR_OK) {
+            $fileName = time() . "_" . basename($file['name']);
+            // The file path is just the file name (without the directory)
+            $uploaded_file = $fileName;
+
+            // Move the uploaded file to the desired directory
+            $filePath = "files/" . $uploaded_file;
+            if (!move_uploaded_file($file['tmp_name'], $filePath)) {
+                throw new Exception('Failed to upload the file.');
+            }
+        }
+
+        // Update the `order` table
+        $updateOrderQuery = "
+            UPDATE `order` 
+            SET TotalPrice = :total_price, 
+                Points = :points,
+                PaymentMethod = :payment_method, 
+                PickUpDate = :pickup_date, 
+                PickUpTime = :pickup_time, 
+                file = :file, 
+                descriptionOrder = :description 
+            WHERE OrderID = :order_id
         ";
-        $stmt = $conn->prepare($query);
+        $stmt = $conn->prepare($updateOrderQuery);
+        $stmt->bindParam(':total_price', $total_price, PDO::PARAM_STR);
+        $stmt->bindParam(':points', $points, PDO::PARAM_INT);
         $stmt->bindParam(':payment_method', $payment_method, PDO::PARAM_STR);
         $stmt->bindParam(':pickup_date', $pickup_date, PDO::PARAM_STR);
         $stmt->bindParam(':pickup_time', $pickup_time, PDO::PARAM_STR);
-        $stmt->bindParam(':total_price', $total_price, PDO::PARAM_STR);
+        $stmt->bindParam(':file', $uploaded_file, PDO::PARAM_STR); // Only save the file name, not the full path
+        $stmt->bindParam(':description', $description, PDO::PARAM_STR);
         $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
-        $stmt->bindParam(':customer_id', $customer_id, PDO::PARAM_INT);
         $stmt->execute();
 
-        // Update the package and quantity in the `orderprintingpackage` table
-        $query = "
-            UPDATE `orderprintingpackage`
-            SET PackageID = :package_id,
-                Quantity = :quantity
+        // Update the `orderprintingpackage` table
+        $updateOrderPackageQuery = "
+            UPDATE `orderprintingpackage` 
+            SET Quantity = :quantity, PackageID = :package_id
             WHERE OrderID = :order_id
         ";
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':package_id', $package_id, PDO::PARAM_INT);
+        $stmt = $conn->prepare($updateOrderPackageQuery);
         $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+        $stmt->bindParam(':package_id', $package_id, PDO::PARAM_INT);
         $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
         $stmt->execute();
 
-        // Optionally update the file path in the `order` table
-        if ($file_path) {
-            $query = "UPDATE `order` SET file = :file_path WHERE OrderID = :order_id";
-            $stmt = $conn->prepare($query);
-            $stmt->bindParam(':file_path', $file_path, PDO::PARAM_STR);
-            $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
-            $stmt->execute();
-        }
+        // Update the `orderproperty` table
+        $updateOrderPropertyQuery = "
+            DELETE FROM `orderproperty` WHERE OrderPackageID = 
+            (SELECT OrderPackageID FROM `orderprintingpackage` WHERE OrderID = :order_id)
+        ";
+        $stmt = $conn->prepare($updateOrderPropertyQuery);
+        $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $stmt->execute();
 
-        // Commit the transaction
+        $insertOrderPropertyQuery = "
+            INSERT INTO `orderproperty` (OrderPackageID, PropertyID)
+            VALUES (
+                (SELECT OrderPackageID FROM `orderprintingpackage` WHERE OrderID = :order_id), 
+                :property_id
+            )
+        ";
+        $stmt = $conn->prepare($insertOrderPropertyQuery);
+        $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $stmt->bindParam(':property_id', $property_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Update the `point` table
+        $insertPointQuery = "
+            INSERT INTO `point` (Date, Amount, MembershipID) 
+            VALUES (NOW(), :amount, 
+                (SELECT MembershipID FROM membershipcard WHERE CustomerID = 
+                    (SELECT CustomerID FROM `order` WHERE OrderID = :order_id))
+            )
+        ";
+        $stmt = $conn->prepare($insertPointQuery);
+        $stmt->bindParam(':amount', $points, PDO::PARAM_INT);
+        $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $stmt->execute();
+
         $conn->commit();
-        $_SESSION['success'] = "Order updated successfully.";
+
+        header('Location: viewOrder.php?success=Order updated successfully.');
+        exit();
     } catch (Exception $e) {
         $conn->rollBack();
-        $_SESSION['error'] = "Failed to update order: " . $e->getMessage();
+        error_log("Error updating order: " . $e->getMessage());
+        header('Location: editOrder.php?order_id=' . $order_id . '&error=Error updating order.');
+        exit();
     }
-
+} else {
     header('Location: viewOrder.php');
     exit();
 }
+?>
