@@ -6,10 +6,13 @@
         </div>
         <div class="offcanvas-body overflow-hidden">
             <ul class="nav flex-column d-flex justify-content-between vh-100 overflow-hidden">
-                <div>
+                <div class="mt-lg-3">
+                    <?php if(isset($_SESSION['status']) != 'Unregistered'): ?>
                     <li class="nav-item mt-lg-3">
                         <a class="nav-link is-dark" href="customerDashboard.php" id="customerDashboard">Dashboard</a>
                     </li>
+                    <?php endif; ?>
+
                     <li class="nav-item">
                         <a class="nav-link is-dark" href="order_management.php" id="orderManagement">Add Order</a>
                     </li>
@@ -19,21 +22,35 @@
                     <li class="nav-item">
                         <a class="nav-link is-dark" href="viewOrder.php" id="viewOrder">Checkout</a>
                     </li>
+
+                    <?php if(isset($_SESSION['status']) != 'Unregistered'): ?>
                     <li class="nav-item">
                         <a class="nav-link is-dark" href="applyMembership.php" id="applyMembership">Membership Card</a>
                     </li>
+                    <?php endif; ?>
+                    
+                    <?php if(isset($_SESSION['status']) != 'Unregistered'): ?>
                     <li class="nav-item">
                         <a class="nav-link is-dark" href="CustomerProfile.php" id="customerProfile">Profile</a>
                     </li>
+                    <?php endif; ?>
                    
                 </div>
 
                 <div class="mb-5 pb-5">
+                    <?php if(isset($_SESSION['status']) != 'Unregistered'): ?>
                     <li>
                         <button class="btn w-100 btn-dark rounded-3" onclick="location.href='logout.php'">
                             Log Out
                         </button>
                     </li>
+                    <?php else: ?>
+                    <li>
+                        <button class="btn w-100 btn-dark rounded-3" onclick="location.href='logout.php'">
+                            Back to Login
+                        </button>
+                    </li>    
+                    <?php endif; ?>
                 </div>
             </ul>
 

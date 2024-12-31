@@ -56,7 +56,8 @@ require 'calcSales.php';
                                 <!-- fs-1 = Larger -->
                                 <h5><i class="bi bi-person-circle fs-4"></i> Staff Information</h5>
                                 <br>
-                                <table style="text-align:left; margin-left:40px">
+                                <img src="profile default image.jpg" alt="Card image" style="width:200px;float:right">
+                                <table style="text-align:left; margin-left:40px;margin-bottom:12px">
                                     <tr>
                                         <td><p>Staff Name: <?php echo $Name; ?></p></td>
                                     </tr>
@@ -69,7 +70,15 @@ require 'calcSales.php';
                                     <tr>
                                         <td><p>Branch: <?php echo $Branch; ?></p> </td>
                                     </tr>
-                                </table>       
+                                    <tr>
+                                        <td>
+                                        <form method="POST" action="staffProfile.php">
+                                            <button type="submit" class="btn btn-dark">View Profile</button>
+                                        </form>
+                                        </td>
+                                    </tr>
+                                </table>
+                               
                             </div>
                         </div>
                         <div class="col-6">
@@ -170,7 +179,7 @@ require 'calcSales.php';
 <script>
     // Generate the QR Code
     var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "http://localhost/WEBFILE/mini-project/reward.php",
+        text: "http://localhost/WEBFILE/mini-project/showReward.php",
         width: 170,  // Fixed width
         height: 170, // Fixed height
         colorDark: "#000000", // QR code color

@@ -3,9 +3,8 @@ require 'dbconfig.php';
 
 session_start();
 
-// Validate if the user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+if (!isset($_SESSION['user_id']) && !isset($_SESSION['customer_id'])) {
+    header('location:login.php');
     exit();
 }
 
