@@ -49,18 +49,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Calculate points
         $points = round($total_price / 2);
 
-        // Handle file upload with timestamp renaming (no directory in the path)
+        // Handle file upload or retain the existing file
         $uploaded_file = null;
         if ($file && $file['error'] === UPLOAD_ERR_OK) {
             $fileName = time() . "_" . basename($file['name']);
-            // The file path is just the file name (without the directory)
             $uploaded_file = $fileName;
-
-            // Move the uploaded file to the desired directory
             $filePath = "files/" . $uploaded_file;
             if (!move_uploaded_file($file['tmp_name'], $filePath)) {
                 throw new Exception('Failed to upload the file.');
             }
+        } else {
+            // Retrieve the existing file if no new file is uploaded
+            $query = "SELECT file FROM `order` WHERE OrderID = :order_id";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+            $stmt->execute();
+            $uploaded_file = $stmt->fetchColumn();
         }
 
         // Update the `order` table
@@ -81,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':payment_method', $payment_method, PDO::PARAM_STR);
         $stmt->bindParam(':pickup_date', $pickup_date, PDO::PARAM_STR);
         $stmt->bindParam(':pickup_time', $pickup_time, PDO::PARAM_STR);
-        $stmt->bindParam(':file', $uploaded_file, PDO::PARAM_STR); // Only save the file name, not the full path
+        $stmt->bindParam(':file', $uploaded_file, PDO::PARAM_STR); // Use existing file if no new file is uploaded
         $stmt->bindParam(':description', $description, PDO::PARAM_STR);
         $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
         $stmt->execute();
@@ -146,4 +150,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: viewOrder.php');
     exit();
 }
-?>
