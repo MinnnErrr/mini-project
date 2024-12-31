@@ -2,10 +2,7 @@
 require 'dbconfig.php';
 session_start();
 
-$user_id = $_SESSION['user_id'];
-$username = $_SESSION['username'];
-
-if (!isset($user_id)) {
+if (!isset($_SESSION['user_id']) && !isset($_SESSION['customer_id'])) {
     header('location:login.php');
 }
 
