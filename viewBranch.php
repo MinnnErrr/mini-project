@@ -37,41 +37,79 @@ if (!isset($user_id)) {
             <div class="col-sm-12 col-lg-10">
                 <div class="container min-vh-100 p-5">
 
-                    <div class="border rounded-3 p-4 bg-white col-lg-6 mx-auto">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="rounded-3 p-4 pt-3 pb-3 bg-gradient mb-4" style="color: #0f524f; background-color: #08c4b3;">
+                            <h4>Branch Details</h4>
+                        </div>
 
-                        <h4 class="pb-3">Branch Details</h4>
+                        <div class="border rounded-3 p-4 bg-white mb-4">
+                            <?php
+                            $branchID = $_GET['id'];
+                            $stmt = $conn->prepare("SELECT * FROM branch WHERE BranchID = '$branchID'");
+                            $stmt->execute();
 
-                        <?php
-                        $branchID = $_GET['id'];
-                        $stmt = $conn->prepare("SELECT * FROM branch WHERE BranchID = '$branchID'");
-                        $stmt->execute();
+                            $branch = $stmt->fetch(PDO::FETCH_OBJ);
+                            ?>
 
-                        $branch = $stmt->fetch(PDO::FETCH_OBJ);
-                        ?>
+                            <form action="">
+                                <div class="mb-3">
+                                    <label for="branchName" class="form-label fw-bold">Branch name</label>
+                                    <input type="text" value="<?php echo $branch->Name ?>" readonly class="form-control-plaintext" name="branchName" id="branchName">
+                                </div>
 
-                        <form action="">
+                                <div class="mb-3">
+                                    <label for="branchAddress" class="form-label fw-bold">Address</label>
+                                    <textarea readonly class="form-control-plaintext" name="branchAddress" id="branchAddress"><?php echo $branch->Address ?></textarea>
+                                </div>
 
+                                <div class="mb-5">
+                                    <label for="branchContact" class="form-label fw-bold">Contact number</label>
+                                    <input type="text" value="<?php echo $branch->ContactNumber ?>" readonly class="form-control-plaintext" name="branchContact" id="branchContact">
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <a href="./updateBranch.php?id=<?php echo $branch->BranchID ?>" class="btn btn-outline-dark me-3 w-100">Edit</a>
+                                    <a href="./branchManagement.php" class="btn btn-outline-dark ms-3 w-100">Back</a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="border rounded-3 p-4 bg-white">
                             <div class="mb-3">
-                                <label for="branchName" class="form-label fw-bold">Branch name</label>
-                                <input type="text" value="<?php echo $branch->Name ?>" readonly class="form-control-plaintext" name="branchName" id="branchName">
+                                <h6 class="fw-bold">Branch Management</h6>
+                                <p>You can edit the details at User Management</p>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="branchAddress" class="form-label fw-bold">Address</label>
-                                <textarea readonly class="form-control-plaintext" name="branchAddress" id="branchAddress"><?php echo $branch->Address ?></textarea>
-                            </div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Position</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $stmt = $conn->prepare("SELECT * FROM branch 
+                                                        JOIN staff ON staff.BranchID = branch.BranchID
+                                                        JOIN user ON user.UserID = staff.UserID
+                                                        WHERE branch.BranchID = '$branchID'");
+                                    $stmt->execute();
 
-                            <div class="mb-5">
-                                <label for="branchContact" class="form-label fw-bold">Contact number</label>
-                                <input type="text" value="<?php echo $branch->ContactNumber ?>" readonly class="form-control-plaintext" name="branchContact" id="branchContact">
-                            </div>
+                                    $staffs = $stmt->fetchAll(PDO::FETCH_OBJ);
+                                    foreach ($staffs as $staff):
+                                    ?>
 
-                            <div class="d-flex justify-content-center">
-                                <a href="./updateBranch.php?id=<?php echo $branch->BranchID ?>" class="btn btn-outline-dark me-3 w-100">Edit</a>
-                                <a href="./branchManagement.php" class="btn btn-outline-dark ms-3 w-100">Back</a>
-                            </div>
+                                        <tr>
+                                            <td><?php echo $staff->Username ?></td>
+                                            <td><?php echo $staff->PhoneNumber ?></td>
+                                            <td><?php echo $staff->Position ?></td>
+                                        </tr>
 
-                        </form>
+                                    <?php endforeach ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                 </div>

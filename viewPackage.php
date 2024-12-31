@@ -4,7 +4,6 @@ require 'dbconfig.php';
 session_start();
 
 $user_id = $_SESSION['user_id'];
-$username = $_SESSION['username'];
 
 if (!isset($user_id)) {
     header('location:login.php');
@@ -21,6 +20,7 @@ if (!isset($user_id)) {
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
+    <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.8/b-3.2.0/r-3.0.3/rg-1.5.1/sc-2.4.3/sb-1.8.1/sp-2.3.3/datatables.min.css" rel="stylesheet">
 </head>
 
 
@@ -35,14 +35,17 @@ if (!isset($user_id)) {
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
-                <div class="container min-vh-100 p-4">
+                <div class="container min-vh-100 p-5">
+                    <div class="rounded-3 p-4 pt-3 pb-3 bg-gradient col-lg-8 mb-4 mx-auto" style="color: #0f524f; background-color: #08c4b3;">
+                        <h4>Package Details</h4>
+                    </div>
 
                     <div class="border rounded-3 p-4 bg-white col-lg-8 mx-auto">
-                        <h4 class="pb-3">Package Details</h4>
-
                         <?php
                         $packageID = $_GET['id'];
-                        $stmt = $conn->prepare("SELECT * FROM printingpackage WHERE PackageID = '$packageID'");
+                        $stmt = $conn->prepare("SELECT * FROM printingpackage 
+                                                JOIN branch ON printingpackage.BranchID = branch.BranchID
+                                                WHERE printingpackage.PackageID = '$packageID'");
                         $stmt->execute();
 
                         $package = $stmt->fetch(PDO::FETCH_OBJ);
@@ -51,7 +54,7 @@ if (!isset($user_id)) {
                         <form action="">
                             <div class="mb-3">
                                 <label for="packageName" class="form-label fw-bold">Package name</label>
-                                <input type="text" value="<?php echo $package->Name ?>" readonly class="form-control-plaintext" name="packageName" id="packageName">
+                                <input type="text" value="<?php echo $package->PackageName ?>" readonly class="form-control-plaintext" name="packageName" id="packageName">
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label fw-bold">Description</label>
@@ -67,14 +70,7 @@ if (!isset($user_id)) {
                             </div>
                             <div class="mb-5">
                                 <label for="branch" class="form-label fw-bold">Affiliated branch</label>
-                                <?php
-                                $branchID = $package->BranchID;
-                                $stmt = $conn->prepare("SELECT * FROM branch where BranchID = '$branchID'");
-                                $stmt->execute();
-
-                                $branch = $stmt->fetch(PDO::FETCH_OBJ);
-                                ?>
-                                <input type="text" value="<?php echo $branch->Name ?>" readonly class="form-control-plaintext" name="branch" id="branch">
+                                <input type="text" value="<?php echo $package->Name ?>" readonly class="form-control-plaintext" name="branch" id="branch">
                             </div>
                             <div class="d-flex justify-content-center">
                                 <a href="./updatePackage.php?id=<?php echo $package->PackageID ?>" class="btn btn-outline-dark me-3 w-100">Edit</a>
@@ -85,20 +81,21 @@ if (!isset($user_id)) {
 
                     <div class="border bg-white p-4 rounded-3 col-lg-8 mx-auto mt-4">
                         <div class="d-flex justify-content-between pb-3">
-                            <h4>Package Properties</h4>
-                            <button class="btn btn-sm btn-outline-dark" onclick="location.href='./addPackageProperty.php?id=<?php echo $packageID ?>'">
+                            <h5>Package Properties</h5>
+                            <button class="btn btn-sm btn-secondary" onclick="location.href='./addPackageProperty.php?id=<?php echo $packageID ?>'">
+                                <i class="bi bi-plus-circle me-1"></i>
                                 ADD PROPERTY
                             </button>
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="propertyTable">
                                 <thead>
                                     <tr>
-                                        <th scope="col">No.</th>
+                                        <th width="10%" scope="col" class="text-start">No.</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Category</th>
-                                        <th scope="col">Price</th>
+                                        <th scope="col" class="text-start">Price</th>
                                         <th width="20%" scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -113,10 +110,10 @@ if (!isset($user_id)) {
                                     ?>
 
                                         <tr>
-                                            <th scope="row"><?php echo $i ?></th>
+                                            <th scope="row" class="text-start"><?php echo $i ?></th>
                                             <td><?php echo $property->Name ?></td>
                                             <td><?php echo $property->Category ?></td>
-                                            <td><?php echo $property->Price ?></td>
+                                            <td class="text-start"><?php echo $property->Price ?></td>
                                             <td>
                                                 <div class="d-flex">
                                                     <button class="btn btn-secondary me-4" onclick="location.href='./updatePackageProperty.php?id=<?php echo $property->PropertyID ?>'">
@@ -169,8 +166,13 @@ if (!isset($user_id)) {
     </div>
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.8/b-3.2.0/r-3.0.3/rg-1.5.1/sc-2.4.3/sb-1.8.1/sp-2.3.3/datatables.min.js"></script>
+
     <script>
         document.getElementById('package').classList.add('is-active');
+    </script>
+    <script>
+        new DataTable('#propertyTable');
     </script>
 </body>
 

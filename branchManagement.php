@@ -21,6 +21,8 @@ if (!isset($user_id)) {
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./main.css">
+    <!-- <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.8/af-2.7.0/b-3.2.0/b-colvis-3.2.0/b-html5-3.2.0/b-print-3.2.0/r-3.0.3/rg-1.5.1/sb-1.8.1/sp-2.3.3/datatables.min.css" rel="stylesheet"> -->
+    <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.8/b-3.2.0/r-3.0.3/rg-1.5.1/sc-2.4.3/sb-1.8.1/sp-2.3.3/datatables.min.css" rel="stylesheet">
 </head>
 
 
@@ -34,45 +36,24 @@ if (!isset($user_id)) {
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
-                <div class="container-fluid min-vh-100 p-4">
+                <div class="container-fluid min-vh-100 p-5">
 
                     <div class="bg-white p-5 rounded-3 shadow-sm">
                         <div class="d-flex justify-content-between pb-3">
                             <h4>Koperasi Branches</h4>
-                            <button class="btn btn-sm btn-outline-dark" onclick="location.href='./addBranch.php'">
+                            <button class="btn btn-sm btn-secondary" onclick="location.href='./addBranch.php'">
+                                <i class="bi bi-plus-circle me-1"></i>
                                 ADD BRANCH
                             </button>
                         </div>
 
-                        <!--search, filter, sort-->
-                        <div class="row d-flex align-items-center pb-2">
-                            <div class="col-sm-12 col-lg-6 mb-2">
-                                <form action="" class="d-flex col-sm-12">
-                                    <input class="form-control rounded-0" type="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-outline-success rounded-0" type="submit">
-                                        <span class="bi bi-search"></span>
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 mb-2">
-                                <select class="form-select rounded-0">
-                                    <option value="">Sort by Branch Name</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 mb-2">
-                                <select class="form-select rounded-0">
-                                    <option value="">Filter by Location</option>
-                                </select>
-                            </div>
-                        </div>
-
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover w-100" id="branchTable">
                                 <thead>
                                     <tr>
-                                        <th scope="col">No.</th>
+                                        <th width="10%" scope="col" class="text-start">No.</th>
                                         <th scope="col">Branch Name</th>
-                                        <th width="20%"scope="col">
+                                        <th width="20%" scope="col">
                                             Action
                                         </th>
                                     </tr>
@@ -87,7 +68,7 @@ if (!isset($user_id)) {
                                     foreach ($branches as $branch):
                                     ?>
                                         <tr>
-                                            <th scope="row"><?php echo $i ?></th>
+                                            <th scope="row" class="text-start"><?php echo $i ?></th>
                                             <td><?php echo $branch->Name ?></td>
                                             <td>
                                                 <div class="d-flex">
@@ -129,7 +110,6 @@ if (!isset($user_id)) {
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
 
@@ -139,8 +119,16 @@ if (!isset($user_id)) {
     </div>
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.8/af-2.7.0/b-3.2.0/b-colvis-3.2.0/b-html5-3.2.0/b-print-3.2.0/r-3.0.3/rg-1.5.1/sb-1.8.1/sp-2.3.3/datatables.min.js"></script> -->
+    <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.8/b-3.2.0/r-3.0.3/rg-1.5.1/sc-2.4.3/sb-1.8.1/sp-2.3.3/datatables.min.js"></script>
+
     <script>
         document.getElementById('branch').classList.add('is-active');
+    </script>
+    <script>
+        new DataTable('#branchTable');
     </script>
 </body>
 
