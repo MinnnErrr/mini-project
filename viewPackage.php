@@ -44,7 +44,8 @@ if (!isset($user_id)) {
                     <div class="border rounded-3 p-4 bg-white col-lg-8 mx-auto">
                         <?php
                         $packageID = $_GET['id'];
-                        $stmt = $conn->prepare("SELECT * FROM printingpackage 
+                        $stmt = $conn->prepare("SELECT printingpackage.Name as packageName, printingpackage.Description, printingpackage.BasePrice, printingpackage.Availability, branch.Name as branchName
+                                                FROM printingpackage
                                                 JOIN branch ON printingpackage.BranchID = branch.BranchID
                                                 WHERE printingpackage.PackageID = '$packageID'");
                         $stmt->execute();
@@ -55,7 +56,7 @@ if (!isset($user_id)) {
                         <form action="">
                             <div class="mb-3">
                                 <label for="packageName" class="form-label fw-bold">Package name</label>
-                                <input type="text" value="<?php echo $package->PackageName ?>" readonly class="form-control-plaintext" name="packageName" id="packageName">
+                                <input type="text" value="<?php echo $package->packageName ?>" readonly class="form-control-plaintext" name="packageName" id="packageName">
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label fw-bold">Description</label>
@@ -71,10 +72,10 @@ if (!isset($user_id)) {
                             </div>
                             <div class="mb-5">
                                 <label for="branch" class="form-label fw-bold">Affiliated branch</label>
-                                <input type="text" value="<?php echo $package->Name ?>" readonly class="form-control-plaintext" name="branch" id="branch">
+                                <input type="text" value="<?php echo $package->branchName ?>" readonly class="form-control-plaintext" name="branch" id="branch">
                             </div>
                             <div class="d-flex justify-content-center">
-                                <a href="./updatePackage.php?id=<?php echo $package->PackageID ?>" class="btn btn-outline-dark me-3 w-100">Edit</a>
+                                <a href="./updatePackage.php?id=<?php echo $packageID ?>" class="btn btn-outline-dark me-3 w-100">Edit</a>
                                 <a href="./packageManagement.php" class="btn btn-outline-dark ms-3 w-100">Back</a>
                             </div>
                         </form>

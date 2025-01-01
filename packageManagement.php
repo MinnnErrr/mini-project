@@ -64,7 +64,8 @@ if (!isset($user_id)) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $stmt = $conn->prepare("SELECT * FROM printingpackage 
+                                    $stmt = $conn->prepare("SELECT printingpackage.Name as packageName, branch.Name as branchName, printingpackage.Availability, printingpackage.PackageID
+                                                            FROM printingpackage 
                                                             JOIN branch ON printingpackage.BranchID = branch.BranchID
                                                             ORDER BY printingpackage.PackageID DESC");
                                     $stmt->execute();
@@ -75,9 +76,9 @@ if (!isset($user_id)) {
                                     ?>
                                         <tr>
                                             <th scope="row" class="text-start"><?php echo $i ?></th>
-                                            <td><?php echo $package->PackageName ?></td>
+                                            <td><?php echo $package->packageName ?></td>
                                             <td>
-                                                <?php echo $package->Name ?>
+                                                <?php echo $package->branchName ?>
                                             </td>
                                             <td>
                                                 <span class="badge rounded-pill text-bg-<?php echo $package->Availability == 'Available' ? 'success' : 'danger' ?>">
