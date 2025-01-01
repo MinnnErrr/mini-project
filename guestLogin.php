@@ -20,6 +20,7 @@ if (isset($_SESSION['customer_id'])) {
     header('location: order_management.php');
     exit;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +29,7 @@ if (isset($_SESSION['customer_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Guest Login</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
 
@@ -51,7 +52,8 @@ if (isset($_SESSION['customer_id'])) {
             <!--right-->
             <div class="col-12 col-lg-6 bg-body-tertiary justify-content-center align-items-center d-flex flex-column">
                 <form action="./controller/loginController.php" method="post" class="w-75">
-                    <h2 class="mb-4">USER LOGIN</h2>
+                    <h2>WELCOME</h2>
+                    <p class="mb-4">Please enter your details to proceed to order</p>
                     <?php if (isset($_SESSION['loginError'])): ?>
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <?php echo $_SESSION['loginError']; ?>
@@ -62,15 +64,19 @@ if (isset($_SESSION['customer_id'])) {
                     endif;
                     ?>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" name="emailOrName" placeholder="">
-                        <label for="floatingInput">Email Address/Username</label>
+                        <input type="text" class="form-control" name="name">
+                        <label for="floatingInput">Name</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control" name="password" placeholder="">
-                        <label for="floatingPassword">Password</label>
+                        <input type="email" class="form-control" name="email">
+                        <label for="floatingInput">Email Address</label>
                     </div>
-                    <button class="btn btn-dark w-100 py-2 mb-3" type="submit" name="signIn">Sign in</button>
-                    <button class="btn btn-light w-100 py-2" type="button" name="guestSignIn" onclick="location.href='./guestLogin.php'">Sign in as guest</button>
+                    <div class="form-floating mb-3">
+                        <input type="tel" class="form-control" name="phone">
+                        <label for="floatingInput">Phone Number</label>
+                    </div>
+                    <button class="btn btn-dark w-100 py-2 mb-3" type="submit" name="guestSignIn">Continue</button>
+                    <button class="btn btn-light w-100 py-2" type="button" onclick="location.href='./login.php'">Back</button>
                 </form>
             </div>
         </div>

@@ -42,7 +42,7 @@ if (!isset($user_id)) {
                         <!--admin dashboard-->
                         <div>
                             <div class="rounded-3 p-4 bg-gradient shadow-sm d-flex justify-content-between" style="color: #0f524f; background-color: #08c4b3;">
-                                <div class="">
+                                <div>
                                     <h4>Admin Dashboard</h4>
                                     <p>Welcome back, <?php echo $username ?> !</p>
                                 </div>
