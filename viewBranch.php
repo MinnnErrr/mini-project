@@ -35,7 +35,7 @@ if (!isset($user_id)) {
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
-                <div class="container min-vh-100 p-5">
+                <div class="container min-vh-100 p-4">
 
                     <div class="col-lg-8 mx-auto">
                         <div class="rounded-3 p-4 pt-3 pb-3 bg-gradient mb-4" style="color: #0f524f; background-color: #08c4b3;">
@@ -77,7 +77,7 @@ if (!isset($user_id)) {
                         <div class="border rounded-3 p-4 bg-white">
                             <div class="mb-3">
                                 <h6 class="fw-bold">Branch Management</h6>
-                                <p>You can edit the details at User Management</p>
+                                <p>You can add/edit the details at User Management</p>
                             </div>
 
                             <table class="table">
