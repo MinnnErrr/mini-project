@@ -22,7 +22,7 @@
                         <a class="nav-link is-dark" id="user" href="manageUser.php">User Management</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" id="profile" href="adminProfile.php">My Profile</a>
+                        <a class="nav-link is-dark" id="profile" href="viewAdminPersonalProfile.php">My Profile</a>
                     </li>
                 </div>
 

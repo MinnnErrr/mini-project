@@ -11,7 +11,22 @@ if(isset($_SESSION['user_id'])){
         header('location: staffDashboard.php');
         exit;
     }elseif($_SESSION['role'] == 'customer'){
-        header('location: customerDashboard.php');
+        $stmt = $conn->prepare("SELECT * FROM customer WHERE UserID = :userid"); 
+        $stmt->bindParam(':userid', $_SESSION['user_id']);
+        $stmt->execute();
+        $customer = $stmt->fetch(PDO::FETCH_ASSOC);// check if user is verified
+
+        if($customer['VerificationStatus'] == "pending"){ // if user is not verified
+            if(!isset($customer['StudentCard'])){ // if user has not uploaded student card
+             header('location:studentCard.php');
+            }
+            else{// if user has not uploaded student card and is not verified
+                header('location:waitingVerify.php');
+            }
+        }
+        else{ // if user is verified
+            header('location:customerDashboard.php');
+        }
         exit;
     }
 }

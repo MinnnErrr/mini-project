@@ -1,0 +1,36 @@
+.template-Membership-detail{
+padding: auto;
+height: 100%;
+}
+
+.btn-block{
+    width: 100%;
+}
+.info-member{
+    max-height: 90%;
+}
+th{
+    width: 50%;
+}
+.seach{
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    width: 100%;
+    padding: 10px;
+
+}
+.seach > input{
+    display: block;
+    width: 20%;
+    padding: 10px;
+    
+}
+.seach > button{
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    width: 10%;
+    background-color: blue;
+    color: white;
+}

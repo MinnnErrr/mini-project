@@ -1,3 +1,13 @@
+<?php
+require "dbconfig.php";
+
+
+$stmt = $conn->prepare("SELECT * FROM customer WHERE UserID = :userid"); 
+$stmt->bindParam(':userid', $_SESSION['user_id']);
+$stmt->execute();
+$customer = $stmt->fetch(PDO::FETCH_ASSOC);// check if user is verified
+$status = $customer["VerificationStatus"];
+?>
 <div class="col-lg-2 border-end bg-light">
     <div class="offcanvas-lg offcanvas-start position-fixed" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
         <div class="offcanvas-header">
@@ -7,24 +17,41 @@
         <div class="offcanvas-body">
             <ul class="nav flex-column d-flex justify-content-between" style="height: 87dvh;">
                 <div>
-                    <li class="nav-item mt-lg-3">
-                        <a class="nav-link is-dark is-active" href="customerDashboard.php">Dashboard</a>
+                    <?php
+                    if($status == "unregistered"){
+                        echo'<li class="nav-item">
+                    <a class="nav-link is-dark"  id="orderManagement" href="order_management.php">Add Order</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link is-dark"  id="orderView"  href="showOrder.php">View Order</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link is-dark" id="checkout" href="viewOrder.php">Checkout</a>
+                </li>';
+                }else{
+                    echo'
+                     <li class="nav-item mt-lg-3">
+                        <a class="nav-link is-dark" id="dashboard" href="customerDashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" href="order_management.php">Add Order</a>
+                        <a class="nav-link is-dark"  id="orderManagement" href="order_management.php">Add Order</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" href="showOrder.php">View Order</a>
+                        <a class="nav-link is-dark"  id="orderView"  href="showOrder.php">View Order</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" href="viewOrder.php">Checkout</a>
+                        <a class="nav-link is-dark" id="checkout" href="viewOrder.php">Checkout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" href="applyMembership.php">Membership Card</a>
+                        <a class="nav-link is-dark" id="membership" href="membership.php">Membership Card</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" href="CustomerProfile.php">Profile</a>
+                        <a class="nav-link is-dark" id="profile" href="CustomerProfile.php">Profile</a>
                     </li>
+                    ';
+                }
+                    ?>
+                   
                    
                 </div>
 

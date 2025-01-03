@@ -5,12 +5,17 @@ $stmt = $conn->prepare("SELECT * FROM user");
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-foreach($results as $result){
+foreach(array_reverse($results) as $result){
     $UserID= $result['UserID'];
     $email = $result['Email'];
     $username = $result['Username'];
     $role = $result['Role'];
     if($role=='customer'){
+   
+        $stmt = $conn->prepare("SELECT * FROM customer WHERE UserID = :UserID");
+        $stmt->bindParam(':UserID', $UserID);
+        $stmt->execute();
+        $customer = $stmt->fetch(PDO::FETCH_ASSOC);
         echo '
         <tr class="odd:bg-blue-50">
             <td class="p-4 text-sm">
@@ -27,7 +32,7 @@ foreach($results as $result){
             </td>
             <td class="p-4">
                 <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="edit">
-                    <a href="editCustomerUser.php?editUserID=' . $UserID . '">Edit</a> //send user id to edit
+                    <a href="editCustomerUser.php?editUserID=' . $UserID . '">Edit</a> 
                 </button>
                 <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="view">
                     <a href="viewCustomerProfile.php?viewUserID=' . $UserID . '">View</a>
@@ -35,11 +40,16 @@ foreach($results as $result){
                 <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="delete" >
                     <a href="deleteUser.php?deleteUserID=' . $UserID . '&role=' . $role . '">Delete</a>
                 </button>
-                <button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="verify">
+                ';
+        if($customer["VerificationStatus"] == "pending"){
+            echo '<button class="mr-4 text-blue-600 hover:text-blue-800 visited:text-purple-600" title="verify">
                     <a href="verifyUser.php?verifyUserID=' . $UserID . '">Verify</a>
                 </button>
             </td>
+            
         </tr>';
+        }
+        
     }
     elseif($role=='staff'){
         echo '
