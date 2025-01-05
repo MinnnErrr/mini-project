@@ -122,6 +122,7 @@ require 'calcSales.php';
         </script>
 
 </script>
+<button type="button" class="btn btn-success" onclick="window.print()"><i class="bi bi-printer"></i> Print</button>
 
 </div>
                          <div class="row bg-body border-top py-2 m-0">
