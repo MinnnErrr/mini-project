@@ -1,4 +1,4 @@
-<?php
+<?php   //ada checkbox//
 require 'dbconfig.php';
 session_start();
 
@@ -129,48 +129,53 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
 
                     <!-- Orders -->
-                    <div class="row">
-                        <?php if (count($orders) > 0): ?>
-                            <?php foreach ($orders as $order): ?>
-                                <div class="col-md-6">
-                                    <div class="card shadow order-card">
-                                        <div class="card-header bg-primary text-white">
-                                            <h5>Order #<?= htmlspecialchars($order['OrderID']); ?></h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <p><strong>Order Date:</strong> <?= htmlspecialchars($order['Date']); ?></p>
-                                            <p><strong>Status:</strong> <?= htmlspecialchars($order['Status']); ?></p>
-                                            <p><strong>Total:</strong> RM <?= number_format($order['TotalPrice'], 2); ?></p>
-                                            <p><strong>Earn:</strong> <?= htmlspecialchars($order['Points']); ?> Point</p>
-                                            <p><strong>Payment Method:</strong> <?= htmlspecialchars($order['PaymentMethod']); ?></p>
-                                            <p><strong>Pick-Up:</strong> <?= htmlspecialchars($order['PickUpDate']); ?> at <?= htmlspecialchars($order['PickUpTime']); ?></p>
-                                        </div>
-                                        <div class="card-footer d-flex gap-2">
-                                            <?php if ($order['Status'] === 'Completed'): ?>
-                                                <p class="text-success mb-1">This order is complete.</p>
-                                            <?php else: ?>
-                                                <a href="editOrder.php?order_id=<?= htmlspecialchars($order['OrderID']); ?>" class="btn btn-primary btn-sm">Edit</a>
-                                                <form method="POST" action="deleteOrder.php" onsubmit="return confirmDelete();">
-                                                    <input type="hidden" name="order_id" value="<?= $order['OrderID']; ?>">
-                                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                                </form>
+                    <form method="POST" action="payment.php">
+                        <div class="row">
+                            <?php if (count($orders) > 0): ?>
+                                <?php foreach ($orders as $order): ?>
+                                    <div class="col-md-6">
+                                        <div class="card shadow order-card">
+                                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                                <h5>Order #<?= htmlspecialchars($order['OrderID']); ?></h5>
+                                                <input type="checkbox" name="selected_orders[]" value="<?= htmlspecialchars($order['OrderID']); ?>">
 
-                                                <script>
-                                                    function confirmDelete() {
-                                                        return confirm('Are you sure you want to cancel this order?');
-                                                    }
-                                                </script>
+                                            </div>
+                                            <div class="card-body">
+                                                <p><strong>Order Date:</strong> <?= htmlspecialchars($order['Date']); ?></p>
+                                                <p><strong>Status:</strong> <?= htmlspecialchars($order['Status']); ?></p>
+                                                <p><strong>Total:</strong> RM <?= number_format($order['TotalPrice'], 2); ?></p>
+                                                <p><strong>Earn:</strong> <?= htmlspecialchars($order['Points']); ?> Point</p>
+                                                <p><strong>Payment Method:</strong> <?= htmlspecialchars($order['PaymentMethod']); ?></p>
+                                                <p><strong>Pick-Up:</strong> <?= htmlspecialchars($order['PickUpDate']); ?> at <?= htmlspecialchars($order['PickUpTime']); ?></p>
+                                            </div>
+                                            <div class="card-footer d-flex gap-2">
+                                                <?php if ($order['Status'] === 'Completed'): ?>
+                                                    <p class="text-success mb-1">This order is complete.</p>
+                                                <?php else: ?>
+                                                    <a href="editOrder.php?order_id=<?= htmlspecialchars($order['OrderID']); ?>" class="btn btn-primary btn-sm">Edit</a>
+                                                    <form method="POST" action="deleteOrder.php" onsubmit="return confirmDelete();">
+                                                        <input type="hidden" name="order_id" value="<?= $order['OrderID']; ?>">
+                                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                    </form>
 
-                                                <a href="checkout.php?order_id=<?= htmlspecialchars($order['OrderID']); ?>" class="btn btn-success btn-sm">Checkout</a>
-                                            <?php endif; ?>
+                                                    <script>
+                                                        function confirmDelete() {
+                                                            return confirm('Are you sure you want to cancel this order?');
+                                                        }
+                                                    </script>
+
+                                                    <a href="checkout.php?order_id=<?= htmlspecialchars($order['OrderID']); ?>" class="btn btn-success btn-sm">Checkout</a>
+                                                <?php endif; ?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <p>No orders found.</p>
-                        <?php endif; ?>
-                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <p>No orders found.</p>
+                            <?php endif; ?>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-4">Proceed to Payment</button>
+                    </form>
                 </div>
 
                 <?php require 'footer.php' ?>
