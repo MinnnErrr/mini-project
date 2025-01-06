@@ -53,7 +53,7 @@ if (!isset($user_id)) {
                             style="width: 22rem;">
                             
                             <div style="margin-right: 8px;">RM</div>
-                            <input name = "amount" id="postfix" placeholder="Please enter amount" type="text" id="form2"
+                            <input name = "amount" id="postfix" placeholder="Please enter amount" type='text' id="form2"
                                 class="form-control" />
                         
                             

@@ -1,6 +1,7 @@
 <?php
 require 'dbconfig.php';
 
+
 $stmt = $conn->prepare("SELECT * FROM user");
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -20,7 +21,6 @@ foreach(array_reverse($results) as $result){
         <tr class="odd:bg-blue-50">
             <td class="p-4 text-sm">
                 <div class="flex items-center cursor-pointer w-max">
-                    <img src="https://readymadeui.com/profile_4.webp" class="w-9 h-9 rounded-full shrink-0" alt="Profile Image" />
                     <div class="ml-4">
                         <p class="text-sm text-black">' . $username . '</p>
                         <p class="text-xs text-gray-500 mt-0.5">' . $email . '</p>
@@ -56,7 +56,6 @@ foreach(array_reverse($results) as $result){
         <tr class="odd:bg-blue-50">
             <td class="p-4 text-sm">
                 <div class="flex items-center cursor-pointer w-max">
-                    <img src="https://readymadeui.com/profile_4.webp" class="w-9 h-9 rounded-full shrink-0" alt="Profile Image" />
                     <div class="ml-4">
                         <p class="text-sm text-black">' . $username . '</p>
                         <p class="text-xs text-gray-500 mt-0.5">' . $email . '</p>

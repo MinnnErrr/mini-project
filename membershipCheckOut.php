@@ -34,6 +34,8 @@ if(isset($_POST['addMoney'])){
         ]
     );
     http_response_code(303);
+
+
     header("Location: " . $checkout->url);
 }
 

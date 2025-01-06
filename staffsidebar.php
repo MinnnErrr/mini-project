@@ -19,7 +19,7 @@
                         <a class="nav-link is-dark" id="reward" href="reward.php">Reward</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" id="staffProfile" href="staffProfile.php">My Profile</a>
+                        <a class="nav-link is-dark" id="staffProfile" href="viewPersonalProfile.php">My Profile</a>
                     </li>
                 </div>
                 <div class="mb-5 pb-5">

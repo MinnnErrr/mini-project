@@ -9,9 +9,10 @@ $username = $_SESSION['username'];
 if (!isset($user_id)) {
     header('location:login.php');
 }
+$amount = filter_input(INPUT_GET, 'amount', FILTER_VALIDATE_FLOAT);
 
-if(isset($_GET['amount'])){
-
+if(isset($amount)){
+ try{
     $stmt = $conn->prepare("SELECT * FROM customer WHERE UserID = :viewUserID");
     $stmt->bindParam(':viewUserID', $user_id);
     $stmt->execute();
@@ -23,30 +24,27 @@ if(isset($_GET['amount'])){
     $membershipCard= $stmt->fetch(PDO::FETCH_ASSOC);
     $membershipID= $membershipCard['MembershipID'];
     $balance= $membershipCard['Balance'];
-    $newBalance = (float)$balance + (float)$_GET['amount'];
+    $newBalance = (float)$balance + (float)$amount;
      $stmt = $conn->prepare("UPDATE membershipcard SET Balance = :balance WHERE CustomerID = :customerID");
-     $stmt->bindParam(':balance', $newBalance);
+     $stmt->bindParam(':balance', $newBalance,PDO::PARAM_STR);
      $stmt->bindParam(':customerID', $CustomerID);
      $stmt->execute();
+     $sql = "INSERT INTO transaction (Amount, Type, MembershipID) 
+            VALUES (:amount, :type, :membershipID)";
+     $stmt = $conn->prepare($sql);
+     $topUpAmount = (float)$amount;
+     $stmt->bindParam(':amount', $topUpAmount);
+     $typeTransaction = "topUp";
+     $stmt->bindParam(':type',$typeTransaction);
+     $stmt->bindParam(':membershipID',$membershipID);
+     $stmt->execute();
+    header('location:successPaymentpage.php');
     
+ }catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
 }
 else{
     header('location:login.php');
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-<body  class="d-flex justify-content-center align-items-center container-xxl">
-    <div>
-    <h1>Successfully added money to membership</h1>
-    <button class="btn btn-primary btn-lg" style="width:100%"><a href="membership.php" style="color:black">Back</a></button>
-    </div>
-    
-</body>
-</html>
