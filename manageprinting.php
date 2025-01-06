@@ -117,6 +117,12 @@ while ($row = mysqli_fetch_assoc($rs)) {
         <input type="hidden" name="user_id" value="' . $user_id . '">
         <button type="submit" name="action" value="accept_order" class="btn btn-info"><i class="bi bi-check2-all"></i> Accept Order</button>
         </form>';
+        echo '
+        <form method="POST" action="downloadfile.php">
+        <input type="hidden" name="order_id" value="' . $orderID . '">
+        <input type="hidden" name="user_id" value="' . $user_id . '">
+        <button type="submit" name="action" value="downloadfile" class="btn btn-info"><i class="bi bi-check2-all"></i> Download File</button>
+        </form>';
     }
     
     // Add "Complete Order" action
