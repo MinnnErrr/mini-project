@@ -37,7 +37,7 @@ if (!isset($user_id)) {
             <div class="col-sm-12 col-lg-10">
                 <div class="container min-vh-100 p-4">
 
-                    <div class="border rounded-3 p-4 bg-white col-lg-6 mx-auto">
+                    <div class="col-lg-8 mx-auto border rounded-3 p-4 bg-white col-lg-6 mx-auto">
                         <h4 class="pb-3">Update Package</h4>
 
                         <?php

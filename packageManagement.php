@@ -41,7 +41,7 @@ if (!isset($user_id)) {
                     <div class="bg-white p-5 rounded-3 shadow-sm">
                         <div class="d-flex justify-content-between pb-3">
                             <h4>Printing Packages</h4>
-                            <button class="btn btn-sm btn-secondary" onclick="location.href='./addPackage.php'">
+                            <button class="btn btn-sm btn-outline-dark" onclick="location.href='./addPackage.php'">
                                 <i class="bi bi-plus-circle me-1"></i>
                                 ADD PACKAGE
                             </button>

@@ -112,10 +112,16 @@ while ($row = mysqli_fetch_assoc($rs)) {
     // Add "Accept Order" action
     if ($status == 'Ordered') {
         echo '
-        <form method="POST" action="backprinting.php">
+        <form method="POST" action="backprinting.php" style="display:inline;">
         <input type="hidden" name="order_id" value="' . $orderID . '">
         <input type="hidden" name="user_id" value="' . $user_id . '">
         <button type="submit" name="action" value="accept_order" class="btn btn-info"><i class="bi bi-check2-all"></i> Accept Order</button>
+        </form>';
+        echo '
+        <form method="POST" action="downloadfile.php" style="display:inline;">
+        <input type="hidden" name="order_id" value="' . $orderID . '">
+        <input type="hidden" name="user_id" value="' . $user_id . '">
+        <button type="submit" name="action" value="downloadfile" class="btn btn-success"><i class="bi bi-file-earmark-arrow-down"></i> Download File</button>
         </form>';
     }
     

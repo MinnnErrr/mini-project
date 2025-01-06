@@ -47,7 +47,7 @@ require 'calcSales.php';
                     <!-- your content starts here -->
                     <div class="welcome">
                         <h3 style="margin-left: 10px;">RapidPrint Staff Dashboard</h3>
-                        <p style="margin-left:10px;">Welcome back</p>
+                        <p style="margin-left:10px;">Welcome back <?php echo $username ?> !</p>
                     </div>
                     <!-- =========================================================================================== -->
                     <!-- Bootstrap - 1 row have 12 col, so 6 6 col => 2 box in one row   -->
@@ -234,10 +234,16 @@ while ($row = mysqli_fetch_assoc($rs)) {
     // Add "Accept Order" action
     if ($status == 'Ordered') {
         echo '
-        <form method="POST" action="backprinting.php">
+        <form method="POST" action="backprinting.php" style="display:inline;">
         <input type="hidden" name="order_id" value="' . $orderID . '">
         <input type="hidden" name="user_id" value="' . $user_id . '">
         <button type="submit" name="action" value="accept_orderD" class="btn btn-info"><i class="bi bi-check2-all"></i> Accept Order</button>
+        </form>';
+        echo '
+        <form method="POST" action="downloadfile.php" style="display:inline;">
+        <input type="hidden" name="order_id" value="' . $orderID . '">
+        <input type="hidden" name="user_id" value="' . $user_id . '">
+        <button type="submit" name="action" value="downloadfile" class="btn btn-success"><i class="bi bi-file-earmark-arrow-down"></i> Download File</button>
         </form>';
     }
 

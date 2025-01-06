@@ -83,7 +83,7 @@ if (isset($_POST['guestSignIn'])) {
             $stmt->bindParam(':role', $role);
             $stmt->execute();
             
-            $userID = $conn->lastInsertId();
+            $_SESSION['user_id']= $conn->lastInsertId();
 
             $stmt = $conn->prepare("INSERT INTO customer (PhoneNumber, VerificationStatus, UserID) VALUES (:phoneNumber, :verificationStatus, :userID)");
             $stmt->bindParam(':phoneNumber', $phoneNumber);
