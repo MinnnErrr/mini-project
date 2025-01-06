@@ -4,7 +4,6 @@ require 'dbconfig.php';
 session_start();
 
 $user_id = $_SESSION['user_id'];
-$username = $_SESSION['username'];
 
 if (!isset($user_id)) {
     header('location:login.php');
@@ -20,7 +19,9 @@ if (!isset($user_id)) {
     <title>Package Management</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.8/b-3.2.0/r-3.0.3/rg-1.5.1/sc-2.4.3/sb-1.8.1/sp-2.3.3/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./tablePagination.css">
 </head>
 
 
@@ -40,38 +41,17 @@ if (!isset($user_id)) {
                     <div class="bg-white p-5 rounded-3 shadow-sm">
                         <div class="d-flex justify-content-between pb-3">
                             <h4>Printing Packages</h4>
-                            <button class="btn btn-sm btn-outline-dark" onclick="location.href='./addPackage.php'">
+                            <button class="btn btn-sm btn-secondary" onclick="location.href='./addPackage.php'">
+                                <i class="bi bi-plus-circle me-1"></i>
                                 ADD PACKAGE
                             </button>
                         </div>
 
-                        <!--search, filter, sort-->
-                        <div class="row d-flex align-items-center pb-2">
-                            <div class="col-sm-12 col-lg-6 mb-2">
-                                <form action="" class="d-flex col-sm-12">
-                                    <input class="form-control rounded-0" type="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-outline-success rounded-0" type="submit">
-                                        <span class="bi bi-search"></span>
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 mb-2">
-                                <select class="form-select rounded-0">
-                                    <option value="">Sort by Package Name</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 mb-2">
-                                <select class="form-select rounded-0">
-                                    <option value="">Filter by Availability</option>
-                                </select>
-                            </div>
-                        </div>
-
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="packageTable">
                                 <thead>
                                     <tr>
-                                        <th scope="col">No.</th>
+                                        <th width="10%" scope="col" class="text-start">No.</th>
                                         <th scope="col">Package Name</th>
                                         <th scope="col">Affiliated Branch</th>
                                         <th scope="col">
@@ -84,27 +64,21 @@ if (!isset($user_id)) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $stmt = $conn->prepare("SELECT * FROM printingpackage ORDER BY PackageID DESC");
+                                    $stmt = $conn->prepare("SELECT printingpackage.Name as packageName, branch.Name as branchName, printingpackage.Availability, printingpackage.PackageID
+                                                            FROM printingpackage 
+                                                            JOIN branch ON printingpackage.BranchID = branch.BranchID
+                                                            ORDER BY printingpackage.PackageID DESC");
                                     $stmt->execute();
 
                                     $packages = $stmt->fetchAll(PDO::FETCH_OBJ);
                                     $i = 1;
                                     foreach ($packages as $package):
                                     ?>
-
                                         <tr>
-                                            <th scope="row"><?php echo $i ?></th>
-                                            <td><?php echo $package->Name ?></td>
+                                            <th scope="row" class="text-start"><?php echo $i ?></th>
+                                            <td><?php echo $package->packageName ?></td>
                                             <td>
-                                                <?php
-                                                $branch = $package->BranchID;
-
-                                                $stmt = $conn->prepare(("SELECT * FROM branch WHERE BranchID = $branch"));
-                                                $stmt->execute();
-
-                                                $branch = $stmt->fetch(PDO::FETCH_OBJ);
-                                                echo $branch->Name
-                                                ?>
+                                                <?php echo $package->branchName ?>
                                             </td>
                                             <td>
                                                 <span class="badge rounded-pill text-bg-<?php echo $package->Availability == 'Available' ? 'success' : 'danger' ?>">
@@ -147,7 +121,7 @@ if (!isset($user_id)) {
 
                                     <?php
                                         $i++;
-                                        endforeach
+                                    endforeach
                                     ?>
                                 </tbody>
                             </table>
@@ -162,8 +136,13 @@ if (!isset($user_id)) {
     </div>
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.8/b-3.2.0/r-3.0.3/rg-1.5.1/sc-2.4.3/sb-1.8.1/sp-2.3.3/datatables.min.js"></script>
+
     <script>
         document.getElementById('package').classList.add('is-active');
+    </script>
+    <script>
+        new DataTable('#packageTable');
     </script>
 </body>
 

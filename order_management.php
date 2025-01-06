@@ -2,15 +2,12 @@
 require 'dbconfig.php';
 session_start();
 
-$user_id = $_SESSION['user_id'];
-$username = $_SESSION['username'];
-
-if (!isset($user_id)) {
+if (!isset($_SESSION['user_id']) && !isset($_SESSION['customer_id'])) {
     header('location:login.php');
 }
 
-// Fetch packages from the database
-$packages = $conn->query("SELECT * FROM printingpackage WHERE Availability = 1")->fetchAll(PDO::FETCH_ASSOC);
+// Fetch available packages from the database
+$packages = $conn->query("SELECT * FROM printingpackage WHERE Availability = 'Available'")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -27,56 +24,18 @@ $packages = $conn->query("SELECT * FROM printingpackage WHERE Availability = 1")
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
-<body class="bg-body-secondary bg-opacity-50">
+<body class="bg-light">
     <?php require 'navbar.php'; ?>
     <div class="container-fluid">
         <div class="row vh-100">
             <!-- Sidebar -->
-            <div class="col-lg-2 border-end bg-light">
-                <div class="offcanvas-lg offcanvas-start position-fixed" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">RapidPrint</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="nav flex-column d-flex justify-content-between" style="height: 87dvh;">
-                            <div>
-                                <li class="nav-item mt-lg-3">
-                                    <a class="nav-link is-dark" href="customerDashboard.php">Dashboard</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark is-active" href="order_management.php">Add Order</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark" href="showOrder.php">View Order</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark" href="viewOrder.php">Checkout</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark" href="applyMembership.php">Membership Card</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark" href="CustomerProfile.php">Profile</a>
-                                </li>
-                            </div>
-                            <div>
-                                <li class="nav-item">
-                                    <div class="nav-link">
-                                        <button class="btn w-100 btn-outline-dark" onclick="location.href='logout.php'">
-                                            Log Out
-                                        </button>
-                                    </div>
-                                </li>
-                            </div>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <?php require 'customerSidebar.php' ?>
 
             <!-- Main Content -->
             <div class="col-sm-12 col-lg-10">
-                <div class="container py-5">
+                <div class="container min-vh-100 py-5">
+
+                    <!-- content starts here -->
                     <div class="card shadow-lg">
                         <div class="card-header bg-primary text-white text-center">
                             <h2><i class="bi bi-cart-plus"></i> Place Your Order</h2>
@@ -88,14 +47,26 @@ $packages = $conn->query("SELECT * FROM printingpackage WHERE Availability = 1")
                                     <label for="orderPackage" class="form-label fw-bold">
                                         <i class="bi bi-box"></i> Select Package
                                     </label>
-                                    <select class="form-select" id="orderPackage" name="orderPackage" required>
+                                    <select class="form-select" id="orderPackage" name="orderPackage" required onchange="updateCategory(this.value)">
+                                        <option value="" selected disabled>Select a package</option>
                                         <?php foreach ($packages as $package) : ?>
                                             <option value="<?= $package['PackageID']; ?>">
-                                                <?= $package['Name'] . " - RM" . number_format($package['BasePrice'], 2); ?>
+                                                <?= $package['Name'] . " [ " . $package['Description'] . " ] " . " - RM" . number_format($package['BasePrice'], 2); ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
+
+                                <!-- Category Selection -->
+                                <div class="mb-4" id="categorySection" style="display: none;">
+                                    <label for="category" class="form-label fw-bold">
+                                        <i class="bi bi-tags"></i> Select Category
+                                    </label>
+                                    <select class="form-select" id="category" name="category" required>
+                                        <option value="" selected disabled>Select a category</option>
+                                    </select>
+                                </div>
+
                                 <!-- Quantity -->
                                 <div class="mb-4">
                                     <label for="quantity" class="form-label fw-bold">
@@ -103,6 +74,15 @@ $packages = $conn->query("SELECT * FROM printingpackage WHERE Availability = 1")
                                     </label>
                                     <input type="number" class="form-control" id="quantity" name="quantity" min="1" placeholder="Enter quantity" required>
                                 </div>
+
+                                <!-- Description -->
+                                <div class="mb-4">
+                                    <label for="description" class="form-label fw-bold">
+                                        <i class="bi bi-card-text"></i> Description Order
+                                    </label>
+                                    <textarea class="form-control" id="description" name="description" rows="1" placeholder="Enter order description" required></textarea>
+                                </div>
+
                                 <!-- File Upload -->
                                 <div class="mb-4">
                                     <label for="file" class="form-label fw-bold">
@@ -116,6 +96,7 @@ $packages = $conn->query("SELECT * FROM printingpackage WHERE Availability = 1")
                                         <i class="bi bi-credit-card"></i> Payment Method
                                     </label>
                                     <select class="form-select" id="paymentMethod" name="paymentMethod" required>
+                                        <option value="" selected disabled>Select a payment method</option>
                                         <option value="MembershipCard">Membership Card</option>
                                         <option value="Cash">Cash</option>
                                     </select>
@@ -140,14 +121,45 @@ $packages = $conn->query("SELECT * FROM printingpackage WHERE Availability = 1")
                                 </button>
                             </form>
                         </div>
-                        <?php require 'footer.php'; ?>
+
                     </div>
                 </div>
+
+                <?php require 'footer.php'; ?>
             </div>
         </div>
     </div>
 
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const packageProperties = <?php
+        $properties = $conn->query("SELECT * FROM packageproperty")->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($properties);
+        ?>;
+
+        function updateCategory(packageID) {
+            const categorySection = document.getElementById('categorySection');
+            const categorySelect = document.getElementById('category');
+
+            // Clear existing categories
+            categorySelect.innerHTML = '<option value="" selected disabled>Select a category</option>';
+
+            // Populate categories based on selected packageID
+            const filteredProperties = packageProperties.filter(property => property.PackageID == packageID);
+            filteredProperties.forEach(property => {
+                const option = document.createElement('option');
+                option.value = property.PropertyID;
+                option.textContent = `${property.Name} - RM${parseFloat(property.Price).toFixed(2)}`;
+                categorySelect.appendChild(option);
+            });
+
+            categorySection.style.display = 'block';
+        }
+    </script>
+    <script>
+        //change the id for every page according to the id in your sidebar. for example, the current page adminDashboard.php's id in adminSideBar is dashboard
+        document.getElementById('orderManagement').classList.add('is-active'); 
+    </script>
 </body>
 
 </html>

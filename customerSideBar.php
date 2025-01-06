@@ -1,68 +1,56 @@
-<?php
-require "dbconfig.php";
-
-
-$stmt = $conn->prepare("SELECT * FROM customer WHERE UserID = :userid"); 
-$stmt->bindParam(':userid', $_SESSION['user_id']);
-$stmt->execute();
-$customer = $stmt->fetch(PDO::FETCH_ASSOC);// check if user is verified
-$status = $customer["VerificationStatus"];
-?>
-<div class="col-lg-2 border-end bg-light">
-    <div class="offcanvas-lg offcanvas-start position-fixed" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
+<div class="col-lg-2 border-end bg-body">
+    <div class="offcanvas-lg offcanvas-start position-fixed p-lg-2" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">RapidPrint</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
-            <ul class="nav flex-column d-flex justify-content-between" style="height: 87dvh;">
-                <div>
-                    <?php
-                    if($status == "unregistered"){
-                        echo'<li class="nav-item">
-                    <a class="nav-link is-dark"  id="orderManagement" href="order_management.php">Add Order</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link is-dark"  id="orderView"  href="showOrder.php">View Order</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link is-dark" id="checkout" href="viewOrder.php">Checkout</a>
-                </li>';
-                }else{
-                    echo'
-                     <li class="nav-item mt-lg-3">
-                        <a class="nav-link is-dark" id="dashboard" href="customerDashboard.php">Dashboard</a>
+        <div class="offcanvas-body overflow-hidden">
+            <ul class="nav flex-column d-flex justify-content-between vh-100 overflow-hidden">
+                <div class="mt-lg-3">
+                    <?php if(isset($_SESSION['status']) != 'Unregistered'): ?>
+                    <li class="nav-item mt-lg-3">
+                        <a class="nav-link is-dark" href="customerDashboard.php" id="customerDashboard">Dashboard</a>
+                    </li>
+                    <?php endif; ?>
+
+                    <li class="nav-item">
+                        <a class="nav-link is-dark" href="order_management.php" id="orderManagement">Add Order</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark"  id="orderManagement" href="order_management.php">Add Order</a>
+                        <a class="nav-link is-dark" href="showOrder.php" id="showOrder">View Order</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link is-dark"  id="orderView"  href="showOrder.php">View Order</a>
+                        <a class="nav-link is-dark" href="viewOrder.php" id="viewOrder">Checkout</a>
                     </li>
+
+                    <?php if(isset($_SESSION['status']) != 'Unregistered'): ?>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" id="checkout" href="viewOrder.php">Checkout</a>
+                        <a class="nav-link is-dark" href="Membership.php" id="applyMembership">Membership Card</a>
                     </li>
+                    <?php endif; ?>
+                    
+                    <?php if(isset($_SESSION['status']) != 'Unregistered'): ?>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" id="membership" href="membership.php">Membership Card</a>
+                        <a class="nav-link is-dark" href="viewPersonalProfile.php" id="customerProfile">Profile</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link is-dark" id="profile" href="CustomerProfile.php">Profile</a>
-                    </li>
-                    ';
-                }
-                    ?>
-                   
+                    <?php endif; ?>
                    
                 </div>
 
-                <div>
-                    <li class="nav-item">
-                        <div class="nav-link">
-                            <button class="btn w-100 btn-outline-dark" onclick="location.href='logout.php'">
-                                Log Out
-                            </button>
-                        </div>
+                <div class="mb-5 pb-5">
+                    <?php if(isset($_SESSION['status']) != 'Unregistered'): ?>
+                    <li>
+                        <button class="btn w-100 btn-dark rounded-3" onclick="location.href='logout.php'">
+                            Log Out
+                        </button>
                     </li>
+                    <?php else: ?>
+                    <li>
+                        <button class="btn w-100 btn-dark rounded-3" onclick="location.href='logout.php'">
+                            Back to Login
+                        </button>
+                    </li>    
+                    <?php endif; ?>
                 </div>
             </ul>
 

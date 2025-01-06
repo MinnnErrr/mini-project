@@ -2,20 +2,27 @@
 require 'dbconfig.php';
 session_start();
 
-// Redirect if user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+if (!isset($_SESSION['user_id']) && !isset($_SESSION['customer_id'])) {
+    header('location:login.php');
     exit();
 }
 
+// Initialize variables
+$orders = [];
 $customer_id = $_SESSION['user_id'];
 
-// Fetch orders for the logged-in user, sorted by date in descending order
-$query = "SELECT * FROM `order` WHERE CustomerID = :customer_id AND Status = 'Completed' ORDER BY Date DESC";
-$stmt = $conn->prepare($query);
-$stmt->bindParam(':customer_id', $customer_id, PDO::PARAM_INT);
-$stmt->execute();
-$orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+try {
+    // Fetch orders for the logged-in user, sorted by date in descending order
+    $query = "SELECT * FROM `order` WHERE CustomerID = :customer_id AND Status = 'Completed' ORDER BY Date DESC";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':customer_id', $customer_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    // Log error and initialize $orders as an empty array
+    $orders = [];
+    error_log("Error fetching orders: " . $e->getMessage());
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,17 +32,9 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>List Order</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="./main.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-        }
-
         .order-card {
             margin-top: 20px;
             padding: 20px;
@@ -49,13 +48,11 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             color: white;
         }
 
-        .file-icon {
-            font-size: 1.0rem;
-            /* Icon size */
-            margin-right: 5px;
-            /* Space between icon and text */
+        .file-icon,
+        .action-icon {
+            font-size: 1.2rem;
             color: #007bff;
-            /* Icon color */
+            cursor: pointer;
         }
 
         .no-orders {
@@ -63,110 +60,158 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             padding: 20px;
             color: #777;
         }
+
+        .modal-card {
+            padding: 20px;
+            width: fit-content;
+            border-radius: 15px;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-card-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #007bff
+        }
+
+        .modal-card-content table {
+            width: fit-content;
+        }
+
+        .modal-card-content th {
+            text-align: left;
+            padding-right: 80px;
+            font-weight: bold;
+        }
     </style>
 </head>
 
-<body class="bg-body-secondary bg-opacity-50">
+<body class="bg-light">
     <?php require 'navbar.php'; ?>
     <div class="container-fluid">
         <div class="row vh-100">
-            <div class="col-lg-2 border-end bg-light">
-                <div class="offcanvas-lg offcanvas-start position-fixed" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">RapidPrint</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="nav flex-column d-flex justify-content-between" style="height: 87vh;">
-                            <div>
-                                <li class="nav-item mt-lg-3">
-                                    <a class="nav-link is-dark" href="customerDashboard.php">Dashboard</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark" href="order_management.php">Add Order</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark is-active" href="showOrder.php">View Order</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark" href="viewOrder.php">Checkout</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark" href="applyMembership.php">Membership Card</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link is-dark" href="CustomerProfile.php">Profile</a>
-                                </li>
-                            </div>
-                            <div>
-                                <li class="nav-item">
-                                    <div class="nav-link">
-                                        <button class="btn w-100 btn-outline-dark" onclick="location.href='logout.php'">
-                                            Log Out
-                                        </button>
-                                    </div>
-                                </li>
-                            </div>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <?php require 'customerSideBar.php'; ?>
             <div class="col-lg-10">
-                <div class="container mt-5">
+                <div class="container min-vh-100 mt-5">
                     <h4 class="mb-4">List of Orders</h4>
-
                     <div class="order-card">
-                        <!-- Orders Table -->
                         <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>Order ID</th>
                                     <th>Date</th>
-                                    <th>Total Price (RM)</th>
-                                    <th>Points Earned</th>
-                                    <th>Payment Method</th>
-                                    <th>Pick-Up Date</th>
-                                    <th>Pick-Up Time</th>
                                     <th>File</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (count($orders) > 0): ?>
+                                <?php if (!empty($orders) && count($orders) > 0): ?>
                                     <?php foreach ($orders as $order): ?>
                                         <tr>
                                             <td><?= htmlspecialchars($order['OrderID']); ?></td>
                                             <td><?= htmlspecialchars($order['Date']); ?></td>
-                                            <td><?= number_format($order['TotalPrice'], 2); ?></td>
-                                            <td><?= htmlspecialchars($order['Points']); ?></td>
-                                            <td><?= htmlspecialchars($order['PaymentMethod']); ?></td>
-                                            <td><?= htmlspecialchars($order['PickUpDate']); ?></td>
-                                            <td><?= htmlspecialchars($order['PickUpTime']); ?></td>
                                             <td>
                                                 <?php if (!empty($order['file'])): ?>
                                                     <a href="files/<?= htmlspecialchars($order['file']); ?>" target="_blank">
-                                                        <i class="bi bi-file-earmark-text file-icon" title="Download Order File"></i>
-
+                                                        <i class="bi bi-file-earmark-text file-icon" title="Download File"></i>
                                                     </a>
                                                 <?php else: ?>
                                                     No File Available
                                                 <?php endif; ?>
                                             </td>
+                                            <td>
+                                                <i class="bi bi-eye action-icon" 
+                                                   data-bs-toggle="modal" 
+                                                   data-bs-target="#orderDetailsModal" 
+                                                   data-order='<?= json_encode($order); ?>'></i>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan="8" class="no-orders">No orders found for this account.</td>
+                                        <td colspan="7" class="no-orders">No orders found for this account.</td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <?php require 'footer.php'; ?>
+            </div>
+        </div>
+    </div>
 
+    <!-- Modal for Order Details -->
+    <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modal-card">
+                <div class="modal-card-header">Order Details</div>
+                <div class="modal-card-content">
+                    <table>
+                        <tr>
+                            <th>Order ID</th>
+                            <td id="modalOrderID"></td>
+                        </tr>
+                        <tr>
+                            <th>Date</th>
+                            <td id="modalDate"></td>
+                        </tr>
+                        <tr>
+                            <th>Total Price</th>
+                            <td>RM <span id="modalTotalPrice"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Points Earned</th>
+                            <td id="modalPoints"></td>
+                        </tr>
+                        <tr>
+                            <th>Payment Method</th>
+                            <td id="modalPaymentMethod"></td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td id="modalDescriptionOrder"></td>
+                        </tr>
+                        <tr>
+                            <th>Pick-Up Date</th>
+                            <td id="modalPickUpDate"></td>
+                        </tr>
+                        <tr>
+                            <th>Pick-Up Time</th>
+                            <td id="modalPickUpTime"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Populate modal with order details
+        document.querySelectorAll('.action-icon').forEach(icon => {
+            icon.addEventListener('click', function () {
+                const order = JSON.parse(this.getAttribute('data-order'));
+
+                // Populate modal fields
+                document.getElementById('modalOrderID').textContent = order.OrderID || 'N/A';
+                document.getElementById('modalDate').textContent = order.Date || 'N/A';
+                document.getElementById('modalTotalPrice').textContent = parseFloat(order.TotalPrice || 0).toFixed(2);
+                document.getElementById('modalPoints').textContent = order.Points || 'N/A';
+                document.getElementById('modalPaymentMethod').textContent = order.PaymentMethod || 'N/A';
+                document.getElementById('modalDescriptionOrder').textContent = order.descriptionOrder || 'N/A';
+                document.getElementById('modalPickUpDate').textContent = order.PickUpDate || 'N/A';
+                document.getElementById('modalPickUpTime').textContent = order.PickUpTime || 'N/A';
+            });
+        });
+    </script>
 </body>
 
 </html>

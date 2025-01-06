@@ -12,7 +12,6 @@ if (!isset($user_id)) {
 }
 
 require 'queryReward.php';
-require 'calcSales.php';
 ?>
 
 <!DOCTYPE html>
@@ -51,13 +50,11 @@ require 'calcSales.php';
                      </div>
 
                      <div class="row">
-                        <div class="col-6">
                             <div class="box">
                                 <!-- fs-1 = Larger -->
                                 <h5><i class="bi bi-person-circle fs-4"></i> Staff Information</h5>
                                 <br>
-                                <img src="profile default image.jpg" alt="Card image" style="width:200px;float:right">
-                                <table style="text-align:left; margin-left:40px;margin-bottom:12px">
+                                <table style="text-align:left; margin-left:40px">
                                     <tr>
                                         <td><p>Staff Name: <?php echo $Name; ?></p></td>
                                     </tr>
@@ -70,56 +67,34 @@ require 'calcSales.php';
                                     <tr>
                                         <td><p>Branch: <?php echo $Branch; ?></p> </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                        <form method="POST" action="staffProfile.php">
-                                            <button type="submit" class="btn btn-dark">View Profile</button>
-                                        </form>
-                                        </td>
-                                    </tr>
-                                </table>
-                               
+                                </table>       
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="box">
-                                <h5 style="margin-bottom:15px;"><b>Your QR Code</b></h5>
-                                <div id="qrcode-container" style="display: flex; justify-content: center;">
-                                <div id="qrcode"></div>
-                                </div>
-                                <p style="font-size:smaller">Scan to view detailed performance</p>
-                                
-                                <form method="POST" action="showReward.php">
-                                    <input type="hidden" name="order_id" value="' . $orderID . '">
-                                    <button type="submit" name="action" value="showReawrd" class="btn btn-info">View Sales History</button>
-                                </form>
-                            </div>   
-                        </div>
-                     </div>
+                      
 
                 <div class="row">
                      <div class="col-4">
                         <div class="box3">
                             <h6>Monthly Printing Sales</h6>
-                            <p>RM<?php echo $monthlySales; ?></p>
+                            <p>RM<?php echo $MonthlySales; ?>?</p>
                         </div>
                      </div>
                      <div class="col-4">
                         <div class="box3">
                             <h6>Points Earned</h6>
-                            <p>RM <?php echo $points; ?></p>
+                            <p>RM <?php echo $Points; ?>?</p>
                         </div>
                      </div>
                      <div class="col-4">
                         <div class="box3">
                             <h6>Current Bonus</h6>
-                            <p>RM <?php echo $bonus; ?></p>
+                            <p>RM <?php echo $Bonus; ?>?</p>
                         </div>
                      </div>
                 </div>     
 
                 <div class="box2">
-                     <h4>Bonus Structure</h4>
+                     <h4>Reward History</h4>
                      <table class="table table-bordered" style="text-align:center">
                      <thead class="table-primary">
                         <tr>
@@ -134,21 +109,7 @@ require 'calcSales.php';
                             <td>RM50</td>
                             <td>10</td>
                         </tr>
-                        <tr>
-                            <td>More than RM280</td>
-                            <td>RM80</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>More than RM350</td>
-                            <td>RM120</td>
-                            <td>30</td>
-                        </tr>
-                        <tr>
-                            <td>More than RM450</td>
-                            <td>RM150</td>
-                            <td>40</td>
-                        </tr>
+                       
                      </table>
                 </div>
                 </div>
@@ -167,23 +128,9 @@ require 'calcSales.php';
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         //change the id for every page according to the id in your sidebar. for example, the current page adminDashboard.php's id in adminSideBar is dashboard
-        document.getElementById('reward').classList.add('is-active'); 
+        document.getElementById('').classList.add('is-active'); 
     </script>
 </body>
 
 </html>
 
-<!-- QRCode.js Library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<script>
-    // Generate the QR Code
-    var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "http://localhost/WEBFILE/mini-project/showReward.php",
-        width: 170,  // Fixed width
-        height: 170, // Fixed height
-        colorDark: "#000000", // QR code color
-        colorLight: "#ffffff" // Background color
-    });
-
-</script>

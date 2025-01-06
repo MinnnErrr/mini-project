@@ -5,6 +5,7 @@
             <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Admin Panel</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
         </div>
+
         <div class="offcanvas-body overflow-hidden">
             <!-- Navigation Links -->
             <ul class="nav flex-column d-flex justify-content-between vh-100 overflow-hidden">
@@ -34,8 +35,6 @@
                     </li>
                 </div>
             </ul>
-
-
         </div>
     </div>
 </div>

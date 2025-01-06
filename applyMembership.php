@@ -34,7 +34,6 @@ if(isset($_GET['ApplyMembershipCustomerID'])){
         alert('Membership card applied successfully.');
        location.href='membership.php';
        </script>
-       
     ";
    
    }

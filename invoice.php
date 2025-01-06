@@ -13,7 +13,60 @@ if (!isset($user_id)) {
 ?>
 
 <?php
-require 'queryInvoice.php';
+    // Get the id from the URL
+    $orderID = intval($_GET['orderID']); // Convert to integer
+
+    $link = mysqli_connect("localhost", "root", "", "mini_project") or die("Could not connect: " . mysqli_connect_error());
+
+    // Query to fetch order, customer, and package details
+    $query = "
+    SELECT 
+        o.OrderID AS OrderID, 
+        i.InvoiceID AS InvoiceID,
+        o.Date AS Date, 
+        i.InvoiceDate AS InvoiceDate,
+        o.TotalPrice AS Total, 
+        u.Username AS Name, 
+        c.StudentID AS sID, 
+        u.Email AS Email, 
+        c.PhoneNumber AS PhoneNo, 
+        op.Quantity AS qty, 
+        pp.Name AS PackageName, 
+        pp.BasePrice AS Price,
+        o.StaffID AS StaffID
+    FROM 
+        `order` o 
+    JOIN 
+        `invoice` i ON o.OrderID = i.OrderID 
+    JOIN 
+        `customer` c ON o.CustomerID = c.CustomerID 
+    JOIN 
+        `user` u ON c.UserID = u.UserID 
+    JOIN 
+        `orderprintingpackage` op ON o.OrderID = op.OrderID 
+    JOIN 
+        `printingpackage` pp ON op.PackageID = pp.PackageID 
+    WHERE 
+        o.OrderID = $orderID";
+
+    $result = mysqli_query($link, $query);
+
+    $i = 0;
+    // Fetch the row from the result
+    while ($row = mysqli_fetch_assoc($result)){
+        $InvoiceID = $row["InvoiceID"];
+        $Date = $row["Date"];
+        $InvoiceDate = $row["InvoiceDate"];
+        $Total = $row["Total"];
+        $Name = $row["Name"];
+        $sID = $row["sID"];
+        $Email = $row["Email"];
+        $PhoneNo = $row["PhoneNo"];
+        $Qty = $row["qty"];
+        $PackageName = $row["PackageName"];
+        $Price = $row["Price"];
+        $StaffID = $row["StaffID"];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -59,12 +112,40 @@ require 'queryInvoice.php';
                     <br>
             <br>
             <div style="line-height: 0.7;">
+                <?php
+                    $link = mysqli_connect("localhost", "root", "", "mini_project") or die("Could not connect: " . mysqli_connect_error());
+
+                    // REPLACE , to \n
+                    $query = "
+                    SELECT 
+                    b.BranchID AS BranchID,
+                    b.Name AS BranchName,
+                    REPLACE(b.Address, ',', '\n') AS Address,
+                    b.ContactNumber,s.StaffID
+                    FROM 
+                            `branch` b
+                        JOIN 
+                            `staff` s ON b.BranchID = s.BranchID 
+                            WHERE 
+                            s.StaffID = $StaffID";
+
+                            $result = mysqli_query($link, $query);
+
+                        // Fetch the row from the result
+                        while ($row = mysqli_fetch_assoc($result)){
+                            $BranchID = $row["BranchID"];
+                            $BranchName = $row["BranchName"];
+                            $Address = $row["Address"];
+                            $ContactNumber = $row["ContactNumber"];
+                        }
+
+                ?>
                 <p><b>From:</b></p>
-                <p>RapidPrint</p>
-                <p>Universiti Malaysia Pahang</p>
-                <p>26600 Pekan, Pahang</p>
-                <p>Phone: 09-424 5000</p>
-                <p>Email: rapidprint@ump.edu.my</p>
+                <p>Branch ID: <?php echo $BranchID; ?></p>
+                <p><?php echo $BranchName; ?></p>
+                <!-- PHP n12br - insert line break when \n in string (php) -->
+                <p style="line-height: 1.5;"><?php echo nl2br($Address); ?></p>
+                <p>Phone: <?php echo $ContactNumber; ?></p>
             </div>
               
             <br>
@@ -81,34 +162,38 @@ require 'queryInvoice.php';
                 <thead class="table-primary">
                         <th>No</th>
                         <th>Description</th>
+                        <th>Category</th>
                         <th>Quantity</th>
                         <th>Unit Price (RM)</th>
                         <th>Amount (RM)</th>
                     </tr>
                 </thead>
-                <script src="calcInvoice.js"></script>
                         <?php
-                            require 'queryInvoice.php';
-                            $i = 0;
-                            ++$i;
-                            $Amount = $Qty * $Price;
-                                echo "<tr>
-                                    <td>$i.</td>
-                                    <td>$PackageName</td>
-                                    <td>$Qty</td>
-                                    <td>$Price</td>
-                                    <td>$Amount</td>
-                                </tr>";   
+                            require 'queryInvoice.php';    
+
+                            $query2 = "UPDATE `order` SET TotalPrice = $TotalAmount WHERE OrderID = $orderID";
+                            mysqli_query($link, $query2);
+                              
                         ?>
                             <tr>
-                                <td colspan="4" style="text-align: right;"><strong>Total (RM):</strong></td>
-                                <td id="totalAmount">0.00</td>
+                                <td colspan="5" style="text-align: right;"><strong>Total (RM):</strong></td>
+                                <td><?php echo $TotalAmount;?></td>
                             </tr>
-                            
                 </table>
 <br>
-                <button type="button" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</button>
-                <button type="button" class="btn btn-danger"><i class="bi bi-trash3"></i> Delete</button>
+            <form action="manageInvoice.php" method="POST" style="display: inline;">
+                <input type="hidden" name="action" value="editLocation">
+                <input type="hidden" name="order_id" value="<?php echo $orderID; ?>">
+                <input type="hidden" name="user_id" value="<?php echo $$user_id; ?>">
+                <button type="submit" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</button>
+            </form>
+
+            <form action="manageInvoice.php" method="POST" style="display: inline;">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="invoice_id" value="<?php echo $InvoiceID; ?>">
+                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash3"></i> Delete</button>
+            </form>
+
                 <button type="button" class="btn btn-success" onclick="window.print()"><i class="bi bi-printer"></i> Print Invoice</button>
 
                 </div>

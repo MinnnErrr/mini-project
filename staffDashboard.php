@@ -10,6 +10,7 @@ $username = $_SESSION['username'];
 if (!isset($user_id)) {
     header('location:login.php');
 }
+require 'calcSales.php';
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +25,8 @@ if (!isset($user_id)) {
     <link rel="stylesheet" href="./main.css">
     <link rel="stylesheet" href="./printing.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
 </head>
 
@@ -53,33 +56,83 @@ if (!isset($user_id)) {
                         <div class="col-6">
                             <div class="box">
                                 <h5><b>Monthly Sales Overview</b></h5>
-                                <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+                                <?php
+                                    // Fetch monthly rewards data for the graph
+                                    $query = "SELECT DATE_FORMAT(Date, '%b %Y') AS Month, MonthlySales, Bonus 
+                                            FROM `reward` 
+                                            WHERE StaffID = $StaffID 
+                                            ORDER BY Date ASC";
+                                    $result = mysqli_query($link, $query);
 
-                                <script>
-                                    const xValues = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                                    const yValues = [70, 80, 80, 90, 90, 90, 100, 110, 140, 140, 150, 160];
+                                    $months = [];
+                                    $Monthlysales = [];
+                                    $Bonuses = [];
 
-                new Chart("myChart", {
-                type: "line",
-                data: {
-                    labels: xValues,
-                    datasets: [{
-                    fill: false,
-                    lineTension: 0,
-                    backgroundColor: "rgba(0,0,255,1.0)",
-                    borderColor: "rgba(0,0,255,0.1)",
-                    data: yValues
-                    }]
+                                    // Prepare data for the graph
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $months[] = $row['Month']; // e.g., "Jan 2024"
+                                        $Monthlysales[] = $row['MonthlySales'];
+                                        $Bonuses[] = $row['Bonus'];
+                                    }
+                                    ?>
+
+<canvas id="rewardChart" style="width:100%;max-width:600px"></canvas>
+    <script>
+        // Pass PHP data to JavaScript
+        const months = <?php echo json_encode($months); ?>;
+        const monthlySales = <?php echo json_encode($Monthlysales); ?>;
+        const bonuses = <?php echo json_encode($Bonuses); ?>;
+
+        // Render the chart
+        new Chart("rewardChart", {
+            type: "bar",
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        label: "Monthly Sales (RM)",
+                        data: monthlySales,
+                        backgroundColor: "rgba(0, 123, 255, 0.7)",
+                        borderColor: "rgba(0, 123, 255, 1)",
+                        borderWidth: 1
+                    },
+                    {
+                        label: "Bonus (RM)",
+                        data: bonuses,
+                        backgroundColor: "rgba(40, 167, 69, 0.7)",
+                        borderColor: "rgba(40, 167, 69, 1)",
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
                 },
-                options: {
-                    legend: {display: false},
-                    scales: {
-                    yAxes: [{ticks: {min: 10, max:300}}],
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Amount (RM)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Months'
+                        }
                     }
                 }
-                });
-                </script>
-                <button type="button" class="btn btn-primary" style="float:right">Generate report</button>
+            }
+        });
+        </script>
+                <button type="button" class="btn btn-primary" style="float:right" onclick="document.location='graphPDF.php'">
+                Generate report</button>
+                
         </div>
     </div>
     <div class="col-6">
@@ -90,10 +143,10 @@ if (!isset($user_id)) {
                     <th><h5>Your Reward</h5></th>
                 </tr>
                 <tr>
-                    <td>Current Month Sales: RM<?php echo $MonthlySales; ?>?</td>
+                    <td>Current Month Sales: RM<?php echo $monthlySales; ?></td>
                 </tr>
                 <tr>
-                    <td>Bonus Earned: RM<?php echo $Bonus; ?>?</td>
+                    <td>Bonus Earned: RM<?php echo $bonus; ?></td>
                 </tr>
                 <tr>
                     <td></td>
