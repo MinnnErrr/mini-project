@@ -1,42 +1,34 @@
 <?php
-require 'dbconfig.php';
+require 'dbconfig.php'; // Database connection
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $OrderID = intval($_POST['order_id']);
+    // Get the order ID from the POST request
+    $orderID = intval($_POST['order_id']);
+    
+   // Prepare and execute query to fetch file name associated with the order
+    $stmt = $conn->prepare("SELECT file FROM `order` WHERE orderID = ?");
+    $stmt->execute([$orderID]);
+    $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Connect to the database
-$link = mysqli_connect("localhost", "root", "", "mini_project") or die("Could not connect: " . mysqli_connect_error());
+// Check if the file exists in the database
+if ($order) {
+    $fileName = $order['file'];
+    $filePath = "files/" . $fileName;
 
-// Fetch the file path from the database
-$query = "SELECT file FROM `order` WHERE OrderID = $OrderID";
-$result = mysqli_query($link, $query);
-
-if ($row = mysqli_fetch_assoc($result)) {
-    $filePath = $row['file'];
-
-    // Check if the file exists on the server
+    // Check if the file exists in the file system
     if (file_exists($filePath)) {
-        // Get the file name
-        $fileName = basename($filePath);
-
         // Set headers to force download
-        header("Content-Type: application/octet-stream");
-        header("Content-Disposition: attachment; filename=\"$fileName\"");
-        header("Content-Length: " . filesize($filePath));
-
-        // Read the file and send it to the output buffer
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
+        header('Content-Length: ' . filesize($filePath));
         readfile($filePath);
         exit;
     } else {
-        echo "Error: File does not exist.";
+        echo "Error: File not found.";
     }
 } else {
     echo "Error: Order not found.";
 }
-
-// Close the database connection
-mysqli_close($link);
 }
-
-
 ?>
