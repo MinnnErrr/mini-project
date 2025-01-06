@@ -25,13 +25,13 @@
 
                     <?php if(isset($_SESSION['status']) != 'Unregistered'): ?>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" href="applyMembership.php" id="applyMembership">Membership Card</a>
+                        <a class="nav-link is-dark" href="Membership.php" id="applyMembership">Membership Card</a>
                     </li>
                     <?php endif; ?>
                     
                     <?php if(isset($_SESSION['status']) != 'Unregistered'): ?>
                     <li class="nav-item">
-                        <a class="nav-link is-dark" href="CustomerProfile.php" id="customerProfile">Profile</a>
+                        <a class="nav-link is-dark" href="viewPersonalProfile.php" id="customerProfile">Profile</a>
                     </li>
                     <?php endif; ?>
                    

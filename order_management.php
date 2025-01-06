@@ -16,13 +16,12 @@ $packages = $conn->query("SELECT * FROM printingpackage WHERE Availability = 'Av
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css"> -->
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./main.css">
     <title>Order Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="./main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 <body class="bg-light">
@@ -91,17 +90,7 @@ $packages = $conn->query("SELECT * FROM printingpackage WHERE Availability = 'Av
                                     </label>
                                     <input type="file" class="form-control" id="file" name="file" required>
                                 </div>
-                                <!-- Payment Method -->
-                                <div class="mb-4">
-                                    <label for="paymentMethod" class="form-label fw-bold">
-                                        <i class="bi bi-credit-card"></i> Payment Method
-                                    </label>
-                                    <select class="form-select" id="paymentMethod" name="paymentMethod" required>
-                                        <option value="" selected disabled>Select a payment method</option>
-                                        <option value="MembershipCard">Membership Card</option>
-                                        <option value="Cash">Cash</option>
-                                    </select>
-                                </div>
+                            
                                 <!-- Pick-Up Date -->
                                 <div class="mb-4">
                                     <label for="pickUpDate" class="form-label fw-bold">

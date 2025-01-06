@@ -11,38 +11,46 @@
     justify-content: center;
     align-items: center;
     background-color: white;
-    border: 1px solid black;
 }
 .form{
     display: block;
     background-color: white;
-    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
 }
 .title{
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 1.5rem;
     height: 100px;
     background-color: white;
-    border: 1px solid black;   
+    border-bottom: 1px solid black;
+    margin-bottom: 20px;
+
 }
 .input-box{
     display: flex;
-    width: 50rem;
+    max-width: 100%;
+    min-width: 700px;
     height: 300px;
     justify-content: center;
     align-items: center;
     background-color: white;
-    border: 1px solid black;
+    
 }
 .photo{
    height: 100%;
    min-width: 40%;
    max-width: 50%;
     background-color: white;
-    border: 1px solid black;
+
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid black;
+    margin: 5px;
+        border-radius: 5px;
 }
 .photo>img{
     max-width: 100%;
@@ -54,13 +62,17 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 30%;
+    width: 100%;
     background-color: white;
     border: 1px solid black;
+    margin: 5px;
+        border-radius: 5px;
+        background-color: rgba(238, 238, 238, 0.762);
+
 }
 .file>input{
     display: block;
-    width: 100%;
+    width: 50%;
 }
 
 .button-template{
