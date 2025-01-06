@@ -47,7 +47,7 @@ require 'calcSales.php';
                     <!-- your content starts here -->
                     <div class="welcome">
                         <h3 style="margin-left: 10px;">RapidPrint Staff Dashboard</h3>
-                        <p style="margin-left:10px;">Welcome back</p>
+                        <p style="margin-left:10px;">Welcome back <?php echo $username ?> !</p>
                     </div>
                     <!-- =========================================================================================== -->
                     <!-- Bootstrap - 1 row have 12 col, so 6 6 col => 2 box in one row   -->
