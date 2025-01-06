@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $property_id = $_POST['category'] ?? null;
     $quantity = $_POST['quantity'] ?? null;
     $description = $_POST['description'] ?? null;
-    $payment_method = $_POST['payment_method'] ?? null;
     $pickup_date = $_POST['pickup_date'] ?? null;
     $pickup_time = $_POST['pickup_time'] ?? null;
     $file = $_FILES['file'] ?? null;
@@ -72,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             UPDATE `order` 
             SET TotalPrice = :total_price, 
                 Points = :points,
-                PaymentMethod = :payment_method, 
                 PickUpDate = :pickup_date, 
                 PickUpTime = :pickup_time, 
                 file = :file, 
@@ -82,7 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $conn->prepare($updateOrderQuery);
         $stmt->bindParam(':total_price', $total_price, PDO::PARAM_STR);
         $stmt->bindParam(':points', $points, PDO::PARAM_INT);
-        $stmt->bindParam(':payment_method', $payment_method, PDO::PARAM_STR);
         $stmt->bindParam(':pickup_date', $pickup_date, PDO::PARAM_STR);
         $stmt->bindParam(':pickup_time', $pickup_time, PDO::PARAM_STR);
         $stmt->bindParam(':file', $uploaded_file, PDO::PARAM_STR); // Use existing file if no new file is uploaded
