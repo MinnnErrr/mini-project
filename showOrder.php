@@ -34,7 +34,6 @@ try {
     <title>List Order</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="./main.css">
     <style>
         .order-card {
             margin-top: 20px;
@@ -123,10 +122,10 @@ try {
                                                 <?php endif; ?>
                                             </td>
                                             <td>
-                                                <i class="bi bi-eye action-icon"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#orderDetailsModal"
-                                                    data-order='<?= json_encode($order); ?>'></i>
+                                                <i class="bi bi-eye action-icon" 
+                                                   data-bs-toggle="modal" 
+                                                   data-bs-target="#orderDetailsModal" 
+                                                   data-order='<?= json_encode($order); ?>'></i>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -196,14 +195,9 @@ try {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        //change the id for every page according to the id in your sidebar. for example, the current page adminDashboard.php's id in adminSideBar is dashboard
-        document.getElementById('showOrder').classList.add('is-active');
-    </script>
-
-    <script>
         // Populate modal with order details
         document.querySelectorAll('.action-icon').forEach(icon => {
-            icon.addEventListener('click', function() {
+            icon.addEventListener('click', function () {
                 const order = JSON.parse(this.getAttribute('data-order'));
 
                 // Populate modal fields
@@ -217,6 +211,7 @@ try {
                 document.getElementById('modalPickUpTime').textContent = order.PickUpTime || 'N/A';
             });
         });
+        document.getElementById('showOrder').classList.add('is-active');
     </script>
 </body>
 
