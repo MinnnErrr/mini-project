@@ -82,6 +82,19 @@ try {
             $stmt->bindParam(':membership_id', $membership['MembershipID'], PDO::PARAM_INT);
             $stmt->execute();
 
+            $membershipID = $membership['MembershipID'];
+            $stmt = $conn->prepare("SELECT SUM(Amount) AS total_points FROM point WHERE MembershipID = :membership_id"); // Calculate total points
+            $stmt->bindParam(':membership_id', $membershipID );
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $total_points = $result["total_points"];
+            
+            $stmt = $conn->prepare("UPDATE membershipcard SET AccumulatedPoints= :accumulatedPoints WHERE MembershipID = :membership_id"); // Update accumulated points
+            $stmt->bindParam(':membership_id', $membershipID);
+            $stmt->bindParam(':accumulatedPoints', $total_points);
+            $stmt->execute();
+        
+
             // Update payment method to Membership Card
             $stmt = $conn->prepare("UPDATE `order` SET PaymentMethod = 'Membership Card' WHERE OrderID = :order_id");
             $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
