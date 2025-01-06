@@ -211,6 +211,7 @@ try {
                 document.getElementById('modalPickUpTime').textContent = order.PickUpTime || 'N/A';
             });
         });
+        document.getElementById('showOrder').classList.add('is-active');
     </script>
 </body>
 

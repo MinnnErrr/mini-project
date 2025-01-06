@@ -90,17 +90,7 @@ $packages = $conn->query("SELECT * FROM printingpackage WHERE Availability = 'Av
                                     </label>
                                     <input type="file" class="form-control" id="file" name="file" required>
                                 </div>
-                                <!-- Payment Method -->
-                                <div class="mb-4">
-                                    <label for="paymentMethod" class="form-label fw-bold">
-                                        <i class="bi bi-credit-card"></i> Payment Method
-                                    </label>
-                                    <select class="form-select" id="paymentMethod" name="paymentMethod" required>
-                                        <option value="" selected disabled>Select a payment method</option>
-                                        <option value="MembershipCard">Membership Card</option>
-                                        <option value="Cash">Cash</option>
-                                    </select>
-                                </div>
+                            
                                 <!-- Pick-Up Date -->
                                 <div class="mb-4">
                                     <label for="pickUpDate" class="form-label fw-bold">

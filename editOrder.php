@@ -136,13 +136,13 @@ if ($selected_package_id) {
                                     <small class="form-text text-muted">You can upload a new file or leave it blank to keep the current one.</small>
                                 </div>
 
-                                <div class="mb-3">
+                                <!-- <div class="mb-3">
                                     <label for="payment_method" class="form-label fw-bold">Payment Method</label>
                                     <select name="payment_method" id="payment_method" class="form-select" required>
                                         <option value="MembershipCard" <?= $order['PaymentMethod'] == 'MembershipCard' ? 'selected' : ''; ?>>Membership Card</option>
                                         <option value="Cash" <?= $order['PaymentMethod'] == 'Cash' ? 'selected' : ''; ?>>Cash</option>
                                     </select>
-                                </div>
+                                </div> -->
 
                                 <div class="mb-3">
                                     <label for="pickup_date" class="form-label fw-bold">Pick-Up Date</label>
