@@ -20,9 +20,10 @@ if (!isset($user_id)) {
     <title>Branch Management</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="./main.css">
     <!-- <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.8/af-2.7.0/b-3.2.0/b-colvis-3.2.0/b-html5-3.2.0/b-print-3.2.0/r-3.0.3/rg-1.5.1/sb-1.8.1/sp-2.3.3/datatables.min.css" rel="stylesheet"> -->
     <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.8/b-3.2.0/r-3.0.3/rg-1.5.1/sc-2.4.3/sb-1.8.1/sp-2.3.3/datatables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./tablePagination.css">
 </head>
 
 
@@ -36,12 +37,12 @@ if (!isset($user_id)) {
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
-                <div class="container-fluid min-vh-100 p-5">
+                <div class="container-fluid min-vh-100 p-4">
 
                     <div class="bg-white p-5 rounded-3 shadow-sm">
                         <div class="d-flex justify-content-between pb-3">
                             <h4>Koperasi Branches</h4>
-                            <button class="btn btn-sm btn-secondary" onclick="location.href='./addBranch.php'">
+                            <button class="btn btn-sm btn-outline-dark" onclick="location.href='./addBranch.php'">
                                 <i class="bi bi-plus-circle me-1"></i>
                                 ADD BRANCH
                             </button>
@@ -72,7 +73,7 @@ if (!isset($user_id)) {
                                             <td><?php echo $branch->Name ?></td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <button class="btn btn-secondary me-4" onclick="location.href='./viewBranch.php?id=<?php echo $branch->BranchID ?>'">
+                                                    <button class="btn btn-info me-4" onclick="location.href='./viewBranch.php?id=<?php echo $branch->BranchID ?>'">
                                                         <i class="bi bi-eye"></i>
                                                     </button>
                                                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?php echo $branch->BranchID ?>" name="deleteBranch">

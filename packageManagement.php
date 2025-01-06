@@ -19,8 +19,9 @@ if (!isset($user_id)) {
     <title>Package Management</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.8/b-3.2.0/r-3.0.3/rg-1.5.1/sc-2.4.3/sb-1.8.1/sp-2.3.3/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./main.css">
-    <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.8/b-3.2.0/r-3.0.3/rg-1.5.1/sc-2.4.3/sb-1.8.1/sp-2.3.3/datatables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./tablePagination.css">
 </head>
 
 
@@ -35,12 +36,12 @@ if (!isset($user_id)) {
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
-                <div class="container-fluid min-vh-100 p-5">
+                <div class="container-fluid min-vh-100 p-4">
 
                     <div class="bg-white p-5 rounded-3 shadow-sm">
                         <div class="d-flex justify-content-between pb-3">
                             <h4>Printing Packages</h4>
-                            <button class="btn btn-sm btn-secondary" onclick="location.href='./addPackage.php'">
+                            <button class="btn btn-sm btn-outline-dark" onclick="location.href='./addPackage.php'">
                                 <i class="bi bi-plus-circle me-1"></i>
                                 ADD PACKAGE
                             </button>
@@ -63,7 +64,8 @@ if (!isset($user_id)) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $stmt = $conn->prepare("SELECT * FROM printingpackage 
+                                    $stmt = $conn->prepare("SELECT printingpackage.Name as packageName, branch.Name as branchName, printingpackage.Availability, printingpackage.PackageID
+                                                            FROM printingpackage 
                                                             JOIN branch ON printingpackage.BranchID = branch.BranchID
                                                             ORDER BY printingpackage.PackageID DESC");
                                     $stmt->execute();
@@ -74,9 +76,9 @@ if (!isset($user_id)) {
                                     ?>
                                         <tr>
                                             <th scope="row" class="text-start"><?php echo $i ?></th>
-                                            <td><?php echo $package->PackageName ?></td>
+                                            <td><?php echo $package->packageName ?></td>
                                             <td>
-                                                <?php echo $package->Name?>
+                                                <?php echo $package->branchName ?>
                                             </td>
                                             <td>
                                                 <span class="badge rounded-pill text-bg-<?php echo $package->Availability == 'Available' ? 'success' : 'danger' ?>">
@@ -85,7 +87,7 @@ if (!isset($user_id)) {
                                             </td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <button class="btn btn-secondary me-4" onclick="location.href='./viewPackage.php?id=<?php echo $package->PackageID ?>'">
+                                                    <button class="btn btn-info me-4" onclick="location.href='./viewPackage.php?id=<?php echo $package->PackageID ?>'">
                                                         <i class="bi bi-eye"></i>
                                                     </button>
                                                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?php echo $package->PackageID ?>">
@@ -119,7 +121,7 @@ if (!isset($user_id)) {
 
                                     <?php
                                         $i++;
-                                        endforeach
+                                    endforeach
                                     ?>
                                 </tbody>
                             </table>

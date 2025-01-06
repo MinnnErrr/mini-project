@@ -19,8 +19,9 @@ if (!isset($user_id)) {
     <title>View Package</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="./main.css">
     <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.8/b-3.2.0/r-3.0.3/rg-1.5.1/sc-2.4.3/sb-1.8.1/sp-2.3.3/datatables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./tablePagination.css">
 </head>
 
 
@@ -35,7 +36,7 @@ if (!isset($user_id)) {
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
-                <div class="container min-vh-100 p-5">
+                <div class="container min-vh-100 p-4">
                     <div class="rounded-3 p-4 pt-3 pb-3 bg-gradient col-lg-8 mb-4 mx-auto" style="color: #0f524f; background-color: #08c4b3;">
                         <h4>Package Details</h4>
                     </div>
@@ -43,7 +44,8 @@ if (!isset($user_id)) {
                     <div class="border rounded-3 p-4 bg-white col-lg-8 mx-auto">
                         <?php
                         $packageID = $_GET['id'];
-                        $stmt = $conn->prepare("SELECT * FROM printingpackage 
+                        $stmt = $conn->prepare("SELECT printingpackage.Name as packageName, printingpackage.Description, printingpackage.BasePrice, printingpackage.Availability, branch.Name as branchName
+                                                FROM printingpackage
                                                 JOIN branch ON printingpackage.BranchID = branch.BranchID
                                                 WHERE printingpackage.PackageID = '$packageID'");
                         $stmt->execute();
@@ -54,7 +56,7 @@ if (!isset($user_id)) {
                         <form action="">
                             <div class="mb-3">
                                 <label for="packageName" class="form-label fw-bold">Package name</label>
-                                <input type="text" value="<?php echo $package->PackageName ?>" readonly class="form-control-plaintext" name="packageName" id="packageName">
+                                <input type="text" value="<?php echo $package->packageName ?>" readonly class="form-control-plaintext" name="packageName" id="packageName">
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label fw-bold">Description</label>
@@ -70,10 +72,10 @@ if (!isset($user_id)) {
                             </div>
                             <div class="mb-5">
                                 <label for="branch" class="form-label fw-bold">Affiliated branch</label>
-                                <input type="text" value="<?php echo $package->Name ?>" readonly class="form-control-plaintext" name="branch" id="branch">
+                                <input type="text" value="<?php echo $package->branchName ?>" readonly class="form-control-plaintext" name="branch" id="branch">
                             </div>
                             <div class="d-flex justify-content-center">
-                                <a href="./updatePackage.php?id=<?php echo $package->PackageID ?>" class="btn btn-outline-dark me-3 w-100">Edit</a>
+                                <a href="./updatePackage.php?id=<?php echo $packageID ?>" class="btn btn-outline-dark me-3 w-100">Edit</a>
                                 <a href="./packageManagement.php" class="btn btn-outline-dark ms-3 w-100">Back</a>
                             </div>
                         </form>
