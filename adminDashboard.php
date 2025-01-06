@@ -569,6 +569,7 @@ if (!isset($user_id)) {
                     label: "User Count",
                     backgroundColor: "#FF6384",
                     borderColor: "black",
+                    borderWidth: "2",
                     data: <?php echo json_encode($userCount) ?>,
                     fill: false
                 }]

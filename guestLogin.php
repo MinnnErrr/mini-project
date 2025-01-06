@@ -64,15 +64,15 @@ if (isset($_SESSION['customer_id'])) {
                     endif;
                     ?>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" name="name">
+                        <input type="text" class="form-control" name="name" placeholder="">
                         <label for="floatingInput">Name</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" name="email">
+                        <input type="email" class="form-control" name="email" placeholder="">
                         <label for="floatingInput">Email Address</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="tel" class="form-control" name="phone">
+                        <input type="tel" class="form-control" name="phone" placeholder="">
                         <label for="floatingInput">Phone Number</label>
                     </div>
                     <button class="btn btn-dark w-100 py-2 mb-3" type="submit" name="guestSignIn">Continue</button>

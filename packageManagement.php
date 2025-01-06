@@ -106,7 +106,7 @@ if (!isset($user_id)) {
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        Are you sure you want to delete package <?php echo $package->Name ?>?
+                                                        Are you sure you want to delete package <?php echo $package->packageName ?>?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Back</button>
