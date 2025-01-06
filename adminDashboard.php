@@ -96,7 +96,7 @@ if (!isset($user_id)) {
                                 <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
                                     <h6>Number of Customer by Status</h6>
                                     <div class="d-flex justify-content-center">
-                                        <canvas id="chart2" style="width:100%; max-height:250px"></canvas>
+                                        <canvas id="chart2" style="width:100%; max-height:280px"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -104,9 +104,6 @@ if (!isset($user_id)) {
 
                         <!-- search -->
                         <div class="row d-flex justify-content-between align-items-stretch mb-lg-1">
-                            <div class="mb-2">
-                                <h6>Search by Month/Year or User Type</h6>
-                            </div>
                             <div class="col-lg-6 col-sm-12 d-flex flex-column mb-sm-4 mb-lg-0">
                                 <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
                                     <div class="mb-4">
@@ -122,7 +119,7 @@ if (!isset($user_id)) {
                                             </div>
                                         </form>
                                     </div>
-                                    <h6>Number of Registered User Over Time</h6>
+                                    <h6>Number of User Over Time Categorised by User Type</h6>
                                     <div class="d-flex justify-content-center">
                                         <canvas id="chart3" style="width:100%;"></canvas>
                                     </div>
@@ -148,7 +145,7 @@ if (!isset($user_id)) {
                                                         <option value="2" <?php echo isset($_GET['month']) && $_GET['month'] == '2' ? 'selected' : '' ?>>February</option>
                                                         <option value="3" <?php echo isset($_GET['month']) && $_GET['month'] == '3' ? 'selected' : '' ?>>March</option>
                                                         <option value="4" <?php echo isset($_GET['month']) && $_GET['month'] == '4' ? 'selected' : '' ?>>April</option>
-                                                        <option value="5" <?php echo isset($_GET['month']) && $_GET['month'] == '5' ? 'selected' : '' ?>>>May</option>
+                                                        <option value="5" <?php echo isset($_GET['month']) && $_GET['month'] == '5' ? 'selected' : '' ?>>May</option>
                                                         <option value="6" <?php echo isset($_GET['month']) && $_GET['month'] == '6' ? 'selected' : '' ?>>June</option>
                                                         <option value="7" <?php echo isset($_GET['month']) && $_GET['month'] == '7' ? 'selected' : '' ?>>July</option>
                                                         <option value="8" <?php echo isset($_GET['month']) && $_GET['month'] == '8' ? 'selected' : '' ?>>August</option>
@@ -163,7 +160,7 @@ if (!isset($user_id)) {
 
                                         </form>
                                     </div>
-                                    <h6>Number of Registered User by Type</h6>
+                                    <h6>Number of User by Type Categorised by Month and Year</h6>
                                     <div class="d-flex justify-content-center">
                                         <canvas id="chart4" style="width:100%;"></canvas>
                                     </div>
@@ -182,36 +179,24 @@ if (!isset($user_id)) {
                             <div class="col-lg-4 col-sm-12 d-flex flex-column mb-sm-4 mb-lg-0">
                                 <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
                                     <h6>Total Number of Branches</h6>
-                                    <?php
-                                    $stmt = $conn->prepare("SELECT * FROM staff");
-                                    $stmt->execute();
-                                    $staffs = $stmt->fetchAll(PDO::FETCH_OBJ);
-                                    ?>
-                                    <p class="fs-3"><?php echo count($staffs) ?></p>
+
+                                    <p class="fs-3"></p>
                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-sm-12 d-flex flex-column mb-sm-4 mb-lg-0">
                                 <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
                                     <h6>Total Number of Orders</h6>
-                                    <?php
-                                    $stmt = $conn->prepare("SELECT * FROM staff");
-                                    $stmt->execute();
-                                    $staffs = $stmt->fetchAll(PDO::FETCH_OBJ);
-                                    ?>
-                                    <p class="fs-3"><?php echo count($staffs) ?></p>
+
+                                    <p class="fs-3"></p>
                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-sm-12 d-flex flex-column mb-sm-4 mb-lg-0">
                                 <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
                                     <h6>Total Sales</h6>
-                                    <?php
-                                    $stmt = $conn->prepare("SELECT * FROM customer");
-                                    $stmt->execute();
-                                    $customers = $stmt->fetchAll(PDO::FETCH_OBJ);
-                                    ?>
-                                    <p class="fs-3"><?php echo "RM " . count($customers) ?></p>
+
+                                    <p class="fs-3"></p>
                                 </div>
                             </div>
                         </div>
@@ -219,7 +204,7 @@ if (!isset($user_id)) {
                         <div class="row d-flex justify-content-between align-items-stretch mb-lg-1">
                             <div class="col-lg-6 col-sm-12 d-flex flex-column mb-sm-4 mb-lg-0">
                                 <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
-                                    <h6>Number of Sales by Branch</h6>
+                                    <h6>Total Sales by Branch</h6>
                                     <div class="d-flex justify-content-center">
                                         <canvas id="chart1" style="width:100%;"></canvas>
                                     </div>
@@ -238,13 +223,71 @@ if (!isset($user_id)) {
                     </div>
 
                     <!-- package -->
+                    <div class="rounded-3 p-4 bg-white mb-4 shadow-sm mb-1">
+                        <div class="row mb-3">
+                            <h5>Package Statistics</h5>
+                        </div>
 
+                        <div class="row d-flex justify-content-between align-items-stretch mb-lg-4">
+                            <div class="col-lg-12 col-sm-12 d-flex flex-column mb-sm-4 mb-lg-0">
+                                <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
+                                    <h6>Total Number of Packages</h6>
+                                    <?php
+                                    $stmt = $conn->prepare("SELECT * FROM printingpackage");
+                                    $stmt->execute();
+                                    $package = $stmt->fetchAll(PDO::FETCH_OBJ);
+                                    ?>
+                                    <p class="fs-3"><?php echo count($package) ?></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row d-flex justify-content-between align-items-stretch mb-lg-1">
+                            <div class="col-lg-6 col-sm-12 d-flex flex-column mb-sm-4 mb-lg-0">
+                                <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
+                                    <h6>Number of Available Packages by Branch</h6>
+                                    <div class="d-flex justify-content-center">
+                                        <canvas id="packageChart1" style="width:100%;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-12 d-flex flex-column mb-sm-4 mb-lg-0">
+                                <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
+                                    <div class="mb-4">
+                                        <form action="./adminDashboard.php" method="get">
+                                            <label for="type" class="mb-2">Please select a branch: </label>
+                                            <div class="d-flex">
+                                                <select class="form-select me-2" name="branch">
+                                                    <option value="overall" <?php echo (isset($_GET['branch']) && $_GET['branch'] == 'overall') ? 'selected' : '' ?>>Overall</option>
+                                                    <?php
+                                                    $stmt = $conn->prepare("SELECT Name FROM branch");
+                                                    $stmt->execute();
+                                                    $branches = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+                                                    foreach ($branches as $branch):
+                                                    ?>
+                                                        <option value="<?php echo $branch->Name ?>" <?php echo isset($_GET['branch']) && $_GET['branch'] == $branch->Name ? 'selected' : '' ?>><?php echo $branch->Name ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <button class="btn btn-outline-success" type="submit" name="searchPackagePopularity"><i class="bi bi-search"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <h6>Package Popularity Categorised by Branch</h6>
+                                    <div class="d-flex justify-content-center">
+                                        <canvas id="packageChart2" style="width:100%; max-height:280px"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-            </div>
 
-            <?php require 'footer.php' ?>
+                <?php require 'footer.php' ?>
+            </div>
         </div>
-    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -351,8 +394,7 @@ if (!isset($user_id)) {
                         color: '#black',
                         font: {
                             size: 14,
-                        },
-                        formatter: (value, context) => value //show the raw value
+                        }
                     }
                 }
             }
@@ -526,6 +568,139 @@ if (!isset($user_id)) {
                         }
                     }
                 }
+            }
+        });
+    </script>
+
+    <!-- package chart 1 -->
+    <?php
+    $stmt = $conn->prepare("SELECT branch.Name as branchName, COUNT(printingpackage.PackageID) as packageCount
+                            FROM printingpackage
+                            JOIN branch on printingpackage.BranchID = branch.BranchID
+                            WHERE printingpackage.Availability = 'Available'
+                            GROUP BY branch.Name");
+    $stmt->execute();
+    $packages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $branchNames = [];
+    $packageCount = [];
+
+    foreach ($packages as $package) {
+        $branchNames[] = $package['branchName'];
+        $packageCount[] = $package['packageCount'];
+    }
+    ?>
+
+    <script>
+        const packageChart1 = document.getElementById('packageChart1');
+
+        new Chart(packageChart1, {
+            type: 'bar',
+            data: {
+                labels: <?php echo json_encode($branchNames) ?>,
+                datasets: [{
+                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"],
+                    data: <?php echo json_encode($packageCount) ?>,
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Branch'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Package'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- package chart 2 -->
+    <?php
+    $packageNames = [];
+    $packageSum = [];
+
+    if (isset($_GET['searchPackagePopularity']) && $_GET['branch'] != "overall") {
+        // Specific branch query
+        $branch = $_GET['branch'];
+
+        try {
+            $stmt = $conn->prepare("SELECT printingpackage.Name as packageName, SUM(orderprintingpackage.quantity) as packageSum
+                                    FROM orderprintingpackage
+                                    JOIN printingpackage ON printingpackage.packageID = orderprintingpackage.packageID
+                                    JOIN branch ON printingpackage.branchID = branch.BranchID
+                                    WHERE branch.Name = :branch
+                                    GROUP BY printingpackage.Name");
+            $stmt->bindParam(':branch', $branch);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($results as $result) {
+                $packageNames[] = $result['packageName'];
+                $packageSum[] = $result['packageSum'];
+            }
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+        }
+    } else {
+        // Overall query
+        try {
+            $stmt = $conn->prepare("SELECT printingpackage.Name as packageName, SUM(orderprintingpackage.quantity) as packageSum
+                                    FROM orderprintingpackage
+                                    JOIN printingpackage ON printingpackage.packageID = orderprintingpackage.packageID
+                                    GROUP BY printingpackage.Name");
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($results as $result) {
+                $packageNames[] = $result['packageName'];
+                $packageSum[] = $result['packageSum'];
+            }
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+        }
+    }
+    ?>
+
+    <script>
+        const packageChart2 = document.getElementById('packageChart2');
+
+        new Chart(packageChart2, {
+            plugins: [ChartDataLabels],
+            type: 'polarArea',
+            data: {
+                labels: <?php echo json_encode($packageNames) ?>,
+                datasets: [{
+                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"],
+                    data: <?php echo json_encode($packageSum) ?>,
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true
+                    },
+                    datalabels: {
+                        display: true,
+                        color: '#black',
+                        font: {
+                            size: 14,
+                        },
+                    }
+                },
             }
         });
     </script>

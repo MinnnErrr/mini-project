@@ -87,7 +87,7 @@ if (!isset($user_id)) {
                                             </td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <button class="btn btn-info me-4" onclick="location.href='./viewPackage.php?id=<?php echo $package->PackageID ?>'">
+                                                    <button class="btn btn-secondary me-4" onclick="location.href='./viewPackage.php?id=<?php echo $package->PackageID ?>'">
                                                         <i class="bi bi-eye"></i>
                                                     </button>
                                                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?php echo $package->PackageID ?>">

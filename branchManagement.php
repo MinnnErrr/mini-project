@@ -73,7 +73,7 @@ if (!isset($user_id)) {
                                             <td><?php echo $branch->Name ?></td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <button class="btn btn-info me-4" onclick="location.href='./viewBranch.php?id=<?php echo $branch->BranchID ?>'">
+                                                    <button class="btn btn-secondary me-4" onclick="location.href='./viewBranch.php?id=<?php echo $branch->BranchID ?>'">
                                                         <i class="bi bi-eye"></i>
                                                     </button>
                                                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?php echo $branch->BranchID ?>" name="deleteBranch">
