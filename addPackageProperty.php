@@ -51,15 +51,15 @@ if (!isset($user_id)) {
                             </div>
                             <div class="mb-3">
                                 <label for="propertyName" class="form-label">Property name</label>
-                                <input type="text" class="form-control" name="propertyName" id="propertyName">
+                                <input type="text" class="form-control" name="propertyName" id="propertyName" required>
                             </div>
                             <div class="mb-3">
                                 <label for="category" class="form-label">Category</label>
-                                <input type="text" class="form-control" name="category" id="category">
+                                <input type="text" class="form-control" name="category" id="category" required>
                             </div>
                             <div class="mb-5">
                                 <label for="price" class="form-label">Price (RM)</label>
-                                <input type="text" class="form-control" name="price" id="price">
+                                <input type="text" class="form-control" name="price" id="price" required>
                             </div>
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn btn-dark me-3 w-100" name="createPackageProperty">Create</button>

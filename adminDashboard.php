@@ -48,7 +48,7 @@ if (!isset($user_id)) {
                         </div>
                     </div>
 
-                    <!-- user -->
+                    <!-- user by LOH MIN ER-->
                     <div class="rounded-3 p-4 bg-white mb-4 shadow-sm mb-1">
                         <div class="row mb-3">
                             <h5>User Statistics</h5>
@@ -169,60 +169,170 @@ if (!isset($user_id)) {
                         </div>
                     </div>
 
-                    <!-- branch -->
+                    <!-- branch BY NUR AMIRAH SHAHIRA BINTI ZULKIFLI -->
+                    <?php
+                    // Fetch total number of branches
+                    $stmt = $conn->prepare("SELECT COUNT(*) as total_branches FROM branch");
+                    $stmt->execute();
+                    $total_branches = $stmt->fetch(PDO::FETCH_OBJ)->total_branches;
+
+                    // Fetch number of sales by branch
+                    $stmt = $conn->prepare("
+                                                SELECT 
+                                                    branch.Name AS branch_name, 
+                                                    COUNT(op.OrderPackageID) AS sales_count
+                                                FROM branch
+                                                LEFT JOIN printingpackage pp ON branch.BranchID = pp.BranchID
+                                                LEFT JOIN orderprintingpackage op ON pp.PackageID = op.PackageID
+                                                GROUP BY branch.BranchID
+                                                ORDER BY branch.Name
+                                            ");
+                    $stmt->execute();
+                    $sales_by_branch = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+                    // Prepare data for JavaScript chart
+                    $branch_names = array_column($sales_by_branch, 'branch_name');
+                    $sales_counts = array_column($sales_by_branch, 'sales_count');
+
+                    // Fetch total sales over time
+                    $stmt = $conn->prepare("
+                                                SELECT 
+                                                    DATE_FORMAT(Date, '%Y-%m') AS sale_month, 
+                                                    SUM(TotalPrice) AS total_sales
+                                                FROM `order`
+                                                WHERE Status = 'Completed'
+                                                GROUP BY sale_month
+                                                ORDER BY sale_month
+                                            ");
+                    $stmt->execute();
+                    $sales_over_time = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+                    // Prepare data for JavaScript chart
+                    $sale_months = array_column($sales_over_time, 'sale_month');
+                    $total_sales = array_column($sales_over_time, 'total_sales');
+                    ?>
                     <div class="rounded-3 p-4 bg-white mb-4 shadow-sm mb-1">
                         <div class="row mb-3">
                             <h5>Branch Statistics</h5>
                         </div>
 
                         <div class="row d-flex justify-content-between align-items-stretch mb-lg-4">
+                            <!-- Total Number of Branches -->
                             <div class="col-lg-4 col-sm-12 d-flex flex-column mb-sm-4 mb-lg-0">
                                 <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
                                     <h6>Total Number of Branches</h6>
-
-                                    <p class="fs-3"></p>
+                                    <?php
+                                    $stmt = $conn->prepare("SELECT COUNT(*) as total_branches FROM branch");
+                                    $stmt->execute();
+                                    $result = $stmt->fetch(PDO::FETCH_OBJ);
+                                    ?>
+                                    <p class="fs-3"><?php echo $result->total_branches; ?></p>
                                 </div>
                             </div>
 
+                            <!-- Total Number of Orders -->
                             <div class="col-lg-4 col-sm-12 d-flex flex-column mb-sm-4 mb-lg-0">
                                 <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
                                     <h6>Total Number of Orders</h6>
-
-                                    <p class="fs-3"></p>
+                                    <?php
+                                    $stmt = $conn->prepare("SELECT COUNT(*) as total_orders FROM `order`");
+                                    $stmt->execute();
+                                    $result = $stmt->fetch(PDO::FETCH_OBJ);
+                                    ?>
+                                    <p class="fs-3"><?php echo $result->total_orders; ?></p>
                                 </div>
                             </div>
 
+                            <!-- Total Sales -->
                             <div class="col-lg-4 col-sm-12 d-flex flex-column mb-sm-4 mb-lg-0">
                                 <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
                                     <h6>Total Sales</h6>
-
-                                    <p class="fs-3"></p>
+                                    <?php
+                                    $stmt = $conn->prepare("SELECT SUM(TotalPrice) as total_sales FROM `order` WHERE Status = 'Completed'");
+                                    $stmt->execute();
+                                    $result = $stmt->fetch(PDO::FETCH_OBJ);
+                                    ?>
+                                    <p class="fs-3"><?php echo "RM " . number_format($result->total_sales, 2); ?></p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row d-flex justify-content-between align-items-stretch mb-lg-1">
+                            <!-- Number of Sales by Branch -->
                             <div class="col-lg-6 col-sm-12 d-flex flex-column mb-sm-4 mb-lg-0">
                                 <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
-                                    <h6>Total Sales by Branch</h6>
+                                    <h6>Number of Sales by Branch</h6>
                                     <div class="d-flex justify-content-center">
-                                        <canvas id="chart1" style="width:100%;"></canvas>
+                                        <canvas id="salesByBranchChart" style="width:100%;"></canvas>
                                     </div>
                                 </div>
                             </div>
 
+                            <!-- Total Sales Over Time -->
                             <div class="col-lg-6 col-sm-12 d-flex flex-column mb-sm-4 mb-lg-0">
                                 <div class="rounded-3 p-4 bg-white border border-2 flex-fill">
                                     <h6>Total Sales Over Time</h6>
                                     <div class="d-flex justify-content-center">
-                                        <canvas id="chart2" style="width:100%;"></canvas>
+                                        <canvas id="salesOverTimeChart" style="width:100%;"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- package -->
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    <script>
+                        // Chart: Number of Sales by Branch
+                        const salesByBranchChart = document.getElementById('salesByBranchChart');
+                        new Chart(salesByBranchChart, {
+                            type: 'bar',
+                            data: {
+                                labels: <?php echo json_encode($branch_names); ?>,
+                                datasets: [{
+                                    label: 'Number of Sales',
+                                    data: <?php echo json_encode($sales_counts); ?>,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+
+                        // Chart: Total Sales Over Time
+                        const salesOverTimeChart = document.getElementById('salesOverTimeChart');
+                        new Chart(salesOverTimeChart, {
+                            type: 'line',
+                            data: {
+                                labels: <?php echo json_encode($sale_months); ?>,
+                                datasets: [{
+                                    label: 'Total Sales (RM)',
+                                    data: <?php echo json_encode($total_sales); ?>,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 2,
+                                    fill: true
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+
+                    <!-- package BY LOH MIN ER-->
                     <div class="rounded-3 p-4 bg-white mb-4 shadow-sm mb-1">
                         <div class="row mb-3">
                             <h5>Package Statistics</h5>
@@ -459,6 +569,7 @@ if (!isset($user_id)) {
                     label: "User Count",
                     backgroundColor: "#FF6384",
                     borderColor: "black",
+                    borderWidth: "2",
                     data: <?php echo json_encode($userCount) ?>,
                     fill: false
                 }]

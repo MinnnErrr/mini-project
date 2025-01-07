@@ -84,7 +84,7 @@ if (!isset($user_id)) {
                     <div class="border bg-white p-4 rounded-3 col-lg-8 mx-auto mt-4">
                         <div class="d-flex justify-content-between pb-3">
                             <h5>Package Properties</h5>
-                            <button class="btn btn-sm btn-secondary" onclick="location.href='./addPackageProperty.php?id=<?php echo $packageID ?>'">
+                            <button class="btn btn-sm btn-outline-dark" onclick="location.href='./addPackageProperty.php?id=<?php echo $packageID ?>'">
                                 <i class="bi bi-plus-circle me-1"></i>
                                 ADD PROPERTY
                             </button>

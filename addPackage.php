@@ -42,7 +42,7 @@ if (!isset($user_id)) {
                         <form action="./controller/packageController.php" method="post">
                             <div class="mb-3">
                                 <label for="packageName" class="form-label">Package name</label>
-                                <input type="text" class="form-control" name="packageName" id="packageName">
+                                <input type="text" class="form-control" name="packageName" id="packageName" required>
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
@@ -50,18 +50,18 @@ if (!isset($user_id)) {
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label">Base Price (RM)</label>
-                                <input type="text" class="form-control" name="price" id="price">
+                                <input type="text" class="form-control" name="price" id="price" required>
                             </div>
                             <div class="mb-3">
                                 <label for="availability" class="form-label">Availability</label>
-                                <select id="availability" class="form-select" name="availability">
+                                <select id="availability" class="form-select" name="availability" required>
                                     <option value="Available">Available</option>
                                     <option value="Unavailable">Unavailable</option>
                                 </select>
                             </div>
                             <div class="mb-5">
                                 <label for="branch" class="form-label">Branch</label>
-                                <select id="branch" class="form-select" name="branch">
+                                <select id="branch" class="form-select" name="branch" required>
 
                                     <?php
                                     $stmt = $conn->prepare('SELECT * FROM branch');

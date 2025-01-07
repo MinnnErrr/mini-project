@@ -9,7 +9,7 @@ if (isset($_POST['createPackageProperty'])) {
     $packageID = $_POST['packageID'];
 
     try {
-        $stmt = $conn->prepare("SELECT * FROM printingpackage WHERE Name = :name");
+        $stmt = $conn->prepare("SELECT * FROM packageproperty WHERE Name = :name");
         $stmt->bindParam(':name', $name);
         $stmt->execute();
 
@@ -31,8 +31,8 @@ if (isset($_POST['createPackageProperty'])) {
         } else {
             echo "
             <script>
-                alert('Package already exists.');
-                location.href='../addPackage.php';
+                alert('Property already exists.');
+                location.href='../addPackageProperty.php?id=$packageID';
             </script>";
         }
     } catch (PDOException $e) {

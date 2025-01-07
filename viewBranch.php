@@ -76,7 +76,7 @@ if (!isset($user_id)) {
 
                         <div class="border rounded-3 p-4 bg-white">
                             <div class="mb-3">
-                                <h6 class="fw-bold">Branch Management</h6>
+                                <h6 class="fw-bold">Branch Executives</h6>
                                 <p>You can add/edit the details at User Management</p>
                             </div>
 
@@ -93,7 +93,8 @@ if (!isset($user_id)) {
                                     $stmt = $conn->prepare("SELECT * FROM branch 
                                                         JOIN staff ON staff.BranchID = branch.BranchID
                                                         JOIN user ON user.UserID = staff.UserID
-                                                        WHERE branch.BranchID = '$branchID'");
+                                                        WHERE branch.BranchID = '$branchID'
+                                                        AND (staff.Position = 'Manager' OR staff.Position = 'Assistant Manager')");
                                     $stmt->execute();
 
                                     $staffs = $stmt->fetchAll(PDO::FETCH_OBJ);

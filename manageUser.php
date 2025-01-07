@@ -52,8 +52,6 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);// fetch all users info become arra
           <div class="template">
 
             <div class="input-search">
-              <input type="text" placeholder="search">
-              <button type="button">Search</button>
             </div>
             <button class="add-new-user"><a href="registration.php">Add New User</a></button>
 
