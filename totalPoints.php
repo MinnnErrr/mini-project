@@ -61,6 +61,12 @@ if(isset($_GET['membershipID'])){
 }
 if(isset($_POST['dateSearch'])){
     $membershipID = $_POST['membershipID'];
+    $stmt = $conn->prepare("SELECT SUM(Amount) AS total_points FROM point WHERE MembershipID = :membership_id"); // Calculate total points
+    $stmt->bindParam(':membership_id', $membershipID );
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $accumulatedPoints  = $result["total_points"];
+
     $date1 = date("Y-m-d", strtotime($_POST['date1']));
     $date2 = date("Y-m-d", strtotime($_POST['date2']));
     $stmt = $conn->prepare("SELECT * FROM `point` WHERE date(`date`) BETWEEN :date1 AND :date2 AND MembershipID = :membershipID");
@@ -123,10 +129,10 @@ if(isset($_POST['dateSearch'])){
                                 <form action="" method="post">
                                     <div class="d-flex">
                                         <div class="dateStart">
-                                            <p>From: </p> <input type="date" name="date1" >
+                                            <p>From: </p> <input type="date" name="date1" value="<?php echo( isset($_POST['dateSearch']) ? $_POST['date1'] : '' )?>">
                                         </div>
                                         <div class="dateEnd">
-                                            <p>To: </p> <input type="date" name="date2" >
+                                            <p>To: </p> <input type="date" name="date2" value="<?php echo( isset($_POST['dateSearch']) ? $_POST['date2'] : '' )?>">
                                         </div>
                                         <input type="text" name="membershipID" value="<?php echo $membershipID ?>" hidden>
                                     </div>
