@@ -1,6 +1,5 @@
 <?php
 
-use PDO;
 require 'dbconfig.php';
 session_start();
 // if($_SERVER["REQUEST_METHOD"] == "POST"){
