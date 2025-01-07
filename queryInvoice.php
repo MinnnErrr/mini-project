@@ -82,6 +82,10 @@ while ($row = mysqli_fetch_assoc($result)) {
     $Amount = ($Qty * $Price) + ($Qty * $TotalPropertyPrice);
     $TotalAmount += $Amount;
 
+    // Round the amount to 2 decimal places
+    $Amount = round($Amount, 2);
+    $TotalAmount = round($TotalAmount, 2);
+
     ++$i;
     echo "<tr>
         <td>$i.</td>

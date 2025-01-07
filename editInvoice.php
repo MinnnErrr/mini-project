@@ -256,165 +256,37 @@ while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>
             <td>$i.</td>
             <td>
-                <select name='package[]' class='btn btn-primary'>";
-                
-                // Fetch all available printing packages
-                $query2 = "SELECT PackageID, Name FROM printingpackage ";
-                $result2 = mysqli_query($link, $query2);
+                <select name='package[]' class='btn btn-primary package-dropdown' data-row='<?php echo $i; ?>'>";
+                    
+                    $query2 = 'SELECT PackageID, Name FROM printingpackage';
+                    $result2 = mysqli_query($link, $query2);
 
-                
-                    // Generate dropdown options for packages
                     while ($row2 = mysqli_fetch_assoc($result2)) {
-                        $packageID=$row2['PackageID'];
-                        $packageName=$row2['Name'];
-                        if($packageName==$PackageName){
-                            echo "<option value='{$packageID}' selected>   {$packageName}  </option>";
-                        }else{
-                            echo "<option value='{$packageID}'>   {$packageName}  </option>";
-                        }
-  
-                        
+                        $packageID = $row2['PackageID'];
+                        $packageName = $row2['Name'];
+                        $selected = ($packageName == $PackageName) ? "selected" : "";
+                        echo "<option value='{$packageID}' {$selected}>{$packageName}</option>";
                     }
-                
-            echo "</select>
+                    
+                echo "</select>
             </td>
+
+            <td>
+            <div class='dropdown'>
+        <button class='btn btn-primary dropdown-toggle' type='button' data-bs-toggle='dropdown'>
+            Select property
+        </button>
+        <ul class='dropdown-menu' style='padding: 10px; width: 600px;''>
+                <div class='property-container' id='properties-row-<?php echo $i; ?>'>
+                    <!-- Properties will be dynamically populated here -->
+                </div>
+            </td>
+
             ";
         // ---------------------------------------------------------------------------------------------------------------------------
         // Bootstrap5 Dropdown
         // ---------------------------------------------------------------------------------------------------------------------------
-        echo "<td>
-        <div class='btn-group'>
-        <div class='dropdown'>
-        <button class='btn btn-primary dropdown-toggle' type='button' data-bs-toggle='dropdown'>
-            Format
-        </button>
-        <ul class='dropdown-menu' style='padding: 10px; width: 300px;''>";
-            // Fetch all available printing packages property
-            $query3 = "SELECT CONCAT(p.Category, ': ', p.Name, ' (RM', p.Price, ')', '[',pp.Name,']') AS PropertyDisplay, 
-            p.PropertyID AS PropertyID,p.Category AS Category
-            FROM packageproperty p
-                        JOIN 
-                            printingpackage pp ON p.PackageID = pp.PackageID ";
-            $result3 = mysqli_query($link, $query3);
-
-            // Generate dropdown options with checkboxes
-            while ($row3 = mysqli_fetch_assoc($result3)) {
-                $propertyDisplay = $row3['PropertyDisplay'];
-                $propertyID = $row3['PropertyID'];
-                $Category = $row3['Category'];
-
-                if($Category == 'Format'){
-                    echo "
-                <li>
-                    <label>
-                        <input type='checkbox' name='properties1[]' value='$propertyID'> 
-                        $propertyDisplay
-                    </label>
-                </li>";
-                }
-                
-            }
-        echo "</ul>
-    </div>
-    <div class='btn-group' style='margin-left:3px'>
-            <div class='dropdown'>
-        <button class='btn btn-primary dropdown-toggle' type='button' data-bs-toggle='dropdown'>
-            Color
-        </button>
-        <ul class='dropdown-menu' style='padding: 10px; width: 300px;''>";
-            // Fetch all available printing packages property
-            $query3 = "SELECT CONCAT(p.Category, ': ', p.Name, ' (RM', p.Price, ')', '[',pp.Name,']') AS PropertyDisplay, 
-            p.PropertyID AS PropertyID,p.Category AS Category
-            FROM packageproperty p
-                        JOIN 
-                            printingpackage pp ON p.PackageID = pp.PackageID ";
-            $result3 = mysqli_query($link, $query3);
-
-            // Generate dropdown options with checkboxes
-            while ($row3 = mysqli_fetch_assoc($result3)) {
-                $propertyDisplay = $row3['PropertyDisplay'];
-                $propertyID = $row3['PropertyID'];
-                $Category = $row3['Category'];
-
-                if($Category == 'Color'){
-                    echo "
-                <li>
-                    <label>
-                        <input type='checkbox' name='properties2[]' value='$propertyID'> 
-                        $propertyDisplay
-                    </label>
-                </li>";
-                }
-                
-            }
-        echo "</ul>
-    </div>
-    </div>
-     <div class='btn-group' style='margin-left:3px'>
-            <div class='dropdown'>
-        <button class='btn btn-primary dropdown-toggle' type='button' data-bs-toggle='dropdown'>
-            Paper Type
-        </button>
-        <ul class='dropdown-menu' style='padding: 10px; width: 300px;''>";
-            // Fetch all available printing packages property
-            $query3 = "SELECT CONCAT(p.Category, ': ', p.Name, ' (RM', p.Price, ')', '[',pp.Name,']') AS PropertyDisplay, 
-            p.PropertyID AS PropertyID,p.Category AS Category
-            FROM packageproperty p
-                        JOIN 
-                            printingpackage pp ON p.PackageID = pp.PackageID ";
-            $result3 = mysqli_query($link, $query3);
-
-            // Generate dropdown options with checkboxes
-            while ($row3 = mysqli_fetch_assoc($result3)) {
-                $propertyDisplay = $row3['PropertyDisplay'];
-                $propertyID = $row3['PropertyID'];
-                $Category = $row3['Category'];
-
-                if($Category == 'Card Paper Type' || $Category == 'Paper Type'){
-                    echo "
-                <li>
-                    <label>
-                        <input type='checkbox' name='properties3[]' value='$propertyID'> 
-                        $propertyDisplay
-                    </label>
-                </li>";
-                }
-                
-            }
-        echo "</ul>
-    </div>
-    </div>
-     <div class='btn-group' style='margin-left:3px'>
-            <div class='dropdown'>
-        <button class='btn btn-primary dropdown-toggle' type='button' data-bs-toggle='dropdown'>
-            Lamination
-        </button>
-        <ul class='dropdown-menu' style='padding: 10px; width: 300px;''>";
-            // Fetch all available printing packages property
-            $query3 = "SELECT CONCAT(p.Category, ': ', p.Name, ' (RM', p.Price, ')', '[',pp.Name,']') AS PropertyDisplay, 
-            p.PropertyID AS PropertyID,p.Category AS Category
-            FROM packageproperty p
-                        JOIN 
-                            printingpackage pp ON p.PackageID = pp.PackageID ";
-            $result3 = mysqli_query($link, $query3);
-
-            // Generate dropdown options with checkboxes
-            while ($row3 = mysqli_fetch_assoc($result3)) {
-                $propertyDisplay = $row3['PropertyDisplay'];
-                $propertyID = $row3['PropertyID'];
-                $Category = $row3['Category'];
-
-                if($Category == 'Lamination'){
-                    echo "
-                <li>
-                    <label>
-                        <input type='checkbox' name='properties4[]' value='$propertyID'> 
-                        $propertyDisplay
-                    </label>
-                </li>";
-                }
-                
-            }
+        
         echo "</ul>
     </div>
     </div>
@@ -475,3 +347,41 @@ while ($row = mysqli_fetch_assoc($result)) {
 </body>
 
 </html>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const packageDropdowns = document.querySelectorAll(".package-dropdown");
+
+    packageDropdowns.forEach(dropdown => {
+        dropdown.addEventListener("change", function () {
+            const packageId = this.value;
+            const rowId = this.getAttribute("data-row");
+            const container = document.getElementById(`properties-row-${rowId}`);
+
+            // Fetch properties via AJAX
+            fetch(`get_properties.php?packageID=${packageId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear current properties
+                    container.innerHTML = "";
+
+                    // Populate with new properties
+                    data.forEach(property => {
+                        const checkbox = document.createElement("div");
+                        checkbox.innerHTML = `
+                            <label>
+                                <input type="checkbox" name="properties[]" value="${property.PropertyID}">
+                                ${property.Category}: ${property.Name} (RM${property.Price})
+                            </label>
+                        `;
+                        container.appendChild(checkbox);
+                    });
+                })
+                .catch(error => console.error("Error fetching properties:", error));
+        });
+
+        // Trigger change event on page load to load initial properties
+        dropdown.dispatchEvent(new Event("change"));
+    });
+});
+</script>

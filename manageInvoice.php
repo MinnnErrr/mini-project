@@ -29,10 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Get the updated data from the form
                 $modifypackageID =$_POST['package']; 
                 $modifyQty = $_POST['quantity']; 
-                $modifypropertyID1 = $_POST['properties1'];
-                $modifypropertyID2 = $_POST['properties2']; 
-                $modifypropertyID3 = $_POST['properties3']; 
-                $modifypropertyID4 = $_POST['properties4']; 
+                $modifypropertyID1 = $_POST['properties'];
     
                 $i=0;
                 $query2 = "SELECT OrderPackageID FROM orderprintingpackage WHERE OrderID = $orderID";
@@ -41,44 +38,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $orderPackageID=$row2['OrderPackageID'];
                     $AllPackageID=$modifypackageID[$i];
                     $AllQty=$modifyQty[$i];
-                    $AllPropertyID1=$modifypropertyID1[$i];
-                    $AllPropertyID2=$modifypropertyID2[$i];
-                    $AllPropertyID3=$modifypropertyID3[$i];
-                    $AllPropertyID4=$modifypropertyID4[$i];
 
                 // Update package and quantity
                 $query = "UPDATE orderprintingpackage SET Quantity = $AllQty, PackageID = $AllPackageID  
                 WHERE OrderID = $orderID AND OrderPackageID = $orderPackageID";
                 mysqli_query($link, $query);
-    
-                $query4 = "UPDATE orderproperty SET PropertyID = $AllPropertyID WHERE OrderPackageID = $orderPackageID";
+            
+                $AllPropertyID1=$modifypropertyID1[$i];
+                $query4 = "UPDATE orderproperty SET PropertyID = $AllPropertyID1 WHERE OrderPackageID = $orderPackageID";
                 mysqli_query($link, $query4);
-
-                 // Delete existing properties for the package
-                 $query3 = "DELETE FROM `orderproperty` WHERE `OrderPackageID` = $orderPackageID";
-                 mysqli_query($link, $query3);
- 
-                 // Insert new properties
-                if($AllPropertyID1>0){
-                    $query4 = "INSERT INTO `orderproperty` (`OrderPackageID`, `PropertyID`) 
-                               VALUES ($orderPackageID, $AllPropertyID1)";
-                    mysqli_query($link, $query4);
-                }
-                if($AllPropertyID2>0){
-                    $query4 = "INSERT INTO `orderproperty` (`OrderPackageID`, `PropertyID`) 
-                               VALUES ($orderPackageID, $AllPropertyID2)";
-                    mysqli_query($link, $query4);
-                }
-                if($AllPropertyID3>0){
-                    $query4 = "INSERT INTO `orderproperty` (`OrderPackageID`, `PropertyID`) 
-                               VALUES ($orderPackageID, $AllPropertyID3)";
-                    mysqli_query($link, $query4);
-                }
-                if($AllPropertyID4>0){
-                    $query4 = "INSERT INTO `orderproperty` (`OrderPackageID`, `PropertyID`) 
-                               VALUES ($orderPackageID, $AllPropertyID4)";
-                    mysqli_query($link, $query4);
-                }
                     
 
                     ++$i;
