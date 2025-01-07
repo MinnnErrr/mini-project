@@ -15,7 +15,7 @@ if(isset($_POST['addMoney'])){
 
     $stripeSecreteKey= "sk_test_51Qd4St2ZUv6XfYCkTOL1b4NjUyX9wLYIPAKouRDp9bXtMFxWPzKh04PX7RGL1ctCTiPAtvPdk0UsHLkxmwyyep7800vstGla76";
     \Stripe\Stripe::setApiKey($stripeSecreteKey);
-    $checkout = \Stripe\Checkout\Session::create(
+    $checkout = \Stripe\Checkout\Session::create( //create checkout session
         [
             "mode" => "payment",
             "success_url" => "http://localhost:3000/mini-project/successAddMoneyMembership.php?amount=$total",
