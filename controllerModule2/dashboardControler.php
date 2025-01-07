@@ -61,8 +61,8 @@
         $orderDateAmount = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     usort($pointDateAmount, function ($a, $b) {
-        return strtotime($a['Date']) - strtotime($b['Date']);
-    });
+        return strtotime($a['Date']) - strtotime($b['Date']); 
+    }); // Sort the pointDateAmount array by date
     usort($orderDateAmount , function ($a, $b) {
         return strtotime($a['Date']) - strtotime($b['Date']);
     });
