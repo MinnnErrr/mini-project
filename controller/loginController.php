@@ -82,13 +82,13 @@ if (isset($_POST['guestSignIn'])) {
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':role', $role);
             $stmt->execute();
-            
-            $_SESSION['user_id']= $conn->lastInsertId();
+
+            $_SESSION['user_id'] = $conn->lastInsertId();
 
             $stmt = $conn->prepare("INSERT INTO customer (PhoneNumber, VerificationStatus, UserID) VALUES (:phoneNumber, :verificationStatus, :userID)");
             $stmt->bindParam(':phoneNumber', $phoneNumber);
             $stmt->bindParam(':verificationStatus', $verificationStatus);
-            $stmt->bindParam(':userID', $userID);
+            $stmt->bindParam(':userID', $_SESSION['user_id']);
             $stmt->execute();
 
             $_SESSION['customer_id'] = $conn->lastInsertId();
