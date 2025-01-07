@@ -78,7 +78,7 @@ if (!isset($user_id)) {
     </script>
     <script>
     //change the id for every page according to the id in your sidebar. for example, the current page adminDashboard.php's id in adminSideBar is dashboard
-    document.getElementById('dashboard').classList.add('is-active');
+    document.getElementById('membership').classList.add('is-active');
     </script>
 </body>
 
