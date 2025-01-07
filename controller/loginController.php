@@ -73,7 +73,7 @@ if (isset($_POST['guestSignIn'])) {
     $email = $_POST['email'];
     $phoneNumber = $_POST['phone'];
     $role = 'customer';
-    $verificationStatus = "Unregistered";
+    $verificationStatus = "unregistered";
 
     try {
         if ($username && $phoneNumber && $email) {
