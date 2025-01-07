@@ -11,6 +11,17 @@ if (!isset($user_id)) {
 }
 if(isset($_POST['searchTotalPoints'])){
     $membershipID = $_POST['membershipID'];
+    $stmt = $conn->prepare("SELECT SUM(Amount) AS total_points FROM point WHERE MembershipID = :membership_id"); // Calculate total points
+    $stmt->bindParam(':membership_id', $membershipID );
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $total_points = $result["total_points"];
+    
+    $stmt = $conn->prepare("UPDATE membershipcard SET AccumulatedPoints= :accumulatedPoints WHERE MembershipID = :membership_id"); // Update accumulated points
+    $stmt->bindParam(':membership_id', $membershipID);
+    $stmt->bindParam(':accumulatedPoints', $total_points);
+    $stmt->execute();
+
     $stmt = $conn->prepare("SELECT * FROM membershipcard WHERE MembershipID = :membershipID");
     $stmt->bindParam(':membershipID', $membershipID);
     $stmt->execute();

@@ -10,6 +10,7 @@ if (!isset($user_id)) {
     header('location:login.php');
 }
 require './controllerModule2/dashboardControler.php';
+
 ?>
 
 <!DOCTYPE html>
