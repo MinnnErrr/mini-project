@@ -106,14 +106,14 @@ if(isset($_POST['dateSearch'])){
     <div class="container-fluid">
         <div class="row vh-100">
             <!--change the sidebar file name-->
-            <?php require 'CustomerSideBar.php' ?>
+            <?php require 'adminSideBar.php' ?>
 
             <!--right content-->
             <div class="col-sm-12 col-lg-10">
                 <div class="container min-vh-100 p-4">
                     <div class="template p-5">
                         <div class="row">
-                            <h1 style="text-font-weight: bold;font-size: 30px">Total Points:<?php echo $accumulatedPoints ?>
+                            <h1 style="text-font-weight: bold;font-size: 30px">Total Points:
                             </h1>
                             <div class="m-2 rounded-3 p-2 bg-white shadow-sm">
                             <div class="filter-template">

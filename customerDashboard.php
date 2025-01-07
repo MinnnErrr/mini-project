@@ -10,6 +10,7 @@ if (!isset($user_id)) {
     header('location:login.php');
 }
 require './controllerModule2/dashboardControler.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -27,26 +28,29 @@ require './controllerModule2/dashboardControler.php';
 </head>
 
 <style>
-    .seach{
+.seach {
     display: flex;
     margin-top: 20px;
 
 }
-.seach > input{
+
+.seach>input {
     display: block;
     width: 200px;
-    
-    
+
+
 }
-.seach > button{
+
+.seach>button {
     display: block;
     border-radius: 5px;
     width: 20%;
     background-color: blue;
     color: white;
-    padding: 10px;
+    padding: 5px;
 }
 </style>
+
 <body class="bg-light">
 
     <?php require 'navbar.php' ?>
@@ -70,160 +74,196 @@ require './controllerModule2/dashboardControler.php';
 
                             </div>
                             <div>
-                            <div>
-                                <div class="col-sm-12 col-lg-5">
-                                    
-                                    <div class="m-4 rounded-3 p-4 bg-white shadow-sm">
-                                    <h5>Enter Membership ID To Search Total Point  </h5>
-                                        <form class="seach" action="totalPoints.php" method="post">
-                                            <input type="text" placeholder="Enter Membership ID"
-                                                name="membershipID"></input>
-                                            <button name="searchTotalPoints">Search</button>
-                                        </form>
+                                <div class="row">
+                                    <div class="col-sm-12 col-lg-5">
+
+                                        <div class="m-4 rounded-3 p-4 bg-white shadow-sm">
+                                            <h5>Enter Membership ID To Search Total Point </h5>
+                                            <form class="seach" action="totalPoints.php" method="post">
+                                                <input required type="text" placeholder="Enter Membership ID"
+                                                    name="membershipID"></input>
+                                                <button name="searchTotalPoints">Search</button>
+                                            </form>
+                                        </div>
+
                                     </div>
-                                  
+                                    <div class="col-sm-12 col-lg-5">
+
+                                        <div class=" m-4 rounded-3 p-4 bg-white shadow-sm">
+                                            <h5>Total Earned Points</h5>
+                                            <p><?php echo $totalAmountPoint ?></p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-12 col-lg-5" >
+                                <div class="m-4 rounded-3 p-4 bg-white shadow-sm">
                                    
-                                    <div class=" m-4 rounded-3 p-4 bg-white shadow-sm">
-                                        <h5>Total Earned Points</h5>
-                                        <p><?php echo $totalAmountPoint ?></p>
+                                    <div id="chart_div" style="width: 900px; height: 500px"></div>
+                                    <div class="m-2 rounded-3 p-2 bg-white shadow-sm">
+                                        <div class="filter-template">
+
+                                            <div style="font-weight: bold;font-size: 20px">Date
+                                                filter</div>
+                                            <form action="" method="post">
+                                                <div class="d-flex">
+                                                    <div class="dateStart">
+                                                        <p>From: </p> <input type="date" name="date1" value="<?php echo( isset($_POST['datePointSearch']) ? $_POST['date1'] : '') ?>">
+                                                    </div>
+                                                    <div class="dateEnd">
+                                                        <p>To: </p> <input type="date" name="date2" value="<?php echo(isset($_POST['datePointSearch']) ? $_POST['date2'] : '' )?>">
+                                                    </div>
+                                                </div>
+                                                <button name="datePointSearch" class="m-1 btn btn-primary">Enter</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="m-4 rounded-3 p-4 bg-white shadow-sm">
-                                <div id="chart_div" style="width: 900px; height: 500px"></div>
-                            </div>
-                            <div class="m-4 rounded-3 p-4 bg-white shadow-sm">
-                                <div id="OrderChart_div" style="width: 900px; height: 500px"></div>
+                                <div class="m-4 rounded-3 p-4 bg-white shadow-sm">
+                                    <div id="OrderChart_div" style="width: 900px; height: 500px"></div>
+                                    <div class="m-2 rounded-3 p-2 bg-white shadow-sm">
+                                        <div class="filter-template">
 
+                                            <div style="font-weight: bold;font-size: 20px">Date
+                                                filter</div>
+                                            <form action="" method="post">
+                                                <div class="d-flex">
+                                                    <div class="dateStart">
+                                                        <p>From: </p> <input type="date" name="date1" value="<?php echo( isset($_POST['dateOrderSearch']) ? $_POST['date1'] : '' )?>">
+                                                    </div>
+                                                    <div class="dateEnd">
+                                                        <p>To: </p> <input type="date" name="date2" value="<?php echo( isset($_POST['dateOrderSearch']) ? $_POST['date2'] : '' )?>">
+                                                    </div>
+                                                </div>
+                                                <button name="dateOrderSearch" class="m-1 btn btn-primary">Enter</button>
+                                            </form>
+                                        </div>
+                                    </div>
 
+                                </div>
                             </div>
+
                         </div>
-                        
+
                     </div>
 
+                    <?php require 'footer.php' ?>
                 </div>
-
-                <?php require 'footer.php' ?>
             </div>
         </div>
-    </div>
 
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="customerDashboard.js"></script>
-    <script>
-    document.getElementById('customerDashboard').classList.add('is-active');
-    </script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-    google.charts.load('current', {
-        'packages': ['corechart']
-    });
-    google.charts.setOnLoadCallback(drawChart);
+        <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="customerDashboard.js"></script>
+        <script>
+        document.getElementById('customerDashboard').classList.add('is-active');
+        </script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-        let pointCollection = [];
-        for (const data of pointData) {
-            pointCollection.push([new Date(data.Date), parseInt(data.Amount, 10)])
-        }
-        var data = new google.visualization.DataTable();
-        data.addColumn('date', 'Time of Day');
-        data.addColumn('number', 'Points');
-
-        data.addRows(pointCollection);
-        console.log(Date(2015, 0, 16));
-
-        var options = {
-            title: 'Points Accumulation Over Time',
-            width: 600,
-            height: 500,
-            hAxis: {
-                format: 'M/d/yyyy',
-                gridlines: {
-                    count: 15
-                }
-            },
-            vAxis: {
-                gridlines: {
-                    color: 'none'
-                },
-                minValue: 0
+        function drawChart() {
+            let pointCollection = [];
+            for (const data of pointData) {
+                pointCollection.push([new Date(data.Date), parseInt(data.Amount, 10)])
             }
-        };
+            var data = new google.visualization.DataTable();
+            data.addColumn('date', 'Time of Day');
+            data.addColumn('number', 'Points');
 
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            data.addRows(pointCollection);
 
-        chart.draw(data, options);
 
-        var button = document.getElementById('change');
+            var options = {
+                title: 'Points Accumulation Over Time',
+                width: 600,
+                height: 500,
+                hAxis: {
+                    format: 'd/M/yyyy',
+                    gridlines: {
+                        count: 15
+                    }
+                },
+                vAxis: {
+                    gridlines: {
+                        color: 'none'
+                    },
+                    minValue: 0
+                }
+            };
 
-        button.onclick = function() {
-
-            // If the format option matches, change it to the new option,
-            // if not, reset it to the original format.
-            options.hAxis.format === 'M/d/yy' ?
-                options.hAxis.format = 'MMM dd, yyyy' :
-                options.hAxis.format = 'M/d/yy';
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
             chart.draw(data, options);
-        };
-    }
-    </script>
-    <script type="text/javascript">
-    google.charts.load('current', {
-        'packages': ['corechart']
-    });
-    google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-        let OrderCollection = [];
-        for (const data of orderSpending) {
-            OrderCollection.push([new Date(data.Date), parseInt(data.TotalPrice, 10)])
+            var button = document.getElementById('change');
+
+            button.onclick = function() {
+
+                // If the format option matches, change it to the new option,
+                // if not, reset it to the original format.
+                options.hAxis.format === 'd/M/yyyy' ?
+                    options.hAxis.format = 'dd MMM, yyyy' :
+                    options.hAxis.format = 'd/M/yyyy';
+
+                chart.draw(data, options);
+            };
         }
-        var data = new google.visualization.DataTable();
-        data.addColumn('date', 'Time of Day');
-        data.addColumn('number', 'Spending Order (RM)');
+        </script>
+        <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
 
-        data.addRows(OrderCollection);
-        console.log(Date(2015, 0, 16));
-
-        var options = {
-            title: 'Order Spending Over Time',
-            width: 600,
-            height: 500,
-            hAxis: {
-                format: 'M/d/yyyy',
-                gridlines: {
-                    count: 15
-                }
-            },
-            vAxis: {
-                gridlines: {
-                    color: 'none'
-                },
-                minValue: 0
+        function drawChart() {
+            let OrderCollection = [];
+            for (const data of orderSpending) {
+                OrderCollection.push([new Date(data.Date), parseInt(data.TotalPrice, 10)])
             }
-        };
+            var data = new google.visualization.DataTable();
+            data.addColumn('date', 'Time of Day');
+            data.addColumn('number', 'Spending Order (RM)');
 
-        var chart = new google.visualization.LineChart(document.getElementById('OrderChart_div'));
+            data.addRows(OrderCollection);
+            console.log(Date(2015, 0, 16));
 
-        chart.draw(data, options);
+            var options = {
+                title: 'Order Spending Over Time',
+                width: 600,
+                height: 500,
+                hAxis: {
+                    format: 'd/M/yyyy',
+                    gridlines: {
+                        count: 15
+                    }
+                },
+                vAxis: {
+                    gridlines: {
+                        color: 'none'
+                    },
+                    minValue: 0
+                }
+            };
 
-        var button = document.getElementById('change');
-
-        button.onclick = function() {
-
-            // If the format option matches, change it to the new option,
-            // if not, reset it to the original format.
-            options.hAxis.format === 'M/d/yy' ?
-                options.hAxis.format = 'MMM dd, yyyy' :
-                options.hAxis.format = 'M/d/yy';
+            var chart = new google.visualization.LineChart(document.getElementById('OrderChart_div'));
 
             chart.draw(data, options);
-        };
-    }
-    </script>
+
+            var button = document.getElementById('change');
+
+            button.onclick = function() {
+
+                // If the format option matches, change it to the new option,
+                // if not, reset it to the original format.
+                options.hAxis.format === 'd/M/yy' ?
+                    options.hAxis.format = 'dd MMM, yyyy' :
+                    options.hAxis.format = 'd/M/yy';
+
+                chart.draw(data, options);
+            };
+        }
+        </script>
 </body>
 
 </html>

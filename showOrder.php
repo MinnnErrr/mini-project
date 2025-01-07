@@ -29,11 +29,16 @@ try {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./main.css">
     <title>List Order</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="./main.css">
     <style>
         .order-card {
             margin-top: 20px;
@@ -95,7 +100,6 @@ try {
             <?php require 'customerSideBar.php'; ?>
             <div class="col-lg-10">
                 <div class="container min-vh-100 mt-5">
-                    <h4 class="mb-4">List of Orders</h4>
                     <div class="order-card">
                         <table class="table table-hover">
                             <thead>
@@ -213,6 +217,11 @@ try {
         });
         document.getElementById('showOrder').classList.add('is-active');
     </script>
+     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.getElementById('showOrder').classList.add('is-active');
+</script>
 </body>
 
 </html>
