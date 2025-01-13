@@ -46,8 +46,8 @@ try {
         $points = $order['Points'];
         $order_status = $order['Status'];
 
-        if ($order_status === 'Completed') {
-            throw new Exception("Order #$order_id is already completed.");
+        if ($order_status === 'Ordered') {
+            throw new Exception("Order #$order_id is already ordered.");
         }
 
         // Calculate points: Amount = total_price / 2
@@ -108,15 +108,15 @@ try {
             throw new Exception("Invalid payment method selected.");
         }
 
-        // Update order status to 'Completed'
-        $stmt = $conn->prepare("UPDATE `order` SET Status = 'Completed' WHERE OrderID = :order_id");
+        // Update order status to 'Ordered'
+        $stmt = $conn->prepare("UPDATE `order` SET Status = 'Ordered' WHERE OrderID = :order_id");
         $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
         $stmt->execute();
     }
 
     // Success message and redirect
     echo "<script>alert('Checkout successful!');</script>";
-    echo "<script>window.location.href = 'viewOrder.php?status=Completed';</script>";
+    echo "<script>window.location.href = 'viewOrder.php?status=Ordered';</script>";
     exit();
 
 } catch (Exception $e) {
