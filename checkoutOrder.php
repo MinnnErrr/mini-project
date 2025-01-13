@@ -108,7 +108,7 @@ try {
             throw new Exception("Invalid payment method selected.");
         }
 
-        // Update order status to 'Completed'
+        // Update order status to 'Ordered'
         $stmt = $conn->prepare("UPDATE `order` SET Status = 'Ordered' WHERE OrderID = :order_id");
         $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
         $stmt->execute();
