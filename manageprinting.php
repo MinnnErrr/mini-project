@@ -50,14 +50,30 @@ require 'calcSales.php';
             </div>
 
     <div class="box">
-        <input type="text" placeholder="Search by Order ID or Customer name" style="margin: 3px; padding:10px; width:40%; float:left; margin-bottom:20px;">
+    <form method="POST" action="">
+    <input class="form-control" id="myInput" type="text" placeholder="Search by Order ID or Customer name" style="margin: 3px; padding:10px; width:40%; float:left; margin-bottom:20px;">
         <select name="" id="" style="margin: 4px; padding:10px; float:left">
             <option value="">Filter Status</option>
-            <option value="Pending">Pending</option>
-            <option value="Completed">Completed</option>
-            <option value="Cancelled">Cancelled</option>
+            <option value="Ordered">Ordered</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Order Complete">Order Complete</option>
+            <option value="Collected">Collected</option>
         </select>
         <button type="button" class="btn btn-primary" style="float:left; margin-top:8px">Filter</button>
+    </form>
+
+    <!-- Bootstrap filter search -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
 
 <?php
 // Connect to the database server
@@ -90,7 +106,7 @@ echo '<thead>
             <th>Actions</th>
         </tr>
       </thead>';
-echo '<tbody>';
+echo '<tbody id="myTable">';
 
 // Loop through the recordset
 while ($row = mysqli_fetch_assoc($rs)) {
