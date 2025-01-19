@@ -147,7 +147,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 <p><strong>Pick-Up:</strong> <?= htmlspecialchars($order['PickUpDate']); ?> at <?= htmlspecialchars($order['PickUpTime']); ?></p>
                                             </div>
                                             <div class="card-footer d-flex gap-2">
-                                                <?php if ($order['Status'] === 'Completed'): ?>
+                                                <?php if ($order['Status'] === 'Ordered'): ?>
                                                     <p class="text-success mb-1">This order is complete.</p>
                                                 <?php else: ?>
                                                     <a href="editOrder.php?order_id=<?= htmlspecialchars($order['OrderID']); ?>" class="btn btn-primary btn-sm">Edit</a>
